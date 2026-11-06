@@ -1,0 +1,32 @@
+# Material da disciplina
+GS CitizenTech*.pdf
+
+# Dados brutos (todas as estações, 4,6 GB). Só ml/dados/a701/ vai para o Git
+ml/dados/brutos/
+*.zip
+
+# .NET
+bin/
+obj/
+
+# Node / Expo
+node_modules/
+.expo/
+
+# Python
+__pycache__/
+.venv/
+.ipynb_checkpoints/
+
+# Segredos e ambiente
+.env
+.env.*
+!.env.example
+
+# Banco local
+*.db
+*.db-shm
+*.db-wal
+
+# Configuração local do Claude Code
+.claude/

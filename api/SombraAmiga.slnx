@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/SombraAmiga.Api/SombraAmiga.Api.csproj" />
+    <Project Path="src/SombraAmiga.Dominio/SombraAmiga.Dominio.csproj" />
+    <Project Path="src/SombraAmiga.Infra/SombraAmiga.Infra.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/SombraAmiga.Testes/SombraAmiga.Testes.csproj" />
+  </Folder>
+</Solution>
