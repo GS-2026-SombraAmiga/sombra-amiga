@@ -22,6 +22,12 @@ O script [publicar_azure.py](publicar_azure.py) sincroniza o projeto com `conteu
 
 **Publicado em:** [RM556278 / GS-26](https://dev.azure.com/RM556278/GS-26/_workitems), com 15 Features e 46 Test Cases.
 
+**Onde demonstrar:** em **Boards > Queries > Shared Queries**, o script também cria duas consultas:
+- [GS — Features e Test Cases](https://dev.azure.com/RM556278/web/qr.aspx?pguid=650b5e8c-62cf-4ee6-b2ef-ed11c5570706&qid=c33e23e2-02b4-4077-a4c9-b3faa1d25ab9): cada Feature, de F-01 a F-15, com seus Test Cases logo abaixo.
+- [GS — Test Cases](https://dev.azure.com/RM556278/web/qr.aspx?pguid=650b5e8c-62cf-4ee6-b2ef-ed11c5570706&qid=c43c9011-0219-41bd-9823-62cddec1a460): os 46 casos, de TC-01.01 a TC-15.01.
+
+A lista das Features também aparece em **Boards > Backlogs > Features**. Os Test Cases não aparecem no Board nem no Backlog, porque o Azure não os trata como itens de backlog.
+
 1. Faça login uma vez. O navegador abre para você entrar com a conta do Azure DevOps:
    ```bash
    az login --allow-no-subscriptions

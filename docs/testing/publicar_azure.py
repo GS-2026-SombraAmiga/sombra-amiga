@@ -125,6 +125,42 @@ class AzureDevOps:
         return self.chamar("PATCH", f"wit/workitems/{id_item}", corpo, "application/json-patch+json")
 
 
+CONSULTAS = {
+    "GS — Features e Test Cases": (
+        "SELECT [System.Id], [System.Title], [System.Tags], [System.State] "
+        "FROM WorkItemLinks "
+        "WHERE ([Source].[System.TeamProject] = @project AND [Source].[System.WorkItemType] = 'Feature') "
+        "AND ([System.Links.LinkType] = 'Microsoft.VSTS.Common.TestedBy-Forward') "
+        "AND ([Target].[System.WorkItemType] = 'Test Case') "
+        "ORDER BY [System.Title] ASC MODE (MayContain)"
+    ),
+    "GS — Test Cases": (
+        "SELECT [System.Id], [System.Title], [System.Tags], [System.State] "
+        "FROM WorkItems "
+        "WHERE [System.TeamProject] = @project AND [System.WorkItemType] = 'Test Case' "
+        "ORDER BY [System.Title] ASC"
+    ),
+}
+
+
+def sincronizar_consultas(azure, simular):
+    """Cria ou atualiza as consultas compartilhadas usadas na demonstração."""
+    pasta = "wit/queries/" + urllib.parse.quote("Shared Queries")
+    existentes = {q["name"]: q for q in azure.chamar("GET", f"{pasta}?$depth=1&$expand=wiql").get("children", [])}
+    for nome, wiql in CONSULTAS.items():
+        atual = existentes.get(nome)
+        if atual and normalizar(atual.get("wiql")) == normalizar(wiql):
+            print(f"  consulta igual      {nome}")
+        elif simular:
+            print(f"  consulta {'a atualizar' if atual else 'a criar'}  {nome}")
+        elif atual:
+            azure.chamar("PATCH", f"wit/queries/{atual['id']}", {"wiql": wiql})
+            print(f"  consulta atualizada {nome}")
+        else:
+            azure.chamar("POST", pasta, {"name": nome, "wiql": wiql})
+            print(f"  consulta criada     {nome}")
+
+
 def diferencas(item, desejado):
     atuais = item["fields"]
     return {nome: valor for nome, valor in desejado.items() if normalizar(atuais.get(nome)) != normalizar(valor)}
@@ -186,6 +222,8 @@ def main():
                            CAMPO_PASSOS: passos_xml(t["passos"]), "System.Tags": tags_teste(f, t)}
             relacoes = [{"rel": "Microsoft.VSTS.Common.TestedBy-Reverse", "url": feature["url"]}] if feature else []
             sincronizar(("TC", numero, f"{n:02d}"), "Test Case", desejado_tc, relacoes)
+
+    sincronizar_consultas(azure, args.simular)
 
     print(f"\n{contagem['criados']} a criar, {contagem['atualizados']} a atualizar e {contagem['iguais']} já iguais."
           if args.simular else
