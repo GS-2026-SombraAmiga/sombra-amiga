@@ -1,0 +1,133 @@
+﻿ID,Work Item Type,Title,Test Step,Step Action,Step Expected,Assigned To,State,Tags
+,Test Case,F01-TC01 [Positivo] Cadastrar idoso com dados válidos,1,Objetivo: Verificar que um idoso consegue se cadastrar com dados válidos. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger. CPF 529.982.247-25 ainda não cadastrado.,Ambiente pronto conforme a preparação.,,Design,F01; Positivo
+,,,2,Abrir POST /api/cidadaos e clicar em Try it out.,O campo de requisição fica editável.,,,
+,,,3,"Informar {""perfil"": ""Idoso"", ""nome"": ""Lurdes Teste"", ""cpf"": ""52998224725"", ""contatoFamiliar"": ""Filha Teste"", ""condicaoSaude"": ""Hipertensão""} e clicar em Execute.",Resposta HTTP 201.,,,
+,,,4,Conferir o corpo da resposta.,"Contém id, nome ""Lurdes Teste"", cpfMascarado ""***.***.***-25"", perfil ""Idoso"" e temCondicaoSaude true.",,,
+,Test Case,F01-TC02 [Negativo] Recusar trabalhador de rua sem ocupação,1,Objetivo: Verificar que o cadastro de trabalhador de rua exige a ocupação. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger. CPF 111.444.777-35 ainda não cadastrado.,Ambiente pronto conforme a preparação.,,Design,F01; Negativo
+,,,2,Abrir POST /api/cidadaos e clicar em Try it out.,O campo de requisição fica editável.,,,
+,,,3,"Informar {""perfil"": ""TrabalhadorDeRua"", ""nome"": ""Rafael Teste"", ""cpf"": ""11144477735"", ""contatoFamiliar"": ""Irmão Teste""} e clicar em Execute.","Resposta HTTP 400 com title ""Ocupação é obrigatória."".",,,
+,,,4,Consultar GET /api/cidadaos.,"O nome ""Rafael Teste"" não aparece na lista.",,,
+,Test Case,F01-TC03 [Negativo] Recusar CPF inválido sem repetir o valor enviado,1,Objetivo: Verificar que um CPF inválido é recusado e que a mensagem de erro não expõe o número. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger.,Ambiente pronto conforme a preparação.,,Design,F01; Negativo
+,,,2,Abrir POST /api/cidadaos e clicar em Try it out.,O campo de requisição fica editável.,,,
+,,,3,"Informar {""perfil"": ""Idoso"", ""nome"": ""Teste"", ""cpf"": ""12345678900"", ""contatoFamiliar"": ""Contato""} e clicar em Execute.","Resposta HTTP 400 com title ""CPF inválido."".",,,
+,,,4,Conferir o corpo da resposta.,O número 12345678900 não aparece no corpo.,,,
+,Test Case,F01-TC04 [Negativo] Recusar CPF já cadastrado,1,"Objetivo: Verificar que não é possível cadastrar duas pessoas com o mesmo CPF. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger. Caso de teste ""Cadastrar idoso com dados válidos"" executado.",Ambiente pronto conforme a preparação.,,Design,F01; Negativo
+,,,2,Abrir POST /api/cidadaos e clicar em Try it out.,O campo de requisição fica editável.,,,
+,,,3,"Informar {""perfil"": ""Idoso"", ""nome"": ""Outra Pessoa"", ""cpf"": ""529.982.247-25"", ""contatoFamiliar"": ""Contato""} e clicar em Execute.","Resposta HTTP 409 com title ""Já existe um cadastro com este CPF."".",,,
+,Test Case,F01-TC05 [Positivo] Atualizar e remover o cadastro,1,"Objetivo: Verificar que o cidadão consegue atualizar os dados e remover o cadastro. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger. Um cidadão cadastrado, com o id anotado.",Ambiente pronto conforme a preparação.,,Design,F01; Positivo
+,,,2,"Em PUT /api/cidadaos/{id}, informar {""nome"": ""Nome Atualizado"", ""contatoFamiliar"": ""Contato""} e clicar em Execute.",Resposta HTTP 204.,,,
+,,,3,Consultar GET /api/cidadaos/{id}.,"Resposta HTTP 200 com nome ""Nome Atualizado"".",,,
+,,,4,Executar DELETE /api/cidadaos/{id}.,Resposta HTTP 204.,,,
+,,,5,Consultar GET /api/cidadaos/{id} novamente.,"Resposta HTTP 404 com title ""Cidadão não encontrado."".",,,
+,Test Case,F02-TC01 [Negativo] Consultar risco geral sem leituras recentes,1,Objetivo: Verificar a resposta quando os sensores não enviaram dados nas últimas 3 horas. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger. Banco recém-criado: apague api/src/SombraAmiga.Api/sombra-amiga.db antes de iniciar a API.,Ambiente pronto conforme a preparação.,,Design,F02; Negativo
+,,,2,Executar GET /api/risco/atual sem parâmetros.,"Resposta HTTP 200 com nivel null e orientacao ""Sem leituras recentes dos sensores."".",,,
+,Test Case,F02-TC02 [Positivo] Consultar risco geral com calor de atenção,1,Objetivo: Verificar o cálculo do risco geral a partir de uma leitura recente. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger. Banco recém-criado: apague api/src/SombraAmiga.Api/sombra-amiga.db antes de iniciar a API.,Ambiente pronto conforme a preparação.,,Design,F02; Positivo
+,,,2,"Em POST /api/leituras, informar {""pontoId"": ""11111111-1111-1111-1111-111111111111"", ""temperaturaC"": 29, ""umidadePct"": 50} e clicar em Execute.","Resposta HTTP 201 com indiceCalorC 29.7 e nivel ""Atencao"".",,,
+,,,3,Executar GET /api/risco/atual sem parâmetros.,"Resposta HTTP 200 com nivel ""Atencao"" e orientacao ""Risco geral: atenção."".",,,
+,Test Case,F02-TC03 [Positivo] Consultar risco personalizado de idoso com hipertensão,1,"Objetivo: Verificar que o mesmo calor tem risco maior para um idoso com condição de saúde. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger. Executados, nesta ordem, os casos ""Consultar risco geral com calor de atenção"" e ""Cadastrar idoso com dados válidos"", com o id do idoso anotado.",Ambiente pronto conforme a preparação.,,Design,F02; Positivo
+,,,2,Executar GET /api/risco/atual com cidadaoId igual ao id do idoso.,"Resposta HTTP 200 com nivel ""Alto"".",,,
+,,,3,Conferir a orientação.,"orientacao ""Evite sair entre 11h e 16h. Beba água mesmo sem sede."".",,,
+,Test Case,F02-TC04 [Negativo] Consultar risco de cidadão inexistente,1,Objetivo: Verificar que um identificador desconhecido é recusado. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger.,Ambiente pronto conforme a preparação.,,Design,F02; Negativo
+,,,2,Executar GET /api/risco/atual com cidadaoId 00000000-0000-0000-0000-000000000001.,"Resposta HTTP 404 com title ""Cidadão não encontrado."".",,,
+,Test Case,F03-TC01 [Positivo] Buscar pontos próximos ordenados pela distância,1,Objetivo: Verificar a ordenação e a distância dos pontos retornados. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger. Banco recém-criado: apague api/src/SombraAmiga.Api/sombra-amiga.db antes de iniciar a API. Os 3 pontos simulados de demonstração estão ativos.,Ambiente pronto conforme a preparação.,,Design,F03; Positivo
+,,,2,"Executar GET /api/pontos/proximos com latitude -23.4620, longitude -46.6810 e raioKm 5.",Resposta HTTP 200 com 3 pontos.,,,
+,,,3,Conferir o primeiro ponto e a ordem.,"O primeiro é ""Praça da Sombra (simulado)"" com distanciaKm 0, e as distâncias seguintes são crescentes.",,,
+,Test Case,F03-TC02 [Negativo] Buscar pontos longe de qualquer ponto cadastrado,1,Objetivo: Verificar a resposta quando não há pontos dentro do raio. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger. Banco recém-criado: apague api/src/SombraAmiga.Api/sombra-amiga.db antes de iniciar a API.,Ambiente pronto conforme a preparação.,,Design,F03; Negativo
+,,,2,"Executar GET /api/pontos/proximos com latitude -23.5505, longitude -46.6333 e raioKm 2.",Resposta HTTP 200 com lista vazia [].,,,
+,Test Case,F04-TC01 [Positivo] Registrar check-in e consultar o histórico,1,"Objetivo: Verificar o registro do check-in e sua exibição no histórico. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger. Um cidadão cadastrado, com o id anotado.",Ambiente pronto conforme a preparação.,,Design,F04; Positivo
+,,,2,"Em POST /api/checkins, informar {""cidadaoId"": ""<id>"", ""status"": ""EstouBem""} e clicar em Execute.","Resposta HTTP 201 com status ""EstouBem"" e dataHoraUtc preenchida.",,,
+,,,3,Executar GET /api/cidadaos/{id}/checkins.,O check-in registrado aparece em primeiro lugar.,,,
+,Test Case,F04-TC02 [Negativo] Recusar check-in de cidadão inexistente,1,Objetivo: Verificar que não é possível registrar check-in para quem não está cadastrado. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger.,Ambiente pronto conforme a preparação.,,Design,F04; Negativo
+,,,2,"Em POST /api/checkins, informar {""cidadaoId"": ""00000000-0000-0000-0000-000000000001"", ""status"": ""EstouBem""} e clicar em Execute.","Resposta HTTP 404 com title ""Cidadão não encontrado."".",,,
+,Test Case,F04-TC03 [Negativo] Recusar check-in com status inválido,1,"Objetivo: Verificar que só os status previstos são aceitos. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger. Um cidadão cadastrado, com o id anotado.",Ambiente pronto conforme a preparação.,,Design,F04; Negativo
+,,,2,"Em POST /api/checkins, informar {""cidadaoId"": ""<id>"", ""status"": ""Talvez""} e clicar em Execute.",Resposta HTTP 400.,,,
+,,,3,Executar GET /api/cidadaos/{id}/checkins.,Nenhum check-in novo aparece.,,,
+,Test Case,F05-TC01 [Positivo] Registrar leitura de calor extremo,1,Objetivo: Verificar o cálculo da sensação térmica e do nível de uma leitura válida. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger.,Ambiente pronto conforme a preparação.,,Design,F05; Positivo
+,,,2,"Em POST /api/leituras, informar {""pontoId"": ""11111111-1111-1111-1111-111111111111"", ""temperaturaC"": 38, ""umidadePct"": 50} e clicar em Execute.","Resposta HTTP 201 com indiceCalorC 48.6 e nivel ""Extremo"".",,,
+,Test Case,F05-TC02 [Negativo] Recusar umidade acima de 100%,1,Objetivo: Verificar que leituras impossíveis de umidade são recusadas. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger.,Ambiente pronto conforme a preparação.,,Design,F05; Negativo
+,,,2,"Em POST /api/leituras, informar {""pontoId"": ""11111111-1111-1111-1111-111111111111"", ""temperaturaC"": 30, ""umidadePct"": 150} e clicar em Execute.","Resposta HTTP 400 com title ""Umidade deve estar entre 0 e 100."".",,,
+,Test Case,F05-TC03 [Negativo] Recusar temperatura fora da faixa do sensor,1,Objetivo: Verificar que leituras impossíveis de temperatura são recusadas. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger.,Ambiente pronto conforme a preparação.,,Design,F05; Negativo
+,,,2,"Em POST /api/leituras, informar {""pontoId"": ""11111111-1111-1111-1111-111111111111"", ""temperaturaC"": 99, ""umidadePct"": 50} e clicar em Execute.","Resposta HTTP 400 com title ""Temperatura fora da faixa do sensor."".",,,
+,Test Case,F05-TC04 [Negativo] Recusar leitura de ponto inexistente,1,Objetivo: Verificar que só pontos cadastrados podem enviar leituras. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger.,Ambiente pronto conforme a preparação.,,Design,F05; Negativo
+,,,2,"Em POST /api/leituras, informar {""pontoId"": ""00000000-0000-0000-0000-000000000001"", ""temperaturaC"": 30, ""umidadePct"": 50} e clicar em Execute.","Resposta HTTP 404 com title ""Ponto não encontrado."".",,,
+,Test Case,F06-TC01 [Positivo] Abrir e atualizar alerta conforme o calor piora,1,Objetivo: Verificar a abertura do alerta e sua atualização sem duplicação. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger. Banco recém-criado: apague api/src/SombraAmiga.Api/sombra-amiga.db antes de iniciar a API.,Ambiente pronto conforme a preparação.,,Design,F06; Positivo
+,,,2,"Em POST /api/leituras, informar {""pontoId"": ""11111111-1111-1111-1111-111111111111"", ""temperaturaC"": 33, ""umidadePct"": 50}.","Resposta HTTP 201 com nivel ""Alto"".",,,
+,,,3,Executar GET /api/alertas/ativos.,"Um alerta, com origem ""Sensor"", nivel ""Alto"" e mensagem iniciada por ""Calor alto em Praça da Sombra (simulado)"".",,,
+,,,4,"Em POST /api/leituras, informar {""pontoId"": ""11111111-1111-1111-1111-111111111111"", ""temperaturaC"": 38, ""umidadePct"": 50}.","Resposta HTTP 201 com nivel ""Extremo"".",,,
+,,,5,Executar GET /api/alertas/ativos.,"Continua um único alerta, agora com nivel ""Extremo"" e mensagem ""Calor extremo em Praça da Sombra (simulado): sensação de 48,6 °C."".",,,
+,Test Case,F06-TC02 [Positivo] Encerrar alerta quando o calor diminui,1,"Objetivo: Verificar o encerramento automático do alerta. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger. Caso ""Abrir e atualizar alerta conforme o calor piora"" executado.",Ambiente pronto conforme a preparação.,,Design,F06; Positivo
+,,,2,"Em POST /api/leituras, informar {""pontoId"": ""11111111-1111-1111-1111-111111111111"", ""temperaturaC"": 22, ""umidadePct"": 50}.","Resposta HTTP 201 com nivel ""Baixo"".",,,
+,,,3,Executar GET /api/alertas/ativos.,O alerta da Praça da Sombra não aparece mais.,,,
+,Test Case,F06-TC03 [Negativo] Recusar encerramento de alerta já encerrado,1,Objetivo: Verificar que um alerta não pode ser encerrado duas vezes. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger.,Ambiente pronto conforme a preparação.,,Design,F06; Negativo
+,,,2,"Em POST /api/alertas/previsao, informar {""nivel"": ""Alto"", ""mensagem"": ""Teste""} e anotar o id retornado.",Resposta HTTP 201.,,,
+,,,3,Executar POST /api/alertas/{id}/encerrar.,Resposta HTTP 204.,,,
+,,,4,Executar POST /api/alertas/{id}/encerrar novamente.,"Resposta HTTP 400 com title ""Alerta já encerrado."".",,,
+,Test Case,F07-TC01 [Positivo] Publicar alerta de previsão manualmente,1,Objetivo: Verificar que a API aceita alertas vindos da previsão. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger.,Ambiente pronto conforme a preparação.,,Design,F07; Positivo
+,,,2,"Em POST /api/alertas/previsao, informar {""nivel"": ""Alto"", ""mensagem"": ""Amanhã deve passar de 32 °C.""}.","Resposta HTTP 201 com origem ""Previsao"" e ativo true.",,,
+,,,3,Executar GET /api/alertas/ativos.,O alerta aparece na lista.,,,
+,Test Case,F07-TC02 [Negativo] Recusar alerta de previsão sem mensagem,1,Objetivo: Verificar que o alerta precisa ter uma mensagem para o cidadão. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger.,Ambiente pronto conforme a preparação.,,Design,F07; Negativo
+,,,2,"Em POST /api/alertas/previsao, informar {""nivel"": ""Alto"", ""mensagem"": """"}.",Resposta HTTP 400.,,,
+,Test Case,F07-TC03 [Positivo] Script publica previsão para véspera de dia quente,1,"Objetivo: Verificar a integração entre o modelo e a API em um dia real seguido de calor. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger. Python com as dependências de ml/requirements.txt. Em 15/03/2024, a máxima foi 34,2 °C, e em 16/03/2024, 34,1 °C.",Ambiente pronto conforme a preparação.,,Design,F07; Positivo
+,,,2,"Na pasta ml, executar python publicar_previsao.py --data 2024-03-15.",O script mostra probabilidade de 50% ou mais e informa que o alerta foi publicado.,,,
+,,,3,Executar GET /api/alertas/ativos.,"Aparece um alerta com origem ""Previsao"" citando 16/03.",,,
+,Test Case,F07-TC04 [Negativo] Script não publica previsão para dia frio,1,"Objetivo: Verificar que o script não gera alerta quando não há previsão de calor. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger. Em 01/07/2025, a máxima foi 15,8 °C, e em 02/07/2025, 13,0 °C.",Ambiente pronto conforme a preparação.,,Design,F07; Negativo
+,,,2,Executar GET /api/alertas/ativos e anotar a quantidade de alertas.,Lista retornada.,,,
+,,,3,"Na pasta ml, executar python publicar_previsao.py --data 2025-07-01.","O script mostra probabilidade abaixo de 50% e ""sem alerta"".",,,
+,,,4,Executar GET /api/alertas/ativos.,A quantidade de alertas é a mesma do passo 1.,,,
+,Test Case,F08-TC01 [Positivo] Calcular indicador em dia com alerta,1,Objetivo: Verificar o cálculo do indicador com um cidadão que confirmou estar bem. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger. Banco recém-criado: apague api/src/SombraAmiga.Api/sombra-amiga.db antes de iniciar a API.,Ambiente pronto conforme a preparação.,,Design,F08; Positivo
+,,,2,Cadastrar um idoso válido em POST /api/cidadaos e anotar o id.,Resposta HTTP 201.,,,
+,,,3,"Em POST /api/leituras, informar {""pontoId"": ""11111111-1111-1111-1111-111111111111"", ""temperaturaC"": 38, ""umidadePct"": 50}.",Resposta HTTP 201 e alerta aberto.,,,
+,,,4,"Em POST /api/checkins, informar {""cidadaoId"": ""<id>"", ""status"": ""EstouBem""}.",Resposta HTTP 201.,,,
+,,,5,Executar GET /api/indicadores/impacto com inicio e fim iguais à data de hoje (AAAA-MM-DD).,"diasComAlerta 1, checkInsEsperados 1, checkInsConfirmados 1 e percentualConfirmado 100.",,,
+,Test Case,F08-TC02 [Negativo] Recusar período invertido,1,Objetivo: Verificar a validação do período consultado. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger.,Ambiente pronto conforme a preparação.,,Design,F08; Negativo
+,,,2,Executar GET /api/indicadores/impacto com inicio 2026-11-30 e fim 2026-11-01.,"Resposta HTTP 400 com title ""A data final deve ser maior ou igual à inicial."".",,,
+,Test Case,F09-TC01 [Positivo] Cadastrar ponto válido,1,Objetivo: Verificar o cadastro de um novo ponto. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger.,Ambiente pronto conforme a preparação.,,Design,F09; Positivo
+,,,2,"Em POST /api/pontos, informar {""nome"": ""Bebedouro Teste"", ""tipo"": ""Agua"", ""latitude"": -23.47, ""longitude"": -46.68}.",Resposta HTTP 201 com o id do ponto.,,,
+,,,3,Executar GET /api/pontos.,"""Bebedouro Teste"" aparece na lista.",,,
+,Test Case,F09-TC02 [Negativo] Recusar ponto com latitude inválida,1,Objetivo: Verificar a validação das coordenadas. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger.,Ambiente pronto conforme a preparação.,,Design,F09; Negativo
+,,,2,"Em POST /api/pontos, informar {""nome"": ""Ponto Errado"", ""tipo"": ""Agua"", ""latitude"": 95, ""longitude"": -46.68}.",Resposta HTTP 400.,,,
+,,,3,Executar GET /api/pontos.,"""Ponto Errado"" não aparece na lista.",,,
+,Test Case,F09-TC03 [Positivo] Desativar ponto,1,Objetivo: Verificar que um ponto desativado sai das listas. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger. Banco recém-criado: apague api/src/SombraAmiga.Api/sombra-amiga.db antes de iniciar a API.,Ambiente pronto conforme a preparação.,,Design,F09; Positivo
+,,,2,Executar DELETE /api/pontos/33333333-3333-3333-3333-333333333333.,Resposta HTTP 204.,,,
+,,,3,Executar GET /api/pontos.,"""Abrigo do Terminal (simulado)"" não aparece mais.",,,
+,Test Case,F10-TC01 [Positivo] Fazer login com credenciais válidas,1,"Objetivo: Verificar a emissão do token para um agente cadastrado. Preparação: Serviço Rede de Apoio em execução, com Swagger aberto. Agente de teste cadastrado com e-mail agente@teste.com.",Ambiente pronto conforme a preparação.,,Design,F10; Positivo
+,,,2,"Em POST /api/auth/login, informar o e-mail e a senha do agente de teste.",Resposta HTTP 200 com um token.,,,
+,,,3,Autorizar o Swagger com o token e executar GET /api/pedidos.,Resposta HTTP 200.,,,
+,Test Case,F10-TC02 [Negativo] Negar login com senha errada,1,Objetivo: Verificar que uma senha errada não dá acesso. Preparação: Serviço Rede de Apoio em execução. Agente de teste cadastrado.,Ambiente pronto conforme a preparação.,,Design,F10; Negativo
+,,,2,"Em POST /api/auth/login, informar o e-mail do agente de teste e uma senha errada.","Resposta HTTP 401, sem token e sem indicar se o erro foi no e-mail ou na senha.",,,
+,Test Case,F10-TC03 [Negativo] Negar acesso aos pedidos sem token,1,Objetivo: Verificar que os dados dos pedidos exigem autenticação. Preparação: Serviço Rede de Apoio em execução.,Ambiente pronto conforme a preparação.,,Design,F10; Negativo
+,,,2,Executar GET /api/pedidos sem autorização.,Resposta HTTP 401.,,,
+,Test Case,F11-TC01 [Positivo] Pedido de ajuda chega à Rede de Apoio,1,Objetivo: Verificar a integração entre o check-in da API principal e a Rede de Apoio. Preparação: API principal e Rede de Apoio em execução. Um cidadão cadastrado na API principal e um agente logado.,Ambiente pronto conforme a preparação.,,Design,F11; Positivo
+,,,2,"Na API principal, em POST /api/checkins, informar {""cidadaoId"": ""<id>"", ""status"": ""PrecisoDeAjuda""}.",Resposta HTTP 201.,,,
+,,,3,"Na Rede de Apoio, executar GET /api/pedidos com o token do agente.","Aparece um pedido com status ""ABERTO"" para o cidadão.",,,
+,Test Case,F11-TC02 [Positivo] Aceitar e concluir um pedido,1,Objetivo: Verificar o fluxo completo de atendimento. Preparação: Rede de Apoio em execução. Um pedido aberto e um agente logado.,Ambiente pronto conforme a preparação.,,Design,F11; Positivo
+,,,2,Executar POST /api/pedidos/{id}/aceitar com o token do agente.,"Resposta HTTP 200 com status ""EM_ATENDIMENTO"".",,,
+,,,3,Executar POST /api/pedidos/{id}/concluir com o mesmo token.,"Resposta HTTP 200 com status ""CONCLUIDO"".",,,
+,Test Case,F11-TC03 [Negativo] Recusar pedido já aceito por outro agente,1,Objetivo: Verificar que dois agentes não atendem o mesmo pedido. Preparação: Rede de Apoio em execução. Um pedido já aceito pelo agente A. O agente B está logado.,Ambiente pronto conforme a preparação.,,Design,F11; Negativo
+,,,2,Executar POST /api/pedidos/{id}/aceitar com o token do agente B.,Resposta HTTP 409.,,,
+,Test Case,F12-TC01 [Positivo] Concluir cadastro no primeiro acesso,1,Objetivo: Verificar a jornada de cadastro pelo app. Preparação: API em execução. App instalado sem dados salvos.,Ambiente pronto conforme a preparação.,,Design,F12; Positivo
+,,,2,Abrir o app.,A tela de cadastro é exibida.,,,
+,,,3,"Escolher o perfil Idoso, preencher nome, CPF 529.982.247-25 e contato do familiar, e tocar em Cadastrar.",A tela inicial é exibida com o nome do cidadão.,,,
+,,,4,Fechar e abrir o app de novo.,O app abre direto na tela inicial.,,,
+,Test Case,F12-TC02 [Positivo] Fazer check-in pela tela inicial,1,Objetivo: Verificar o check-in de um toque. Preparação: API em execução. App com cadastro concluído.,Ambiente pronto conforme a preparação.,,Design,F12; Positivo
+,,,2,"Na tela inicial, tocar em ""Estou bem"".",O app mostra a confirmação com o horário do check-in.,,,
+,Test Case,F12-TC03 [Negativo] Recusar cadastro com CPF inválido no app,1,Objetivo: Verificar que o app mostra o erro de forma compreensível. Preparação: API em execução. App sem dados salvos.,Ambiente pronto conforme a preparação.,,Design,F12; Negativo
+,,,2,Preencher o cadastro com o CPF 123.456.789-00 e tocar em Cadastrar.,"O app mostra ""CPF inválido."" e continua na tela de cadastro.",,,
+,Test Case,F12-TC04 [Negativo] Mostrar últimos dados sem internet,1,Objetivo: Verificar o funcionamento sem conexão. Preparação: App com cadastro concluído e aberto ao menos uma vez com internet.,Ambiente pronto conforme a preparação.,,Design,F12; Negativo
+,,,2,Ativar o modo avião e abrir o app.,"A tela inicial mostra os últimos dados salvos e o horário da última atualização, sem travar.",,,
+,Test Case,F13-TC01 [Positivo] Exibir nível extremo no ponto,1,Objetivo: Verificar o aviso local e o envio da leitura para a API. Preparação: Projeto aberto no Wokwi e simulação iniciada. API acessível pelo simulador.,Ambiente pronto conforme a preparação.,,Design,F13; Positivo
+,,,2,"No DHT22, ajustar a temperatura para 38 °C e a umidade para 50%.","O display mostra a sensação de cerca de 48,6 °C e o nível EXTREMO.",,,
+,,,3,Observar os LEDs e o buzzer.,O LED vermelho acende e o buzzer toca.,,,
+,,,4,"Na API, executar GET /api/leituras com o pontoId do circuito.",A leitura de 38 °C aparece em primeiro lugar.,,,
+,Test Case,F13-TC02 [Positivo] Exibir nível baixo no ponto,1,Objetivo: Verificar o estado normal do circuito. Preparação: Projeto aberto no Wokwi e simulação iniciada.,Ambiente pronto conforme a preparação.,,Design,F13; Positivo
+,,,2,"No DHT22, ajustar a temperatura para 22 °C e a umidade para 50%.","O display mostra o nível BAIXO, o LED verde acende e o buzzer fica em silêncio.",,,
+,Test Case,F13-TC03 [Negativo] Manter aviso local sem rede,1,Objetivo: Verificar que o ponto continua útil sem conexão. Preparação: Projeto aberto no Wokwi com o endereço da API apontando para um servidor desligado.,Ambiente pronto conforme a preparação.,,Design,F13; Negativo
+,,,2,Iniciar a simulação e ajustar o DHT22 para 38 °C e 50%.,"O display mostra EXTREMO e ""SEM REDE"", e o LED vermelho e o buzzer continuam funcionando.",,,
+,Test Case,F14-TC01 [Positivo] Exibir alerta novo no painel,1,Objetivo: Verificar a atualização automática do painel. Preparação: API e painel em execução. Painel aberto no navegador.,Ambiente pronto conforme a preparação.,,Design,F14; Positivo
+,,,2,"Em POST /api/leituras, informar {""pontoId"": ""11111111-1111-1111-1111-111111111111"", ""temperaturaC"": 38, ""umidadePct"": 50}.",Resposta HTTP 201.,,,
+,,,3,"Aguardar a próxima atualização do painel, sem recarregar a página.",O alerta extremo da Praça da Sombra aparece com o horário.,,,
+,Test Case,F14-TC02 [Negativo] Avisar indisponibilidade da API,1,Objetivo: Verificar o comportamento do painel quando a API cai. Preparação: Painel em execução e API parada.,Ambiente pronto conforme a preparação.,,Design,F14; Negativo
+,,,2,Abrir o painel no navegador.,O painel mostra um aviso de que os dados estão indisponíveis.,,,
+,Test Case,F15-TC01 [Positivo] Mascarar dados sensíveis na listagem,1,"Objetivo: Verificar que a listagem não expõe dados sensíveis. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger. Caso ""Cadastrar idoso com dados válidos"" executado.",Ambiente pronto conforme a preparação.,,Design,F15; Positivo
+,,,2,Executar GET /api/cidadaos.,"O cidadão aparece com cpfMascarado ""***.***.***-25"".",,,
+,,,3,"Procurar no corpo da resposta os textos 52998224725, Hipertensão e Filha Teste.",Nenhum dos três aparece.,,,

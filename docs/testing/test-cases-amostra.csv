@@ -1,0 +1,5 @@
+﻿ID,Work Item Type,Title,Test Step,Step Action,Step Expected,Assigned To,State,Tags
+,Test Case,F01-TC01 [Positivo] Cadastrar idoso com dados válidos,1,Objetivo: Verificar que um idoso consegue se cadastrar com dados válidos. Preparação: API em execução (dotnet run) e Swagger aberto em http://localhost:5080/swagger. CPF 529.982.247-25 ainda não cadastrado.,Ambiente pronto conforme a preparação.,,Design,F01; Positivo
+,,,2,Abrir POST /api/cidadaos e clicar em Try it out.,O campo de requisição fica editável.,,,
+,,,3,"Informar {""perfil"": ""Idoso"", ""nome"": ""Lurdes Teste"", ""cpf"": ""52998224725"", ""contatoFamiliar"": ""Filha Teste"", ""condicaoSaude"": ""Hipertensão""} e clicar em Execute.",Resposta HTTP 201.,,,
+,,,4,Conferir o corpo da resposta.,"Contém id, nome ""Lurdes Teste"", cpfMascarado ""***.***.***-25"", perfil ""Idoso"" e temCondicaoSaude true.",,,
