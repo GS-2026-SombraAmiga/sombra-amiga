@@ -18,7 +18,9 @@ Material da disciplina Testing, Compliance & Quality Assurance, para importar no
 
 ## Como publicar (recomendado: script)
 
-O script [publicar_azure.py](publicar_azure.py) cria as Features e os Test Cases direto no projeto e liga cada Test Case à sua Feature. Itens que já existem são ignorados, então ele pode ser executado de novo sem duplicar nada.
+O script [publicar_azure.py](publicar_azure.py) sincroniza o projeto com `conteudo.py`: cria o que falta, atualiza no lugar o que mudou e liga cada Test Case novo à sua Feature. Pode ser executado de novo sem duplicar nada.
+
+**Publicado em:** [RM556278 / GS-26](https://dev.azure.com/RM556278/GS-26/_workitems), com 15 Features e 46 Test Cases.
 
 1. Faça login uma vez. O navegador abre para você entrar com a conta do Azure DevOps:
    ```bash
@@ -29,7 +31,11 @@ O script [publicar_azure.py](publicar_azure.py) cria as Features e os Test Cases
    cd docs/testing
    python publicar_azure.py --org https://dev.azure.com/<organizacao> --projeto "<projeto>" --simular
    ```
-3. Rode sem `--simular` para criar.
+3. Rode sem `--simular` para aplicar.
+
+**Padrão dos itens** (o mesmo do projeto Ford-VINSight):
+- **Títulos:** `F-01 — Nome` para Features e `TC-01.01 — [Positivo] Nome` para Test Cases.
+- **Critérios de aceite:** em Gherkin, com um `Cenário:` seguido de `Dado`, `Quando`, `Então` e `E`.
 
 Requisitos:
 - A conta precisa ter acesso **Basic** ao projeto.
@@ -50,7 +56,7 @@ Se o processo do projeto não tiver o campo **Acceptance Criteria** para Feature
 3. Importe primeiro `test-cases-amostra.csv` e confira se objetivo, passos e resultados esperados apareceram certos.
 4. Se estiver tudo certo, apague o caso de amostra e importe `test-cases.csv`.
 
-Cada Test Case tem no título o código da Feature (por exemplo `F01-TC01`) e as tags da Feature e do tipo (Positivo ou Negativo). Isso permite filtrar os casos por Feature.
+Cada Test Case tem no título o código da Feature (por exemplo `TC-01.01` pertence à `F-01`) e as tags da Feature e do tipo (Positivo ou Negativo). Isso permite filtrar os casos por Feature.
 
 ## Para a entrega
 

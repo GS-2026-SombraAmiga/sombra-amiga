@@ -13,13 +13,6 @@ FEATURES = [
         "titulo": "Cadastro e manutenção do cidadão",
         "historia": "Como idoso ou trabalhador de rua, quero me cadastrar informando meu perfil, para receber alertas de calor adequados à minha vulnerabilidade.",
         "descricao": "O cadastro guarda nome, CPF, contato de um familiar, condição de saúde (opcional) e, para trabalhadores de rua, a ocupação. O cidadão pode atualizar os dados ou remover o cadastro.",
-        "criterios": [
-            "Dado que informo perfil, nome, CPF válido e contato de um familiar, quando envio o cadastro, então ele é criado e recebo um identificador.",
-            "Dado que sou trabalhador de rua, quando não informo a ocupação, então o cadastro é recusado com a mensagem \"Ocupação é obrigatória.\".",
-            "Dado que o CPF é inválido, quando envio o cadastro, então ele é recusado com a mensagem \"CPF inválido.\".",
-            "Dado que o CPF já está cadastrado, quando envio o cadastro, então ele é recusado com a mensagem \"Já existe um cadastro com este CPF.\".",
-            "Dado que estou cadastrado, quando atualizo meus dados ou removo o cadastro, então a alteração é aplicada.",
-        ],
         "testes": [
             {
                 "titulo": "Cadastrar idoso com dados válidos",
@@ -83,12 +76,6 @@ FEATURES = [
         "titulo": "Risco de calor personalizado",
         "historia": "Como cidadão, quero ver o risco de calor de agora ajustado ao meu perfil, com uma orientação simples, para saber como me proteger.",
         "descricao": "O risco usa a maior sensação térmica medida pelos sensores nas últimas 3 horas. As faixas são: baixo (abaixo de 27 °C), atenção (27 °C), alto (32 °C) e extremo (41 °C). Para refletir a vulnerabilidade, somam-se 3 °C para idosos, 2 °C para trabalhadores de rua e 1 °C para quem informou condição de saúde.",
-        "criterios": [
-            "Dado que há leituras nas últimas 3 horas, quando consulto o risco geral, então vejo a sensação térmica e o nível.",
-            "Dado que sou idoso com condição de saúde, quando consulto meu risco, então o nível considera os ajustes do meu perfil e a orientação é própria para idosos.",
-            "Dado que não há leituras nas últimas 3 horas, quando consulto o risco, então vejo \"Sem leituras recentes dos sensores.\".",
-            "Dado um cidadão inexistente, quando consulto o risco dele, então recebo \"Cidadão não encontrado.\".",
-        ],
         "testes": [
             {
                 "titulo": "Consultar risco geral sem leituras recentes",
@@ -135,11 +122,6 @@ FEATURES = [
         "titulo": "Pontos de sombra e água próximos",
         "historia": "Como trabalhador de rua, quero ver os pontos de sombra e água mais próximos de onde estou, para parar e me hidratar sem perder tempo.",
         "descricao": "A busca considera apenas pontos ativos dentro de um raio, de 2 km por padrão, e mostra tipo e distância, do mais próximo ao mais distante.",
-        "criterios": [
-            "Dado que informo minha localização, quando busco pontos próximos, então vejo os pontos ativos dentro do raio, ordenados pela distância.",
-            "Dado que não há pontos dentro do raio, quando busco, então recebo uma lista vazia, sem erro.",
-            "Pontos desativados não aparecem na busca.",
-        ],
         "testes": [
             {
                 "titulo": "Buscar pontos próximos ordenados pela distância",
@@ -167,12 +149,6 @@ FEATURES = [
         "titulo": "Check-in \"estou bem\"",
         "historia": "Como idoso, quero avisar com um toque que estou bem ou que preciso de ajuda, para minha família ficar tranquila sem precisar me ligar.",
         "descricao": "O check-in registra o status e o horário. O histórico fica disponível para a família, do mais recente ao mais antigo. Um check-in \"preciso de ajuda\" abre um pedido na Rede de Apoio (F11).",
-        "criterios": [
-            "Dado que estou cadastrado, quando faço um check-in \"estou bem\", então ele é registrado com data e hora.",
-            "Dado que fiz check-ins, quando a família consulta meu histórico, então os vê do mais recente ao mais antigo.",
-            "Dado um cidadão inexistente, quando o check-in é enviado, então ele é recusado.",
-            "Dado um status diferente de \"EstouBem\" ou \"PrecisoDeAjuda\", quando o check-in é enviado, então ele é recusado.",
-        ],
         "testes": [
             {
                 "titulo": "Registrar check-in e consultar o histórico",
@@ -210,12 +186,6 @@ FEATURES = [
         "titulo": "Recebimento das leituras dos sensores",
         "historia": "Como responsável pelos pontos de hidratação, quero que cada ponto envie temperatura e umidade, para o sistema saber a sensação térmica real em cada lugar.",
         "descricao": "A API recebe a leitura do ESP32, calcula o índice de calor pela fórmula de Rothfusz (NWS) e classifica o nível de risco. Leituras fora da faixa do sensor são recusadas.",
-        "criterios": [
-            "Dado uma leitura com temperatura entre -10 °C e 60 °C e umidade entre 0% e 100%, quando ela é enviada, então é registrada com a sensação térmica e o nível.",
-            "Dado uma temperatura fora da faixa, quando a leitura é enviada, então ela é recusada com \"Temperatura fora da faixa do sensor.\".",
-            "Dado uma umidade fora da faixa, quando a leitura é enviada, então ela é recusada com \"Umidade deve estar entre 0 e 100.\".",
-            "Dado um ponto inexistente, quando a leitura é enviada, então ela é recusada com \"Ponto não encontrado.\".",
-        ],
         "testes": [
             {
                 "titulo": "Registrar leitura de calor extremo",
@@ -260,12 +230,6 @@ FEATURES = [
         "titulo": "Alertas automáticos de calor",
         "historia": "Como cidadão, quero ser avisado quando um ponto do meu bairro estiver com calor perigoso, para evitar me expor naquele momento.",
         "descricao": "Uma leitura com sensação térmica de 32 °C ou mais abre um alerta para o ponto. Se o calor piorar, o mesmo alerta é atualizado, sem duplicar. Quando a sensação cai abaixo de 32 °C, o alerta é encerrado.",
-        "criterios": [
-            "Dado uma leitura de risco alto ou extremo, quando ela é registrada, então um alerta ativo é aberto para o ponto.",
-            "Dado um alerta já aberto, quando o calor piora, então o mesmo alerta passa a mostrar o novo nível, sem criar outro.",
-            "Dado um alerta aberto, quando uma leitura abaixo de 32 °C é registrada, então o alerta é encerrado.",
-            "Dado um alerta já encerrado, quando tento encerrá-lo de novo, então recebo \"Alerta já encerrado.\".",
-        ],
         "testes": [
             {
                 "titulo": "Abrir e atualizar alerta conforme o calor piora",
@@ -307,12 +271,6 @@ FEATURES = [
         "titulo": "Previsão de calor da véspera",
         "historia": "Como idoso, quero ser avisado na noite anterior quando o dia seguinte for muito quente, para me preparar antes de o calor chegar.",
         "descricao": "Um modelo de Machine Learning treinado com dados reais do INMET (estação A701) prevê se a máxima do dia seguinte chegará a 32 °C ou mais. Quando a probabilidade é de 50% ou mais, o script ml/publicar_previsao.py publica um alerta de origem \"Previsao\" na API.",
-        "criterios": [
-            "Dado que o modelo prevê calor para amanhã, quando o script roda, então um alerta de previsão é publicado na API.",
-            "Dado que o modelo não prevê calor, quando o script roda, então nenhum alerta é publicado.",
-            "Dado o modo --simular, quando o script roda, então ele mostra a probabilidade sem publicar nada.",
-            "Dado um alerta de previsão sem mensagem, quando ele é enviado, então é recusado.",
-        ],
         "testes": [
             {
                 "titulo": "Publicar alerta de previsão manualmente",
@@ -361,11 +319,6 @@ FEATURES = [
         "titulo": "Indicador de impacto",
         "historia": "Como equipe gestora do Sombra Amiga, quero acompanhar quantos cidadãos confirmam que estão bem nos dias de alerta, para medir se a solução protege as pessoas.",
         "descricao": "Indicador da Ficha: percentual de check-ins \"estou bem\" confirmados em dias com alerta, em relação ao esperado (cidadãos cadastrados × dias com alerta). Cada cidadão conta uma vez por dia.",
-        "criterios": [
-            "Dado um período com alertas e check-ins, quando consulto o indicador, então vejo dias com alerta, check-ins esperados, confirmados e o percentual.",
-            "Dado um período sem alertas, quando consulto o indicador, então o percentual é 0.",
-            "Dado uma data final anterior à inicial, quando consulto, então recebo \"A data final deve ser maior ou igual à inicial.\".",
-        ],
         "testes": [
             {
                 "titulo": "Calcular indicador em dia com alerta",
@@ -395,11 +348,6 @@ FEATURES = [
         "titulo": "Gestão dos pontos de hidratação",
         "historia": "Como responsável pelos pontos, quero cadastrar, atualizar e desativar pontos de sombra e água, para manter o mapa do bairro correto.",
         "descricao": "Cada ponto tem nome, tipo (sombra, água ou os dois) e coordenadas. A desativação preserva o histórico de leituras.",
-        "criterios": [
-            "Dado nome, tipo e coordenadas válidas, quando cadastro um ponto, então ele passa a aparecer na lista.",
-            "Dado coordenadas fora do intervalo válido, quando cadastro, então o ponto é recusado.",
-            "Dado um ponto ativo, quando o desativo, então ele deixa de aparecer nas listas e buscas.",
-        ],
         "testes": [
             {
                 "titulo": "Cadastrar ponto válido",
@@ -438,11 +386,6 @@ FEATURES = [
         "titulo": "Rede de Apoio: acesso dos agentes",
         "historia": "Como agente comunitário de saúde ou voluntário, quero entrar na Rede de Apoio com meu login, para atender pedidos de ajuda sem expor dados de pessoas vulneráveis a quem não deve vê-los.",
         "descricao": "Serviço Java (Spring Boot). O agente se cadastra com nome, e-mail, bairro e senha. O login devolve um token JWT, exigido nas rotas de atendimento.",
-        "criterios": [
-            "Dado e-mail e senha corretos, quando faço login, então recebo um token de acesso.",
-            "Dado uma senha errada, quando faço login, então o acesso é negado sem informar qual dado estava errado.",
-            "Dado uma requisição sem token, quando acesso os pedidos de ajuda, então o acesso é negado.",
-        ],
         "testes": [
             {
                 "titulo": "Fazer login com credenciais válidas",
@@ -479,12 +422,6 @@ FEATURES = [
         "titulo": "Rede de Apoio: atendimento de pedidos de ajuda",
         "historia": "Como idoso, quero que alguém da minha região venha me ajudar quando eu disser que não estou bem, para não ficar sozinho em um dia de calor perigoso.",
         "descricao": "Um check-in \"preciso de ajuda\" abre um pedido na Rede de Apoio. Um agente aceita o pedido e, depois de atender, o conclui. O pedido passa por aberto, em atendimento e concluído.",
-        "criterios": [
-            "Dado um check-in \"preciso de ajuda\", quando ele é registrado, então um pedido aberto aparece para os agentes.",
-            "Dado um pedido aberto, quando um agente o aceita, então o pedido fica em atendimento com esse agente.",
-            "Dado um pedido já aceito por outro agente, quando tento aceitá-lo, então a ação é recusada.",
-            "Dado um pedido em atendimento, quando o agente responsável o conclui, então o pedido fica concluído.",
-        ],
         "testes": [
             {
                 "titulo": "Pedido de ajuda chega à Rede de Apoio",
@@ -522,12 +459,6 @@ FEATURES = [
         "titulo": "App do cidadão",
         "historia": "Como idoso ou trabalhador de rua, quero um app simples no celular, para ver o risco de calor, achar pontos de água e avisar que estou bem.",
         "descricao": "App em React Native (Expo) com telas de cadastro, início (risco e orientação), pontos próximos e alertas. O cadastro e os últimos dados ficam salvos no celular, e o app usa letras grandes, bom contraste e linguagem simples.",
-        "criterios": [
-            "Dado o primeiro acesso, quando concluo o cadastro, então o app passa a abrir direto na tela inicial.",
-            "Dado que há leituras recentes, quando abro o app, então vejo o nível de risco e a orientação do meu perfil.",
-            "Dado que toco em \"Estou bem\", quando o envio termina, então vejo a confirmação do check-in.",
-            "Dado que estou sem internet, quando abro o app, então vejo os últimos dados salvos e o horário da última atualização.",
-        ],
         "testes": [
             {
                 "titulo": "Concluir cadastro no primeiro acesso",
@@ -574,12 +505,6 @@ FEATURES = [
         "titulo": "Estação de monitoramento no ponto (ESP32)",
         "historia": "Como pessoa que passa pelo ponto de hidratação, quero ver ali mesmo o nível de calor, para decidir se paro para me hidratar mesmo sem celular.",
         "descricao": "Circuito ESP32 simulado no Wokwi, com sensor DHT22, display LCD e LEDs. Mede temperatura e umidade, calcula a sensação térmica, mostra o nível no display e nos LEDs (verde para baixo, amarelo para atenção, vermelho para alto e extremo, com aviso sonoro no extremo) e envia a leitura para a API.",
-        "criterios": [
-            "Dado uma leitura do sensor, quando ela é processada, então o display mostra a sensação térmica e o nível, e o LED correspondente acende.",
-            "Dado um nível extremo, quando ele é detectado, então o aviso sonoro é acionado.",
-            "Dado uma falha de leitura do sensor, quando ela ocorre, então o display mostra \"ERRO SENSOR\" e nada é enviado à API.",
-            "Dado que a rede está indisponível, quando há uma leitura, então o aviso local continua funcionando e o display indica \"SEM REDE\".",
-        ],
         "testes": [
             {
                 "titulo": "Exibir nível extremo no ponto",
@@ -617,11 +542,6 @@ FEATURES = [
         "titulo": "Painel web de acompanhamento",
         "historia": "Como equipe da UBS ou da ONG parceira, quero um painel com os alertas ativos e o indicador de impacto, para saber onde agir primeiro.",
         "descricao": "Página web hospedada na VM Linux. Mostra os alertas ativos, os pontos com a última leitura e o indicador de impacto, com atualização periódica.",
-        "criterios": [
-            "Dado que há alertas ativos, quando abro o painel, então vejo cada alerta com nível, ponto e horário.",
-            "Dado que um novo alerta é aberto, quando o painel se atualiza, então o alerta aparece sem recarregar a página manualmente.",
-            "Dado que a API está fora do ar, quando abro o painel, então vejo um aviso de indisponibilidade em vez de uma tela em branco.",
-        ],
         "testes": [
             {
                 "titulo": "Exibir alerta novo no painel",
@@ -649,11 +569,6 @@ FEATURES = [
         "titulo": "Proteção de dados pessoais",
         "historia": "Como cidadão, quero que meu CPF, meu contato e minha condição de saúde não fiquem expostos, para confiar no serviço.",
         "descricao": "As respostas da API mostram o CPF mascarado e nunca exibem contato do familiar ou condição de saúde. Mensagens de erro não repetem dados enviados. Todos os dados de pessoas usados no projeto são fictícios.",
-        "criterios": [
-            "Dado um cidadão cadastrado, quando consulto a lista ou o detalhe, então o CPF aparece mascarado.",
-            "Dado um cidadão com condição de saúde, quando consulto seus dados, então só aparece se ele tem condição de saúde, sem o texto.",
-            "O contato do familiar não aparece em nenhuma resposta.",
-        ],
         "testes": [
             {
                 "titulo": "Mascarar dados sensíveis na listagem",
@@ -668,3 +583,129 @@ FEATURES = [
         ],
     },
 ]
+
+# Critérios de aceite no padrão BDD/Gherkin ensinado em aula:
+# (nome do cenário, Dado, Quando, Então, [E...])
+CENARIOS = {
+    "F01": [
+        ("Cadastro com dados válidos", "que informo perfil, nome, CPF válido e contato de um familiar", "envio o cadastro", "o cadastro é criado", ["recebo um identificador", "o CPF aparece mascarado na resposta"]),
+        ("Trabalhador de rua sem ocupação", "que escolhi o perfil trabalhador de rua", "envio o cadastro sem a ocupação", "o cadastro é recusado com a mensagem \"Ocupação é obrigatória.\"", []),
+        ("CPF inválido", "um CPF com dígitos verificadores errados", "envio o cadastro", "o cadastro é recusado com a mensagem \"CPF inválido.\"", ["o número enviado não aparece na mensagem de erro"]),
+        ("CPF já cadastrado", "que já existe um cadastro com o meu CPF", "envio um novo cadastro com o mesmo CPF", "o cadastro é recusado com a mensagem \"Já existe um cadastro com este CPF.\"", []),
+        ("Atualização e remoção", "que estou cadastrado", "atualizo meus dados ou removo o cadastro", "a alteração é aplicada", ["após a remoção, a consulta ao cadastro retorna \"Cidadão não encontrado.\""]),
+    ],
+    "F02": [
+        ("Risco geral com leituras recentes", "que os sensores enviaram leituras nas últimas 3 horas", "consulto o risco sem informar o cidadão", "vejo a maior sensação térmica do período e o nível correspondente", ["o nível segue as faixas baixo, atenção (27 °C), alto (32 °C) e extremo (41 °C)"]),
+        ("Risco personalizado para idoso com condição de saúde", "que sou idoso e informei uma condição de saúde", "consulto o meu risco", "o nível considera 3 °C a mais pelo perfil e 1 °C a mais pela condição de saúde", ["a orientação exibida é a própria para idosos"]),
+        ("Sem leituras recentes", "que nenhum sensor enviou leitura nas últimas 3 horas", "consulto o risco", "vejo a mensagem \"Sem leituras recentes dos sensores.\"", ["nenhum nível é informado"]),
+        ("Cidadão inexistente", "um identificador de cidadão que não existe", "consulto o risco desse cidadão", "recebo a mensagem \"Cidadão não encontrado.\"", []),
+    ],
+    "F03": [
+        ("Pontos dentro do raio", "que informo minha localização e um raio de busca", "busco pontos próximos", "vejo os pontos ativos dentro do raio", ["eles aparecem do mais próximo ao mais distante, com tipo e distância"]),
+        ("Nenhum ponto no raio", "que não há pontos ativos dentro do raio", "busco pontos próximos", "recebo uma lista vazia, sem erro", []),
+        ("Ponto desativado", "que um ponto foi desativado", "busco pontos próximos", "esse ponto não aparece no resultado", []),
+    ],
+    "F04": [
+        ("Check-in \"estou bem\"", "que estou cadastrado", "faço o check-in \"estou bem\"", "ele é registrado com data e hora", []),
+        ("Histórico para a família", "que fiz check-ins", "a família consulta meu histórico", "os check-ins aparecem do mais recente ao mais antigo", []),
+        ("Cidadão inexistente", "um identificador de cidadão que não existe", "o check-in é enviado", "ele é recusado com a mensagem \"Cidadão não encontrado.\"", []),
+        ("Status inválido", "um status diferente de \"EstouBem\" ou \"PrecisoDeAjuda\"", "o check-in é enviado", "ele é recusado", ["nada é gravado no histórico"]),
+    ],
+    "F05": [
+        ("Leitura válida", "uma leitura com temperatura entre -10 °C e 60 °C e umidade entre 0% e 100%", "o ponto envia a leitura", "ela é registrada com a sensação térmica e o nível de risco", []),
+        ("Temperatura fora da faixa", "uma temperatura fora da faixa do sensor", "a leitura é enviada", "ela é recusada com a mensagem \"Temperatura fora da faixa do sensor.\"", []),
+        ("Umidade fora da faixa", "uma umidade abaixo de 0% ou acima de 100%", "a leitura é enviada", "ela é recusada com a mensagem \"Umidade deve estar entre 0 e 100.\"", []),
+        ("Ponto inexistente", "um ponto que não está cadastrado", "a leitura é enviada", "ela é recusada com a mensagem \"Ponto não encontrado.\"", []),
+    ],
+    "F06": [
+        ("Abertura do alerta", "que o ponto não tem alerta ativo", "uma leitura com sensação térmica de 32 °C ou mais é registrada", "um alerta ativo é aberto para o ponto", ["a mensagem informa o nível, o ponto e a sensação térmica"]),
+        ("Agravamento do calor", "que o ponto já tem um alerta ativo", "uma leitura de nível mais alto é registrada", "o mesmo alerta passa a mostrar o novo nível", ["nenhum alerta duplicado é criado"]),
+        ("Encerramento automático", "que o ponto tem um alerta ativo", "uma leitura abaixo de 32 °C é registrada", "o alerta é encerrado", []),
+        ("Alerta já encerrado", "um alerta já encerrado", "tento encerrá-lo de novo", "recebo a mensagem \"Alerta já encerrado.\"", []),
+    ],
+    "F07": [
+        ("Previsão de calor", "que o modelo prevê máxima de 32 °C ou mais para amanhã, com probabilidade de 50% ou mais", "o script de previsão roda", "um alerta de origem \"Previsao\" é publicado na API", []),
+        ("Sem previsão de calor", "que a probabilidade de calor para amanhã é menor que 50%", "o script de previsão roda", "nenhum alerta é publicado", ["o script informa \"sem alerta\" e a probabilidade"]),
+        ("Modo de simulação", "que o script é executado com --simular", "a previsão é calculada", "a probabilidade é exibida", ["nada é publicado na API"]),
+        ("Alerta sem mensagem", "um alerta de previsão com a mensagem vazia", "ele é enviado à API", "ele é recusado", []),
+    ],
+    "F08": [
+        ("Período com alertas", "um período com alertas e check-ins \"estou bem\"", "consulto o indicador", "vejo os dias com alerta, os check-ins esperados, os confirmados e o percentual", ["cada cidadão conta uma vez por dia"]),
+        ("Período sem alertas", "um período sem nenhum alerta", "consulto o indicador", "o percentual é 0", []),
+        ("Período invertido", "uma data final anterior à inicial", "consulto o indicador", "recebo a mensagem \"A data final deve ser maior ou igual à inicial.\"", []),
+    ],
+    "F09": [
+        ("Cadastro de ponto", "nome, tipo e coordenadas válidas", "cadastro um ponto", "ele passa a aparecer na lista de pontos", []),
+        ("Coordenadas inválidas", "uma latitude fora de -90 a 90 ou uma longitude fora de -180 a 180", "cadastro o ponto", "o cadastro é recusado", []),
+        ("Desativação", "um ponto ativo", "eu o desativo", "ele deixa de aparecer nas listas e buscas", ["o histórico de leituras do ponto é mantido"]),
+    ],
+    "F10": [
+        ("Login válido", "um agente cadastrado", "ele faz login com e-mail e senha corretos", "recebe um token de acesso", []),
+        ("Senha errada", "um agente cadastrado", "ele faz login com a senha errada", "o acesso é negado", ["a mensagem não informa se o erro foi no e-mail ou na senha"]),
+        ("Acesso sem token", "uma requisição sem token", "ela tenta consultar os pedidos de ajuda", "o acesso é negado", []),
+    ],
+    "F11": [
+        ("Pedido de ajuda", "que um cidadão fez o check-in \"preciso de ajuda\"", "um agente consulta os pedidos", "o pedido aparece com status aberto", []),
+        ("Aceite do pedido", "um pedido aberto", "um agente o aceita", "o pedido fica em atendimento com esse agente", []),
+        ("Pedido já aceito", "um pedido já aceito por outro agente", "tento aceitá-lo", "a ação é recusada", []),
+        ("Conclusão", "um pedido em atendimento", "o agente responsável o conclui", "o pedido fica concluído", []),
+    ],
+    "F12": [
+        ("Primeiro acesso", "que abro o app pela primeira vez", "concluo o cadastro", "o app passa a abrir direto na tela inicial", []),
+        ("Risco na tela inicial", "que há leituras recentes", "abro o app", "vejo o nível de risco e a orientação do meu perfil", []),
+        ("Check-in pelo app", "que estou na tela inicial", "toco em \"Estou bem\"", "vejo a confirmação com o horário do check-in", []),
+        ("Sem internet", "que estou sem internet", "abro o app", "vejo os últimos dados salvos e o horário da última atualização", ["o app não trava"]),
+    ],
+    "F13": [
+        ("Leitura no ponto", "que o sensor fez uma leitura", "ela é processada", "o display mostra a sensação térmica e o nível", ["o LED da cor do nível acende"]),
+        ("Nível extremo", "uma leitura de nível extremo", "ela é processada", "o aviso sonoro é acionado", []),
+        ("Falha do sensor", "que o sensor falhou na leitura", "o circuito tenta processá-la", "o display mostra \"ERRO SENSOR\"", ["nada é enviado à API"]),
+        ("Sem rede", "que a rede está indisponível", "há uma nova leitura", "o aviso local continua funcionando", ["o display indica \"SEM REDE\""]),
+    ],
+    "F14": [
+        ("Alertas ativos", "que há alertas ativos", "abro o painel", "vejo cada alerta com nível, ponto e horário", []),
+        ("Atualização automática", "que o painel está aberto", "um novo alerta é aberto", "ele aparece na próxima atualização, sem recarregar a página", []),
+        ("API fora do ar", "que a API está fora do ar", "abro o painel", "vejo um aviso de indisponibilidade", ["a tela não fica em branco"]),
+    ],
+    "F15": [
+        ("CPF mascarado", "um cidadão cadastrado", "consulto a lista ou o detalhe", "o CPF aparece mascarado", []),
+        ("Condição de saúde", "um cidadão com condição de saúde", "consulto seus dados", "só aparece se ele tem condição de saúde", ["o texto da condição não é exibido"]),
+        ("Contato do familiar", "qualquer cidadão cadastrado", "consulto qualquer rota da API", "o contato do familiar não aparece em nenhuma resposta", []),
+    ],
+}
+
+for _f in FEATURES:
+    _f["criterios"] = CENARIOS[_f["id"]]
+
+
+# ---------- formato comum aos CSVs, ao documento e ao script do Azure ----------
+
+def codigo_feature(f):
+    """F01 vira F-01, no padrão do projeto anterior."""
+    return f"F-{f['id'][1:]}"
+
+
+def titulo_feature(f):
+    return f"{codigo_feature(f)} — {f['titulo']}"
+
+
+def codigo_teste(f, n):
+    return f"TC-{f['id'][1:]}.{n:02d}"
+
+
+def titulo_teste(f, n, t):
+    return f"{codigo_teste(f, n)} — [{t['tipo']}] {t['titulo']}"
+
+
+def tags_feature(f):
+    return codigo_feature(f)
+
+
+def tags_teste(f, t):
+    return f"{codigo_feature(f)}; {t['tipo']}"
+
+
+def cenario_linhas(cenario):
+    """Linhas Gherkin de um cenário, sem formatação."""
+    nome, dado, quando, entao, extras = cenario
+    return [f"Cenário: {nome}", f"Dado {dado}", f"Quando {quando}", f"Então {entao}"] + [f"E {e}" for e in extras]
