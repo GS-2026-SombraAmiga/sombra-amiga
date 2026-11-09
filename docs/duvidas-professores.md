@@ -17,8 +17,8 @@ A leitura da equipe e o plano estão em [cyber-especificacao.md](cyber-especific
 
 ## SOA e Web Services
 
-1. Qual linguagem é esperada?
-2. A mesma API da disciplina de C# pode ser entregue aqui, ou precisa ser outra aplicação?
+1. ~~Qual linguagem é esperada?~~ Respondido: Java.
+2. Um serviço Java separado, que conversa com a API em C# por REST, atende à entrega?
 
 ## Mobile e Physical Computing
 

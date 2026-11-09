@@ -9,6 +9,7 @@ Previsão de dia de calor perigoso (máxima de 32 °C ou mais) no dia seguinte, 
 | [preparar_dados.py](preparar_dados.py) | Leitura dos CSVs do INMET e agregação diária |
 | [dados/README.md](dados/README.md) | Fonte, período e qualidade dos dados |
 | `figuras/` | Gráficos gerados pelo notebook |
+| [TODO.md](TODO.md) | Tarefas pendentes: script de publicação da previsão e vídeo |
 
 ## Como rodar
 
