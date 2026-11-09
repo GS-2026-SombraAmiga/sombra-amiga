@@ -9,13 +9,33 @@ Material da disciplina Testing, Compliance & Quality Assurance, para importar no
 | `test-cases.csv` | Importação dos Test Cases no Azure Test Plans |
 | `test-cases-amostra.csv` | Um único Test Case, para testar a importação antes |
 | `conteudo.py` | Fonte única do conteúdo. Edite aqui e rode `python gerar_azure.py` |
+| `publicar_azure.py` | Cria tudo no Azure DevOps pelo script |
 
 ## Situação
 
 - **F01 a F09 e F15:** descrevem a API, que já está pronta. Todos os resultados esperados foram conferidos contra a API real, com banco limpo e na ordem do documento.
 - **F10 a F14:** descrevem partes ainda em construção (Rede de Apoio, app, ESP32 e painel). Os Test Cases delas serão revisados quando cada parte ficar pronta.
 
-## Como importar
+## Como publicar (recomendado: script)
+
+O script [publicar_azure.py](publicar_azure.py) cria as Features e os Test Cases direto no projeto e liga cada Test Case à sua Feature. Itens que já existem são ignorados, então ele pode ser executado de novo sem duplicar nada.
+
+1. Faça login uma vez. O navegador abre para você entrar com a conta do Azure DevOps:
+   ```bash
+   az login --allow-no-subscriptions
+   ```
+2. Confira sem criar nada:
+   ```bash
+   cd docs/testing
+   python publicar_azure.py --org https://dev.azure.com/<organizacao> --projeto "<projeto>" --simular
+   ```
+3. Rode sem `--simular` para criar.
+
+Requisitos:
+- A conta precisa ter acesso **Basic** ao projeto.
+- O processo do projeto precisa ser Agile, Scrum ou CMMI, porque o Basic não tem o tipo Feature.
+
+## Como importar (alternativa: CSV)
 
 **Features:**
 1. No projeto, abra **Boards > Work items > Import Work Items**.
