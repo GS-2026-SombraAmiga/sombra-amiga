@@ -60,6 +60,12 @@ As faixas de índice de calor usam como base as do NWS: atenção a partir de 27
 
 Os ajustes por perfil são **critério da equipe, sem validação clínica**: +3 °C para idoso, +2 °C para trabalhador de rua e +1 °C para quem informa condição de saúde.
 
+## Integração com a Rede de Apoio
+
+Um check-in **"preciso de ajuda"** abre um pedido no serviço Java [Rede de Apoio](../servico-soa/README.md) (`POST /api/pedidos`, autenticado pelo cabeçalho `X-Chave-Servico`). O check-in é salvo antes e nunca é desfeito: se a Rede de Apoio estiver fora do ar, a falha só fica registrada no log.
+
+A configuração fica em `appsettings.json`, na seção `RedeDeApoio` (`Url` e `Chave`). Com `Url` vazia, a integração fica desligada.
+
 ## Privacidade
 
 As respostas nunca trazem CPF completo, contato do familiar ou condição de saúde. Os dados de pessoas usados em testes são fictícios, e os pontos cadastrados são simulados.

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using SombraAmiga.Api;
 using SombraAmiga.Infra;
 using SombraAmiga.Infra.Dados;
+using SombraAmiga.Infra.RedeDeApoio;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,11 @@ builder.Services
     .AddJsonOptions(o => o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 builder.Services.AdicionarInfra(p => p.GetRequiredService<IConfiguration>().GetConnectionString("Padrao")!);
+builder.Services.AdicionarRedeDeApoio(p =>
+{
+    var configuracao = p.GetRequiredService<IConfiguration>();
+    return new ConfiguracaoRedeDeApoio(configuracao["RedeDeApoio:Url"], configuracao["RedeDeApoio:Chave"]);
+});
 
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<TratadorDeErros>();

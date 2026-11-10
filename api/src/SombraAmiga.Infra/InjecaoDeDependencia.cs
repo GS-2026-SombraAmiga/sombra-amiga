@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SombraAmiga.Dominio.Repositorios;
 using SombraAmiga.Dominio.Servicos;
 using SombraAmiga.Infra.Dados;
+using SombraAmiga.Infra.RedeDeApoio;
 using SombraAmiga.Infra.Repositorios;
 
 namespace SombraAmiga.Infra;
@@ -27,6 +28,30 @@ public static class InjecaoDeDependencia
         servicos.AddScoped<ServicoIndicadores>();
 
         servicos.AddSingleton(TimeProvider.System);
+        return servicos;
+    }
+
+    /// <summary>
+    /// Integração com o serviço Java Rede de Apoio. Sem URL configurada, a integração
+    /// fica desativada. A configuração é lida ao resolver o serviço, e não no startup,
+    /// para os testes poderem trocá-la.
+    /// </summary>
+    public static IServiceCollection AdicionarRedeDeApoio(
+        this IServiceCollection servicos, Func<IServiceProvider, ConfiguracaoRedeDeApoio> configuracao)
+    {
+        servicos.AddHttpClient<ClienteRedeDeApoio>((provedor, cliente) =>
+        {
+            var config = configuracao(provedor);
+            cliente.BaseAddress = new Uri(config.Url!.TrimEnd('/') + "/");
+            cliente.Timeout = TimeSpan.FromSeconds(5);
+            cliente.DefaultRequestHeaders.Add(ClienteRedeDeApoio.CabecalhoChave, config.Chave ?? string.Empty);
+        });
+
+        servicos.AddScoped<IRedeDeApoio>(provedor =>
+            string.IsNullOrWhiteSpace(configuracao(provedor).Url)
+                ? new RedeDeApoioDesativada()
+                : provedor.GetRequiredService<ClienteRedeDeApoio>());
+
         return servicos;
     }
 }

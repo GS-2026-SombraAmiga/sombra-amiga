@@ -13,8 +13,11 @@ public sealed class ApiFabrica : WebApplicationFactory<Program>
 {
     private readonly string _arquivo = Path.Combine(Path.GetTempPath(), $"sombra-testes-{Guid.NewGuid()}.db");
 
-    protected override void ConfigureWebHost(IWebHostBuilder builder) =>
+    protected override void ConfigureWebHost(IWebHostBuilder builder)
+    {
         builder.UseSetting("ConnectionStrings:Padrao", $"Data Source={_arquivo}");
+        builder.UseSetting("RedeDeApoio:Url", string.Empty);
+    }
 
     protected override void Dispose(bool disposing)
     {
