@@ -1,4 +1,4 @@
-# Sombra Amiga (nome provisório)
+# Sombra Amiga
 
 CitizenTech da Global Solution 2026.2, FIAP, Engenharia de Software, 3º ano.
 
@@ -11,7 +11,7 @@ CitizenTech da Global Solution 2026.2, FIAP, Engenharia de Software, 3º ano.
 
 | Campo | Conteúdo |
 |---|---|
-| **Nome** | Sombra Amiga (provisório) |
+| **Nome** | Sombra Amiga |
 | **Cidade e bairro** | São Paulo, Brasilândia (zona norte) |
 | **Cidadão beneficiado** | Idosos e trabalhadores de rua expostos ao calor extremo |
 | **Problema, em uma frase** | Nos dias de calor extremo, idosos e trabalhadores de rua não sabem a tempo que correm risco nem onde encontrar sombra e água por perto. |
@@ -27,7 +27,7 @@ CitizenTech da Global Solution 2026.2, FIAP, Engenharia de Software, 3º ano.
 |---|---|---|
 | [api/](api/) | API principal em C# | C# Software Development |
 | [servico-soa/](servico-soa/) | Rede de Apoio, serviço Java (Spring Boot) | SOA e Web Services |
-| [mobile/](mobile/) | App Expo do cidadão | Mobile Development & IOT |
+| [mobile/](mobile/) | App do cidadão (Expo, React Native) | Mobile Development & IOT |
 | [web/](web/) | Painel web | Operating Systems (aplicação hospedada) |
 | [iot/](iot/) | Circuito ESP32 no Wokwi | Physical Computing |
 | [ml/](ml/) | Previsão de risco de calor | IA & Machine Learning |
