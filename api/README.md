@@ -62,9 +62,15 @@ Os ajustes por perfil são **critério da equipe, sem validação clínica**: +3
 
 ## Integração com a Rede de Apoio
 
-Um check-in **"preciso de ajuda"** abre um pedido no serviço Java [Rede de Apoio](../servico-soa/README.md) (`POST /api/pedidos`, autenticado pelo cabeçalho `X-Chave-Servico`). O check-in é salvo antes e nunca é desfeito: se a Rede de Apoio estiver fora do ar, a falha só fica registrada no log.
+Um check-in **"preciso de ajuda"** abre um pedido no serviço Java [Rede de Apoio](../servico-soa/README.md) (`POST /api/pedidos`, autenticado pelo cabeçalho `X-Chave-Servico`).
+
+O check-in é salvo e confirmado na hora, e o pedido vai para uma fila enviada em segundo plano. Assim o cidadão não espera a Rede de Apoio, nem quando ela está fora do ar: nesse caso, a falha só fica registrada no log. Teste e medições em [docs/evidencias](../docs/evidencias/rede-de-apoio-ponta-a-ponta.md).
 
 A configuração fica em `appsettings.json`, na seção `RedeDeApoio` (`Url` e `Chave`). Com `Url` vazia, a integração fica desligada.
+
+**Limitação:** a fila fica em memória, então pedidos ainda não enviados se perdem se a API for reiniciada, e um envio que falhou não é tentado de novo.
+
+A especificação OpenAPI exportada está em [docs/swagger.json](docs/swagger.json).
 
 ## Privacidade
 

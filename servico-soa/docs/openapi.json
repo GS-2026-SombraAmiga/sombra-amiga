@@ -1,0 +1,960 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Rede de Apoio - Sombra Amiga",
+        "description": "Servico da CitizenTech Sombra Amiga que conecta idosos e trabalhadores de rua que pedem ajuda em dias de calor extremo a agentes comunitarios de saude e voluntarios do bairro.\n\nPara testar: faca POST /api/auth/login com o coordenador de desenvolvimento (veja o README), copie o tokenJWT e cole no botao Authorize.",
+        "contact": {
+            "name": "Glauco Heitor Goncalves (RM 555978) e Pedro Henrique Junqueira (RM 556278)"
+        },
+        "license": {
+            "name": "Uso academico - FIAP Global Solution 2026"
+        },
+        "version": "v1"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8085",
+            "description": "Generated server url"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Autenticação",
+            "description": "Login dos agentes"
+        },
+        {
+            "name": "Pedidos de ajuda",
+            "description": "Abertura, aceite e conclusão dos pedidos de ajuda"
+        },
+        {
+            "name": "Agentes",
+            "description": "Cadastro de agentes comunitários de saúde e voluntários (exclusão lógica)"
+        }
+    ],
+    "paths": {
+        "/api/agentes/{id}": {
+            "get": {
+                "tags": [
+                    "Agentes"
+                ],
+                "summary": "Detalha um agente",
+                "operationId": "detalharAgente",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Id inexistente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DadosDetalhamentoAgente"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer-key": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Agentes"
+                ],
+                "summary": "Atualiza nome e bairro do agente",
+                "operationId": "atualizarAgente",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DadosAtualizacaoAgente"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "404": {
+                        "description": "Id inexistente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DadosDetalhamentoAgente"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer-key": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Agentes"
+                ],
+                "summary": "Desativa um agente",
+                "description": "Exclusão lógica: o agente deixa de fazer login, e o histórico é mantido.",
+                "operationId": "desativarAgente",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Agente desativado"
+                    },
+                    "404": {
+                        "description": "Id inexistente"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer-key": []
+                    }
+                ]
+            }
+        },
+        "/api/pedidos": {
+            "get": {
+                "tags": [
+                    "Pedidos de ajuda"
+                ],
+                "summary": "Lista os pedidos",
+                "description": "Sem filtro, traz os pedidos abertos e em atendimento, do mais antigo ao mais novo.",
+                "operationId": "listarPedidos",
+                "parameters": [
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filtra por status",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "ABERTO",
+                                "EM_ATENDIMENTO",
+                                "CONCLUIDO"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Zero-based page index (0..N)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 0,
+                            "minimum": 0
+                        }
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "description": "The size of the page to be returned",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 10,
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "default": [
+                                "abertoEm,ASC"
+                            ],
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PagedModelDadosDetalhamentoPedido"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer-key": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Pedidos de ajuda"
+                ],
+                "summary": "Abre um pedido de ajuda",
+                "description": "Chamado pela API principal quando o cidadão faz o check-in \"preciso de ajuda\". O cidadão é confirmado na API principal antes de o pedido ser aberto.",
+                "operationId": "abrirPedido",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DadosAberturaPedido"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pedido aberto",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DadosDetalhamentoPedido"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Cidadão inexistente na API principal",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DadosDetalhamentoPedido"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Já existe um pedido em andamento para o cidadão",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DadosDetalhamentoPedido"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "API principal indisponível",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DadosDetalhamentoPedido"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "chave-servico": []
+                    },
+                    {
+                        "bearer-key": []
+                    }
+                ]
+            }
+        },
+        "/api/pedidos/{id}/concluir": {
+            "post": {
+                "tags": [
+                    "Pedidos de ajuda"
+                ],
+                "summary": "Conclui um pedido em atendimento",
+                "description": "Somente o agente responsável pode concluir.",
+                "operationId": "concluirPedido",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DadosConclusaoPedido"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Pedido concluído",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DadosDetalhamentoPedido"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Pedido não está em atendimento",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DadosDetalhamentoPedido"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Pedido está com outro agente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DadosDetalhamentoPedido"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer-key": []
+                    }
+                ]
+            }
+        },
+        "/api/pedidos/{id}/aceitar": {
+            "post": {
+                "tags": [
+                    "Pedidos de ajuda"
+                ],
+                "summary": "Aceita um pedido aberto",
+                "description": "O pedido passa para EM_ATENDIMENTO com o agente logado. Cada agente atende no máximo 3 pedidos ao mesmo tempo.",
+                "operationId": "aceitarPedido",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pedido aceito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DadosDetalhamentoPedido"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Limite de atendimentos atingido",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DadosDetalhamentoPedido"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Pedido já aceito por outro agente ou já concluído",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DadosDetalhamentoPedido"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer-key": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Faz login e devolve o token JWT",
+                "description": "O token vale por 2 horas.",
+                "operationId": "login",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DadosLogin"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login realizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DadosTokenJWT"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "E-mail ou senha inválidos, ou agente desativado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DadosTokenJWT"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/agentes": {
+            "get": {
+                "tags": [
+                    "Agentes"
+                ],
+                "summary": "Lista os agentes ativos",
+                "description": "Paginada, 10 por página, ordenada por nome.",
+                "operationId": "listarAgentes",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Zero-based page index (0..N)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 0,
+                            "minimum": 0
+                        }
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "description": "The size of the page to be returned",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 10,
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "default": [
+                                "nome,ASC"
+                            ],
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PagedModelDadosListagemAgente"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer-key": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Agentes"
+                ],
+                "summary": "Cadastra um agente",
+                "description": "Somente COORDENADOR. O e-mail é único e a senha é gravada com BCrypt.",
+                "operationId": "cadastrarAgente",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DadosCadastroAgente"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Agente cadastrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DadosDetalhamentoAgente"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Dados inválidos ou e-mail já cadastrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DadosDetalhamentoAgente"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Perfil sem permissão",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DadosDetalhamentoAgente"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer-key": []
+                    }
+                ]
+            }
+        },
+        "/health-check": {
+            "get": {
+                "tags": [
+                    "Health check"
+                ],
+                "summary": "Indica se o serviço está no ar",
+                "operationId": "healthCheck",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/pedidos/{id}": {
+            "get": {
+                "tags": [
+                    "Pedidos de ajuda"
+                ],
+                "summary": "Detalha um pedido",
+                "operationId": "detalharPedido",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Id inexistente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DadosDetalhamentoPedido"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer-key": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "DadosAtualizacaoAgente": {
+                "type": "object",
+                "properties": {
+                    "nome": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 0
+                    },
+                    "bairro": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 0
+                    }
+                }
+            },
+            "DadosDetalhamentoAgente": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "nome": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "bairro": {
+                        "type": "string"
+                    },
+                    "tipo": {
+                        "type": "string",
+                        "enum": [
+                            "AGENTE_COMUNITARIO_SAUDE",
+                            "VOLUNTARIO"
+                        ]
+                    },
+                    "perfil": {
+                        "type": "string",
+                        "enum": [
+                            "COORDENADOR",
+                            "AGENTE"
+                        ]
+                    },
+                    "ativo": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "DadosAberturaPedido": {
+                "type": "object",
+                "properties": {
+                    "cidadaoId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "latitude": {
+                        "type": "number",
+                        "format": "double",
+                        "maximum": 90,
+                        "minimum": -90
+                    },
+                    "longitude": {
+                        "type": "number",
+                        "format": "double",
+                        "maximum": 180,
+                        "minimum": -180
+                    }
+                },
+                "required": [
+                    "cidadaoId"
+                ]
+            },
+            "DadosDetalhamentoPedido": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "cidadaoId": {
+                        "type": "string"
+                    },
+                    "nomeCidadao": {
+                        "type": "string"
+                    },
+                    "perfilCidadao": {
+                        "type": "string"
+                    },
+                    "latitude": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "longitude": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "ABERTO",
+                            "EM_ATENDIMENTO",
+                            "CONCLUIDO"
+                        ]
+                    },
+                    "agenteId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "nomeAgente": {
+                        "type": "string"
+                    },
+                    "abertoEm": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "aceitoEm": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "concluidoEm": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "observacao": {
+                        "type": "string"
+                    }
+                }
+            },
+            "DadosConclusaoPedido": {
+                "type": "object",
+                "properties": {
+                    "observacao": {
+                        "type": "string",
+                        "maxLength": 500,
+                        "minLength": 0
+                    }
+                },
+                "required": [
+                    "observacao"
+                ]
+            },
+            "DadosLogin": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "senha": {
+                        "type": "string",
+                        "minLength": 1
+                    }
+                },
+                "required": [
+                    "email",
+                    "senha"
+                ]
+            },
+            "DadosTokenJWT": {
+                "type": "object",
+                "properties": {
+                    "tokenJWT": {
+                        "type": "string"
+                    }
+                }
+            },
+            "DadosCadastroAgente": {
+                "type": "object",
+                "properties": {
+                    "nome": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 0
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "maxLength": 100,
+                        "minLength": 0
+                    },
+                    "senha": {
+                        "type": "string",
+                        "maxLength": 72,
+                        "minLength": 8
+                    },
+                    "bairro": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 0
+                    },
+                    "tipo": {
+                        "type": "string",
+                        "enum": [
+                            "AGENTE_COMUNITARIO_SAUDE",
+                            "VOLUNTARIO"
+                        ]
+                    },
+                    "perfil": {
+                        "type": "string",
+                        "enum": [
+                            "COORDENADOR",
+                            "AGENTE"
+                        ]
+                    }
+                },
+                "required": [
+                    "bairro",
+                    "email",
+                    "nome",
+                    "perfil",
+                    "senha",
+                    "tipo"
+                ]
+            },
+            "PageMetadata": {
+                "type": "object",
+                "properties": {
+                    "size": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "number": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "totalElements": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "totalPages": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "PagedModelDadosDetalhamentoPedido": {
+                "type": "object",
+                "properties": {
+                    "content": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DadosDetalhamentoPedido"
+                        }
+                    },
+                    "page": {
+                        "$ref": "#/components/schemas/PageMetadata"
+                    }
+                }
+            },
+            "DadosListagemAgente": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "nome": {
+                        "type": "string"
+                    },
+                    "bairro": {
+                        "type": "string"
+                    },
+                    "tipo": {
+                        "type": "string",
+                        "enum": [
+                            "AGENTE_COMUNITARIO_SAUDE",
+                            "VOLUNTARIO"
+                        ]
+                    },
+                    "perfil": {
+                        "type": "string",
+                        "enum": [
+                            "COORDENADOR",
+                            "AGENTE"
+                        ]
+                    }
+                }
+            },
+            "PagedModelDadosListagemAgente": {
+                "type": "object",
+                "properties": {
+                    "content": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DadosListagemAgente"
+                        }
+                    },
+                    "page": {
+                        "$ref": "#/components/schemas/PageMetadata"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearer-key": {
+                "type": "http",
+                "description": "Token JWT obtido em POST /api/auth/login",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            },
+            "chave-servico": {
+                "type": "apiKey",
+                "description": "Chave usada pela API principal (C#) para abrir pedidos",
+                "name": "X-Chave-Servico",
+                "in": "header"
+            }
+        }
+    }
+}

@@ -53,7 +53,9 @@ cd servico-soa
 ./mvnw spring-boot:run
 ```
 
-**3. Documentação dos endpoints:** http://localhost:8085/swagger-ui.html
+**3. Documentação dos endpoints:** http://localhost:8085/swagger-ui.html. Uma cópia da especificação gerada fica em [docs/openapi.json](docs/openapi.json).
+
+**Evidências:** o fluxo completo com a API principal e o MySQL está registrado em [docs/evidencias](../docs/evidencias/rede-de-apoio-ponta-a-ponta.md).
 
 Para testar no Swagger, faça `POST /api/auth/login` com o coordenador de desenvolvimento, copie o `tokenJWT` e cole no botão **Authorize**.
 

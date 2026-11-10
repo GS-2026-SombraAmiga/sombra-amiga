@@ -47,10 +47,14 @@ public static class InjecaoDeDependencia
             cliente.DefaultRequestHeaders.Add(ClienteRedeDeApoio.CabecalhoChave, config.Chave ?? string.Empty);
         });
 
+        // O check-in só enfileira; o envio acontece em segundo plano.
+        servicos.AddSingleton<FilaRedeDeApoio>();
+        servicos.AddHostedService<EnvioRedeDeApoio>();
+
         servicos.AddScoped<IRedeDeApoio>(provedor =>
             string.IsNullOrWhiteSpace(configuracao(provedor).Url)
                 ? new RedeDeApoioDesativada()
-                : provedor.GetRequiredService<ClienteRedeDeApoio>());
+                : provedor.GetRequiredService<FilaRedeDeApoio>());
 
         return servicos;
     }

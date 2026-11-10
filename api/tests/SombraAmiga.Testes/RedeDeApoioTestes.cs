@@ -54,6 +54,23 @@ public class ServicoCheckInsTestes : TesteComBanco
     }
 }
 
+public class FilaRedeDeApoioTestes
+{
+    [Fact]
+    public async Task Pedido_entra_na_fila_sem_esperar_o_envio()
+    {
+        var fila = new FilaRedeDeApoio();
+        var cidadaoId = Guid.NewGuid();
+
+        var tarefa = fila.SolicitarAjudaAsync(cidadaoId);
+
+        Assert.True(tarefa.IsCompletedSuccessfully);
+        await tarefa;
+        Assert.True(fila.Leitor.TryRead(out var lido));
+        Assert.Equal(cidadaoId, lido);
+    }
+}
+
 public class ClienteRedeDeApoioTestes
 {
     private sealed class ServidorFalso(Func<HttpRequestMessage, HttpResponseMessage> responder) : HttpMessageHandler
