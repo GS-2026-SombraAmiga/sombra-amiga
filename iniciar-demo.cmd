@@ -30,3 +30,10 @@ start "App Sombra Amiga" /d "%~dp0mobile" cmd /k npx expo start
 
 rem Opcional, para o pedido de ajuda chegar a Rede de Apoio (precisa do MySQL ligado):
 rem start "Rede de Apoio" /d "%~dp0servico-soa" cmd /k mvnw.cmd spring-boot:run
+
+rem Cenario da gravacao: leitura de calor extremo e previsao para amanha.
+echo.
+powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0demo\cenario-demo.ps1"
+echo.
+echo  Pode fechar esta janela.
+pause

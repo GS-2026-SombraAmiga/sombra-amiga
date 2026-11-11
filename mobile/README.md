@@ -47,6 +47,8 @@ App do cidadão da CitizenTech **Sombra Amiga**, disciplina **Mobile Development
 
 **Jeito mais fácil (Windows):** dê dois cliques em [`iniciar-demo.cmd`](../iniciar-demo.cmd), na raiz do repositório. Ele descobre o IP do computador na rede e abre duas janelas, uma com a API e outra com o app. No iPhone, aponte a Câmera para o QR code que aparece na janela do app.
 
+O mesmo atalho também prepara o **cenário de demonstração**: uma leitura de calor extremo no sensor simulado da Praça da Sombra e a previsão de calor para amanhã. O "Calor agora" considera só as leituras das últimas 3 horas; depois disso, dê dois cliques em [`atualizar-calor-demo.cmd`](../atualizar-calor-demo.cmd) para renovar.
+
 **Manualmente:**
 
 ```bash
