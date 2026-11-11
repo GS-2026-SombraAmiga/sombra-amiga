@@ -1,8 +1,8 @@
-# Cybersecurity: o que dá para extrair dos slides 28 e 29
+# Cybersecurity: plano da missão técnica
 
-Os slides são vagos. A coluna "Nossa leitura" é interpretação da equipe, não uma instrução do professor.
+Como a equipe interpreta cada item da missão técnica (slides 28 e 29 do Kick Off) e o que será construído para atendê-lo.
 
-| O que o slide diz | Pontos | Nossa leitura | O que vamos construir |
+| O que o slide diz | Pontos | Interpretação | O que vamos construir |
 |---|---|---|---|
 | "Configurar novas regras no motor de parsing para detectar dados sensíveis (CPF, saúde, senhas)" | 3,0 | Analisar o código e achar onde há dados pessoais | Regras em arquivo de configuração, por nome de campo e por padrão de valor |
 | "Rastrear o fluxo das informações coletadas e bloquear vazamentos em saídas inseguras" | 3,0 | Seguir o dado da entrada até uma saída perigosa | Mapa de entradas, saídas e tratamentos, com falha da verificação quando houver vazamento |
@@ -33,7 +33,6 @@ Para mostrar a ferramenta em ação, a auditoria usa um exemplo de vazamento ide
 - Análise simples, dentro de cada método. O objetivo é funcionar bem em poucos casos.
 - Risco Cidadão: soma de sensibilidade do dado × exposição da saída, normalizada de 0 a 100. A fórmula é definida pela equipe e documentada.
 
-## Em aberto
+## Ponto de partida
 
-- A equipe não fez o checkpoint anterior, a plataforma com login, então não há código para reaproveitar. A ferramenta será construída do zero.
-- As demais dúvidas estão em [duvidas-professores.md](duvidas-professores.md).
+A ferramenta é construída do zero, na pasta `cyber/`, e analisa o código do próprio protótipo do Sombra Amiga.

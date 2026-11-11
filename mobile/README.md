@@ -91,7 +91,7 @@ src/
 
 ## Prints das telas
 
-Tirados no iPhone, com o app aberto pelo Expo Go e dados fictícios. O botão azul de engrenagem é a ferramenta de desenvolvimento do Expo Go, e não faz parte do app.
+Tirados no iPhone, com o app aberto pelo Expo Go e dados fictícios.
 
 | Cadastro | CPF inválido | Risco de calor | Estou bem |
 |---|---|---|---|

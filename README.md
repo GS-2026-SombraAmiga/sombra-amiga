@@ -33,7 +33,7 @@ CitizenTech da Global Solution 2026.2, FIAP, Engenharia de Software, 3º ano.
 | [ml/](ml/) | Previsão de risco de calor | IA & Machine Learning |
 | [infra/](infra/) | Provisionamento Linux | Operating Systems |
 | [cyber/](cyber/) | PII, Taint Analysis, Risco Cidadão | Cybersecurity |
-| [docs/](docs/) | Pesquisa, evidências, dúvidas | Todas |
+| [docs/](docs/) | Pesquisa, evidências, plano de Cybersecurity e Testing | Todas |
 
 ## Pesquisa sobre o cidadão
 
