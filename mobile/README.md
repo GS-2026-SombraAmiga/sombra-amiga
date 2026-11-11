@@ -89,7 +89,15 @@ src/
 
 ## Prints das telas
 
-Tirados no iPhone, com o app aberto pelo Expo Go. Ficam em [`docs/prints/`](docs/prints/).
+Tirados no iPhone, com o app aberto pelo Expo Go e dados fictícios. O botão azul de engrenagem é a ferramenta de desenvolvimento do Expo Go, e não faz parte do app.
+
+| Cadastro | CPF inválido | Risco de calor | Estou bem |
+|---|---|---|---|
+| <img src="docs/prints/01-cadastro.jpeg" width="200" alt="Tela de cadastro com a escolha entre idoso e trabalhador de rua"> | <img src="docs/prints/02-cpf-invalido.jpeg" width="200" alt="Cadastro recusado com a mensagem CPF inválido"> | <img src="docs/prints/03-inicio-risco.jpeg" width="200" alt="Tela inicial com previsão para amanhã e risco extremo de 48,6 °C"> | <img src="docs/prints/04-check-in.jpeg" width="200" alt="Confirmação do check-in estou bem com o horário"> |
+
+| Pedido de ajuda | Sombra e água | Alertas | Sem conexão |
+|---|---|---|---|
+| <img src="docs/prints/05-pedido-ajuda.jpeg" width="200" alt="Confirmação do pedido de ajuda enviado à Rede de Apoio"> | <img src="docs/prints/06-pontos.jpeg" width="200" alt="Lista de pontos de sombra e água ordenada pela distância"> | <img src="docs/prints/07-alertas.jpeg" width="200" alt="Alertas ativos: previsão do modelo e medição do sensor"> | <img src="docs/prints/08-sem-conexao.jpeg" width="200" alt="Modo avião: aviso de que o check-in não foi enviado"> |
 
 ## Vídeo
 
