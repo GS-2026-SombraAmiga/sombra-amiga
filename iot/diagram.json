@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "author": "Glauco Heitor Gonçalves e Pedro Henrique Junqueira",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-esp32-devkit-v1", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+    {
+      "type": "wokwi-dht22",
+      "id": "dht1",
+      "top": -105.6,
+      "left": -153.6,
+      "attrs": { "temperature": "38", "humidity": "50" }
+    },
+    { "type": "wokwi-lcd1602", "id": "lcd1", "top": -150, "left": 140, "attrs": { "pins": "i2c" } },
+    { "type": "wokwi-led", "id": "ledVerde", "top": 150, "left": 220, "attrs": { "color": "green" } },
+    { "type": "wokwi-led", "id": "ledAmarelo", "top": 150, "left": 270, "attrs": { "color": "yellow" } },
+    { "type": "wokwi-led", "id": "ledVermelho", "top": 150, "left": 320, "attrs": { "color": "red" } },
+    { "type": "wokwi-resistor", "id": "r1", "top": 110, "left": 160, "rotate": 90, "attrs": { "value": "220" } },
+    { "type": "wokwi-resistor", "id": "r2", "top": 110, "left": 250, "rotate": 90, "attrs": { "value": "220" } },
+    { "type": "wokwi-resistor", "id": "r3", "top": 110, "left": 300, "rotate": 90, "attrs": { "value": "220" } },
+    { "type": "wokwi-buzzer", "id": "bz1", "top": 150, "left": -150, "attrs": { "volume": "0.3" } }
+  ],
+  "connections": [
+    [ "esp:TX0", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX0", "$serialMonitor:TX", "", [] ],
+
+    [ "dht1:VCC", "esp:3V3", "red", [] ],
+    [ "dht1:GND", "esp:GND.1", "black", [] ],
+    [ "dht1:SDA", "esp:D15", "green", [] ],
+
+    [ "lcd1:VCC", "esp:VIN", "red", [] ],
+    [ "lcd1:GND", "esp:GND.2", "black", [] ],
+    [ "lcd1:SDA", "esp:D21", "blue", [] ],
+    [ "lcd1:SCL", "esp:D22", "purple", [] ],
+
+    [ "esp:D25", "r1:1", "green", [] ],
+    [ "r1:2", "ledVerde:A", "green", [] ],
+    [ "ledVerde:C", "esp:GND.1", "black", [] ],
+
+    [ "esp:D26", "r2:1", "gold", [] ],
+    [ "r2:2", "ledAmarelo:A", "gold", [] ],
+    [ "ledAmarelo:C", "esp:GND.1", "black", [] ],
+
+    [ "esp:D27", "r3:1", "red", [] ],
+    [ "r3:2", "ledVermelho:A", "red", [] ],
+    [ "ledVermelho:C", "esp:GND.1", "black", [] ],
+
+    [ "bz1:2", "esp:D14", "orange", [] ],
+    [ "bz1:1", "esp:GND.2", "black", [] ]
+  ],
+  "dependencies": {}
+}

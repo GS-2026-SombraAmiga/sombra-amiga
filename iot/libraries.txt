@@ -1,0 +1,3 @@
+# Bibliotecas do Wokwi (aba Library Manager)
+DHT sensor library for ESPx
+LiquidCrystal I2C
