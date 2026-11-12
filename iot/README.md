@@ -4,6 +4,8 @@ Parte da CitizenTech **Sombra Amiga** na disciplina **Physical Computing: IOT & 
 
 **Integrantes:** Glauco Heitor Gonçalves (RM 555978) e Pedro Henrique Junqueira (RM 556278).
 
+**Projeto no Wokwi:** https://wokwi.com/projects/480442217730381825
+
 ## Por que um circuito no ponto de hidratação
 
 O app avisa quem tem celular e internet, mas nem todo mundo que passa pela praça tem os dois. A estação no ponto de hidratação resolve isso de duas formas:
