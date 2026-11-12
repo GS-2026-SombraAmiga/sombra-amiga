@@ -48,6 +48,7 @@ Nivel nivelAtual = SEM_NIVEL;
 unsigned long ultimaLeitura = 0;
 unsigned long ultimoEnvio = 0;
 unsigned long ultimoBipe = 0;
+bool envioPendente = true;  // leitura ainda nao entregue a API (ex.: Wi-Fi conectando)
 String statusRede = "Conectando...";
 
 // ---------------- Regras ----------------
@@ -111,12 +112,14 @@ void bipar(int vezes) {
 // ---------------- Rede ----------------
 
 void enviarLeitura(float temperaturaC, float umidade) {
-  ultimoEnvio = millis();
-
   if (WiFi.status() != WL_CONNECTED) {
-    statusRede = "SEM REDE";
+    // Sem Wi-Fi a leitura fica pendente e sai assim que a rede conectar.
+    statusRede = millis() < 15000 ? "Conectando..." : "SEM REDE";
+    envioPendente = true;
     return;
   }
+  ultimoEnvio = millis();
+  envioPendente = false;
 
   String url = String(API_URL) + "/api/leituras";
   String corpo = String("{\"pontoId\":\"") + PONTO_ID + "\",\"temperaturaC\":" + String(temperaturaC, 1)
@@ -170,13 +173,9 @@ void lerSensor() {
   acenderLeds(nivel);
   escreverLinha(0, String(indice, 1) + (char)223 + "C " + nomeNivel(nivel));
 
-  if (WiFi.status() != WL_CONNECTED) {
-    statusRede = "SEM REDE";
-  }
-
-  // Envia na hora quando o nivel muda; fora isso, a cada 30 segundos.
-  if (mudouNivel || millis() - ultimoEnvio >= INTERVALO_ENVIO_MS) {
-    escreverLinha(1, "Enviando...");
+  // Envia na hora quando o nivel muda ou quando havia leitura pendente; fora isso, a cada 30 segundos.
+  if (mudouNivel || envioPendente || millis() - ultimoEnvio >= INTERVALO_ENVIO_MS) {
+    if (WiFi.status() == WL_CONNECTED) escreverLinha(1, "Enviando...");
     enviarLeitura(leitura.temperature, leitura.humidity);
   }
   escreverLinha(1, statusRede);
