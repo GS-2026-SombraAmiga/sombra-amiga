@@ -18,7 +18,7 @@
     { "type": "wokwi-resistor", "id": "r1", "top": 110, "left": 160, "rotate": 90, "attrs": { "value": "220" } },
     { "type": "wokwi-resistor", "id": "r2", "top": 110, "left": 250, "rotate": 90, "attrs": { "value": "220" } },
     { "type": "wokwi-resistor", "id": "r3", "top": 110, "left": 300, "rotate": 90, "attrs": { "value": "220" } },
-    { "type": "wokwi-buzzer", "id": "bz1", "top": 150, "left": -150, "attrs": { "volume": "0.3" } }
+    { "type": "wokwi-buzzer", "id": "bz1", "top": 150, "left": -150, "attrs": { "volume": "0.05" } }
   ],
   "connections": [
     [ "esp:TX0", "$serialMonitor:RX", "", [] ],

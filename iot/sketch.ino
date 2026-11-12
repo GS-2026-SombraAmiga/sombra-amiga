@@ -31,7 +31,7 @@ const int PINO_BUZZER = 14;
 
 const unsigned long INTERVALO_LEITURA_MS = 2000;   // nova leitura do sensor
 const unsigned long INTERVALO_ENVIO_MS = 30000;    // envio periodico para a API
-const unsigned long INTERVALO_BIPE_MS = 10000;     // bipe repetido no nivel extremo
+const unsigned long INTERVALO_BIPE_MS = 60000;     // bipe repetido no nivel extremo
 
 // Faixas de sensacao termica, iguais as da API principal (base: NWS).
 const float LIMITE_ATENCAO = 27.0;
@@ -102,8 +102,8 @@ void acenderLeds(Nivel n) {
 
 void bipar(int vezes) {
   for (int i = 0; i < vezes; i++) {
-    tone(PINO_BUZZER, 1200, 150);
-    delay(250);
+    tone(PINO_BUZZER, 1000, 100);
+    delay(200);
   }
   noTone(PINO_BUZZER);
 }
@@ -187,7 +187,7 @@ void lerSensor() {
   // No nivel extremo, o buzzer chama a atencao de quem passa pelo ponto.
   if (nivel == EXTREMO && (mudouNivel || millis() - ultimoBipe >= INTERVALO_BIPE_MS)) {
     ultimoBipe = millis();
-    bipar(3);
+    bipar(2);
   }
 }
 

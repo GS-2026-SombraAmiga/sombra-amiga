@@ -22,7 +22,7 @@ A cada 2 segundos, o ESP32 lê temperatura e umidade no DHT22 e calcula a **sens
 | abaixo de 27 °C | BAIXO | verde | silêncio |
 | de 27 °C a 32 °C | ATENCAO | amarelo | silêncio |
 | de 32 °C a 41 °C | ALTO | vermelho | silêncio |
-| 41 °C ou mais | EXTREMO | vermelho | 3 bipes, repetidos a cada 10 s |
+| 41 °C ou mais | EXTREMO | vermelho | 2 bipes curtos ao entrar no nível, repetidos a cada minuto |
 
 **Display:**
 - **Linha 1:** sensação e nível, por exemplo `48.6°C EXTREMO`.
