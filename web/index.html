@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sombra Amiga - Painel</title>
+  <link rel="stylesheet" href="estilo.css">
+  <script src="config.js"></script>
+  <script src="painel.js" defer></script>
+</head>
+<body>
+  <header class="topo">
+    <div>
+      <h1>Sombra Amiga</h1>
+      <p class="subtitulo">Painel de acompanhamento do calor · Brasilândia</p>
+    </div>
+    <p class="atualizacao" id="atualizacao" aria-live="polite">Carregando...</p>
+  </header>
+
+  <main>
+    <div class="aviso" id="aviso" role="alert" hidden></div>
+
+    <section class="indicadores" aria-label="Resumo">
+      <article class="indicador">
+        <p class="rotulo">Alertas ativos</p>
+        <p class="valor" id="totalAlertas">–</p>
+      </article>
+      <article class="indicador">
+        <p class="rotulo">Pontos em risco alto ou extremo</p>
+        <p class="valor" id="pontosEmRisco">–</p>
+      </article>
+      <article class="indicador">
+        <p class="rotulo">Check-ins confirmados em dias de alerta (7 dias)</p>
+        <p class="valor" id="percentual">–</p>
+        <p class="detalhe" id="detalheImpacto"></p>
+      </article>
+    </section>
+
+    <section aria-labelledby="tituloAlertas">
+      <h2 id="tituloAlertas">Alertas ativos</h2>
+      <ul class="alertas" id="alertas"></ul>
+    </section>
+
+    <section aria-labelledby="tituloPontos">
+      <h2 id="tituloPontos">Pontos de sombra e água</h2>
+      <div class="tabela-rolagem">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Ponto</th>
+              <th scope="col">Tipo</th>
+              <th scope="col">Sensação</th>
+              <th scope="col">Nível</th>
+              <th scope="col">Última leitura</th>
+            </tr>
+          </thead>
+          <tbody id="pontos"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Dados simulados para demonstração · <a id="linkSwagger" href="/swagger">Documentação da API</a>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,100 @@
+:root {
+  --fundo: #f3f4f6;
+  --cartao: #ffffff;
+  --borda: #d1d5db;
+  --texto: #111111;
+  --texto-suave: #374151;
+  --primaria: #0b4f8a;
+  --aviso-fundo: #fee2e2;
+  --aviso-texto: #991b1b;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--texto);
+  background: var(--fundo);
+}
+
+.topo {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 8px 24px;
+  padding: 20px 24px;
+  color: #fff;
+  background: var(--primaria);
+}
+
+h1 { margin: 0; font-size: 28px; }
+h2 { margin: 32px 0 12px; font-size: 22px; }
+.subtitulo, .atualizacao { margin: 0; }
+.atualizacao { font-size: 15px; opacity: 0.9; }
+
+main { max-width: 1100px; margin: 0 auto; padding: 0 16px 32px; }
+
+.aviso {
+  margin-top: 20px;
+  padding: 14px 16px;
+  border: 2px solid var(--aviso-texto);
+  border-radius: 12px;
+  color: var(--aviso-texto);
+  background: var(--aviso-fundo);
+  font-weight: 700;
+}
+
+.indicadores {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.indicador, .alerta, .tabela-rolagem {
+  background: var(--cartao);
+  border: 1px solid var(--borda);
+  border-radius: 14px;
+}
+
+.indicador { padding: 16px 20px; }
+.rotulo { margin: 0; color: var(--texto-suave); font-weight: 600; }
+.valor { margin: 4px 0 0; font-size: 36px; font-weight: 800; }
+.detalhe { margin: 4px 0 0; color: var(--texto-suave); font-size: 15px; }
+
+.alertas { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.alerta { padding: 14px 18px; }
+.alerta-cabecalho { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.origem { font-weight: 700; }
+.quando { color: var(--texto-suave); font-size: 15px; }
+.mensagem { margin: 8px 0 0; }
+.vazio { padding: 14px 18px; color: var(--texto-suave); }
+
+.tabela-rolagem { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--borda); white-space: nowrap; }
+thead th { color: var(--texto-suave); font-size: 15px; }
+tbody th { font-weight: 700; }
+tbody tr:last-child > * { border-bottom: none; }
+
+/* O nivel sempre aparece escrito, nao so pela cor. */
+.etiqueta {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.nivel-baixo { color: #fff; background: #166534; }
+.nivel-atencao { color: #111; background: #facc15; }
+.nivel-alto { color: #fff; background: #c2410c; }
+.nivel-extremo { color: #fff; background: #991b1b; }
+.sem-leitura { color: var(--texto-suave); background: #e5e7eb; }
+
+footer { padding: 16px; text-align: center; color: var(--texto-suave); font-size: 15px; }
+footer a { color: var(--primaria); }

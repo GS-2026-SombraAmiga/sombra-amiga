@@ -17,8 +17,8 @@
 // iniciar-tunel-esp32.cmd mostrar (https://....trycloudflare.com).
 const char* API_URL = "https://COLE-O-ENDERECO-AQUI.trycloudflare.com";
 
-// Ponto de hidratacao onde esta estacao esta instalada (Praca da Sombra, simulado).
-const char* PONTO_ID = "11111111-1111-1111-1111-111111111111";
+// Ponto de hidratacao onde esta estacao esta instalada (Bebedouro da UBS, simulado).
+const char* PONTO_ID = "22222222-2222-2222-2222-222222222222";
 
 const char* WIFI_REDE = "Wokwi-GUEST";  // rede aberta do simulador Wokwi
 const char* WIFI_SENHA = "";

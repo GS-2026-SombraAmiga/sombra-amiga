@@ -11,7 +11,7 @@ O app avisa quem tem celular e internet, mas nem todo mundo que passa pela praç
 1. **Avisa ali mesmo**, com display, luzes e som, quem passa pelo ponto.
 2. **Alimenta o sistema:** envia a leitura para a API principal, que calcula o risco mostrado no app, abre os alertas e alimenta o indicador de impacto.
 
-Ela é a fonte dos dados de "Calor agora" do app.
+Ela é a fonte dos dados de "Calor agora" do app. No protótipo, esta estação representa o ponto **Bebedouro da UBS (simulado)**.
 
 ## Comportamento
 

@@ -28,7 +28,7 @@ CitizenTech da Global Solution 2026.2, FIAP, Engenharia de Software, 3º ano.
 | [api/](api/) | API principal em C# | C# Software Development |
 | [servico-soa/](servico-soa/) | Rede de Apoio, serviço Java (Spring Boot) | SOA e Web Services |
 | [mobile/](mobile/) | App do cidadão (Expo, React Native) | Mobile Development & IOT |
-| [web/](web/) | Painel web | Operating Systems (aplicação hospedada) |
+| [web/](web/) | Painel web de acompanhamento (UBS ou ONG) | Operating Systems (aplicação hospedada) |
 | [iot/](iot/) | Estação de monitoramento no ponto (ESP32, Wokwi) | Physical Computing |
 | [ml/](ml/) | Previsão de risco de calor | IA & Machine Learning |
 | [infra/](infra/) | Provisionamento Linux | Operating Systems |
