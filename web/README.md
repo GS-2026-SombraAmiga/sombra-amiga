@@ -27,7 +27,7 @@ São arquivos estáticos, sem etapa de compilação. Na VM, o nginx serve o pain
 
 ## Como testar fora da VM
 
-Com a API rodando na porta 5080:
+Com a API rodando na porta 5080, dê dois cliques em [`abrir-painel.cmd`](../abrir-painel.cmd), na raiz do repositório. Ou, manualmente:
 
 ```bash
 cd web
