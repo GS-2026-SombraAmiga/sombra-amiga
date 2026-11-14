@@ -6,6 +6,8 @@ Parte da CitizenTech **Sombra Amiga** na disciplina **Physical Computing: IOT & 
 
 **Projeto no Wokwi:** https://wokwi.com/projects/480442217730381825
 
+![Circuito da estação no Wokwi: ESP32, DHT22, display LCD, LEDs e buzzer](prints/circuito.png)
+
 ## Por que um circuito no ponto de hidratação
 
 O app avisa quem tem celular e internet, mas nem todo mundo que passa pela praça tem os dois. A estação no ponto de hidratação resolve isso de duas formas:
