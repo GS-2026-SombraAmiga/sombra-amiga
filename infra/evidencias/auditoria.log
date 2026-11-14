@@ -1,0 +1,119 @@
+2026-11-14 04:06:51 | sombra | 01-rede.sh | INICIO | 01-rede.sh iniciado em sombra-amiga-srv
+2026-11-14 04:06:51 | sombra | 01-rede.sh | OK | hostnamectl set-hostname sombra-amiga
+2026-11-14 04:06:51 | sombra | 01-rede.sh | OK | arquivo escrito: /etc/cloud/cloud.cfg.d/99-sombra-amiga.cfg
+2026-11-14 04:06:51 | sombra | 01-rede.sh | OK | arquivo escrito: /etc/hosts
+2026-11-14 04:06:51 | sombra | 01-rede.sh | OK | arquivo escrito: /etc/netplan/60-sombra-amiga.yaml
+2026-11-14 04:06:52 | sombra | 01-rede.sh | OK | netplan apply
+2026-11-14 04:06:52 | sombra | 01-rede.sh | OK | arquivo escrito: /etc/systemd/resolved.conf.d/sombra-amiga.conf
+2026-11-14 04:06:52 | sombra | 01-rede.sh | OK | systemctl restart systemd-resolved
+2026-11-14 01:06:52 | sombra | 01-rede.sh | OK | timedatectl set-timezone America/Sao_Paulo
+2026-11-14 01:06:52 | sombra | 01-rede.sh | OK | ufw default deny incoming
+2026-11-14 01:06:52 | sombra | 01-rede.sh | OK | ufw default allow outgoing
+2026-11-14 01:06:52 | sombra | 01-rede.sh | OK | ufw allow OpenSSH
+2026-11-14 01:06:52 | sombra | 01-rede.sh | OK | ufw allow 80/tcp comment Painel e API da Sombra Amiga (nginx)
+2026-11-14 01:06:53 | sombra | 01-rede.sh | OK | ufw --force enable
+2026-11-14 01:06:53 | sombra | 01-rede.sh | FIM | 01-rede.sh concluído
+2026-11-14 01:06:53 | sombra | 02-aplicacao.sh | INICIO | 02-aplicacao.sh iniciado em sombra-amiga
+2026-11-14 01:06:59 | sombra | 02-aplicacao.sh | OK | apt-get update -q
+2026-11-14 01:07:10 | sombra | 02-aplicacao.sh | OK | apt-get install -y -q nginx aspnetcore-runtime-10.0 sqlite3 curl python3
+2026-11-14 01:07:10 | sombra | 02-aplicacao.sh | OK | useradd --system --no-create-home --home-dir /var/lib/sombra-amiga --shell /usr/sbin/nologin sombra-api
+2026-11-14 01:07:10 | sombra | 02-aplicacao.sh | OK | install -d -m 750 -o sombra-api -g sombra-api /var/lib/sombra-amiga
+2026-11-14 01:07:10 | sombra | 02-aplicacao.sh | OK | install -d -m 755 /etc/sombra-amiga /opt/sombra-amiga
+2026-11-14 01:07:10 | sombra | 02-aplicacao.sh | OK | arquivo escrito: /etc/sombra-amiga/api.env
+2026-11-14 01:07:10 | sombra | 02-aplicacao.sh | OK | rm -rf /opt/sombra-amiga/api.novo
+2026-11-14 01:07:10 | sombra | 02-aplicacao.sh | OK | cp -a /home/sombra/sombra-amiga/infra/../pacote/api /opt/sombra-amiga/api.novo
+2026-11-14 01:07:10 | sombra | 02-aplicacao.sh | OK | mv /opt/sombra-amiga/api.novo /opt/sombra-amiga/api
+2026-11-14 01:07:10 | sombra | 02-aplicacao.sh | OK | chown -R root:root /opt/sombra-amiga/api
+2026-11-14 01:07:10 | sombra | 02-aplicacao.sh | OK | rm -rf /var/www/sombra-amiga
+2026-11-14 01:07:10 | sombra | 02-aplicacao.sh | OK | cp -a /home/sombra/sombra-amiga/infra/../pacote/painel /var/www/sombra-amiga
+2026-11-14 01:07:10 | sombra | 02-aplicacao.sh | OK | chown -R root:root /var/www/sombra-amiga
+2026-11-14 01:07:10 | sombra | 02-aplicacao.sh | OK | arquivo escrito: /etc/systemd/system/sombra-amiga-api.service
+2026-11-14 01:07:11 | sombra | 02-aplicacao.sh | OK | systemctl daemon-reload
+2026-11-14 01:07:11 | sombra | 02-aplicacao.sh | OK | systemctl enable sombra-amiga-api
+2026-11-14 01:07:11 | sombra | 02-aplicacao.sh | OK | systemctl restart sombra-amiga-api
+2026-11-14 01:07:11 | sombra | 02-aplicacao.sh | OK | arquivo escrito: /etc/nginx/sites-available/sombra-amiga
+2026-11-14 01:07:11 | sombra | 02-aplicacao.sh | OK | ln -sf /etc/nginx/sites-available/sombra-amiga /etc/nginx/sites-enabled/sombra-amiga
+2026-11-14 01:07:11 | sombra | 02-aplicacao.sh | OK | rm -f /etc/nginx/sites-enabled/default
+2026-11-14 01:07:11 | sombra | 02-aplicacao.sh | OK | arquivo escrito: /etc/systemd/system/nginx.service.d/reiniciar.conf
+2026-11-14 01:07:11 | sombra | 02-aplicacao.sh | OK | systemctl daemon-reload
+2026-11-14 01:07:11 | sombra | 02-aplicacao.sh | OK | nginx -t
+2026-11-14 01:07:12 | sombra | 02-aplicacao.sh | OK | systemctl enable nginx
+2026-11-14 01:07:12 | sombra | 02-aplicacao.sh | OK | systemctl restart nginx
+2026-11-14 01:07:14 | sombra | 02-aplicacao.sh | FIM | 02-aplicacao.sh concluído
+2026-11-14 01:07:14 | sombra | 03-monitoramento.sh | INICIO | 03-monitoramento.sh iniciado em sombra-amiga
+2026-11-14 01:07:14 | sombra | 03-monitoramento.sh | OK | install -m 755 /home/sombra/sombra-amiga/infra/monitor.sh /usr/local/bin/sombra-amiga-monitor
+2026-11-14 01:07:14 | sombra | 03-monitoramento.sh | OK | arquivo escrito: /etc/sombra-amiga/monitor.conf
+2026-11-14 01:07:14 | sombra | 03-monitoramento.sh | OK | arquivo escrito: /etc/systemd/system/sombra-amiga-monitor.service
+2026-11-14 01:07:14 | sombra | 03-monitoramento.sh | OK | systemctl daemon-reload
+2026-11-14 01:07:14 | sombra | 03-monitoramento.sh | OK | systemctl enable sombra-amiga-monitor
+2026-11-14 01:07:14 | sombra | 03-monitoramento.sh | OK | systemctl restart sombra-amiga-monitor
+2026-11-14 01:07:14 | sombra | 03-monitoramento.sh | OK | arquivo escrito: /etc/logrotate.d/sombra-amiga
+2026-11-14 01:07:14 | sombra | 03-monitoramento.sh | OK | logrotate --debug /etc/logrotate.d/sombra-amiga
+2026-11-14 01:07:21 | sombra | 03-monitoramento.sh | OK | apt-get install -y -q auditd
+2026-11-14 01:07:21 | sombra | 03-monitoramento.sh | OK | arquivo escrito: /etc/audit/rules.d/sombra-amiga.rules
+2026-11-14 01:07:21 | sombra | 03-monitoramento.sh | OK | systemctl enable --now auditd
+2026-11-14 01:07:21 | sombra | 03-monitoramento.sh | OK | augenrules --load
+2026-11-14 01:07:33 | sombra | 03-monitoramento.sh | FIM | 03-monitoramento.sh concluído
+2026-11-14 01:08:04 | sombra | teste-falha.sh | INICIO | teste-falha.sh iniciado em sombra-amiga
+2026-11-14 01:08:05 | sombra | teste-falha.sh | OK | kill -9 2524
+2026-11-14 01:08:10 | sombra | teste-falha.sh | OK | kill -9 2927
+2026-11-14 01:08:15 | sombra | teste-falha.sh | OK | carga de CPU iniciada (1 processos yes por 30s)
+2026-11-14 01:08:57 | sombra | teste-falha.sh | OK | carga de memória iniciada (1430 MB por 30s)
+2026-11-14 01:09:37 | sombra | teste-falha.sh | OK | fallocate -l 19986094K /var/tmp/sombra-teste-disco.img
+2026-11-14 01:09:47 | sombra | teste-falha.sh | OK | rm -f /var/tmp/sombra-teste-disco.img
+2026-11-14 01:09:57 | sombra | teste-falha.sh | FIM | teste-falha.sh concluído
+2026-11-14 01:10:45 | sombra | teste-falha.sh | INICIO | teste-falha.sh iniciado em sombra-amiga
+2026-11-14 01:10:45 | sombra | teste-falha.sh | OK | kill -9 4002
+2026-11-14 01:13:49 | sombra | teste-falha.sh | FIM | teste-falha.sh concluído
+2026-11-14 01:13:49 | sombra | teste-falha.sh | INICIO | teste-falha.sh iniciado em sombra-amiga
+2026-11-14 01:13:49 | sombra | teste-falha.sh | OK | fallocate -l 19986026K /var/tmp/sombra-teste-disco.img
+2026-11-14 01:14:07 | sombra | teste-falha.sh | INICIO | teste-falha.sh iniciado em sombra-amiga
+2026-11-14 01:14:07 | sombra | teste-falha.sh | OK | kill -9 5037
+2026-11-14 01:14:12 | sombra | teste-falha.sh | FIM | teste-falha.sh concluído
+2026-11-14 01:14:12 | sombra | teste-falha.sh | INICIO | teste-falha.sh iniciado em sombra-amiga
+2026-11-14 01:14:12 | sombra | teste-falha.sh | OK | fallocate -l 18791728K /var/tmp/sombra-teste-disco.img
+2026-11-14 01:14:18 | sombra | teste-falha.sh | OK | rm -f /var/tmp/sombra-teste-disco.img
+2026-11-14 01:14:28 | sombra | teste-falha.sh | FIM | teste-falha.sh concluído
+2026-11-14 01:36:42 | sombra | 01-rede.sh | INICIO | 01-rede.sh iniciado em sombra-amiga
+2026-11-14 01:36:42 | sombra | 01-rede.sh | OK | netplan apply
+2026-11-14 01:36:42 | sombra | 01-rede.sh | OK | systemctl restart systemd-resolved
+2026-11-14 01:36:42 | sombra | 01-rede.sh | OK | timedatectl set-timezone America/Sao_Paulo
+2026-11-14 01:36:43 | sombra | 01-rede.sh | OK | ufw default deny incoming
+2026-11-14 01:36:44 | sombra | 01-rede.sh | OK | ufw default allow outgoing
+2026-11-14 01:36:44 | sombra | 01-rede.sh | OK | ufw allow OpenSSH
+2026-11-14 01:36:44 | sombra | 01-rede.sh | OK | ufw allow 80/tcp comment Painel e API da Sombra Amiga (nginx)
+2026-11-14 01:36:44 | sombra | 01-rede.sh | OK | ufw --force enable
+2026-11-14 01:36:44 | sombra | 01-rede.sh | FIM | 01-rede.sh concluído
+2026-11-14 01:36:44 | sombra | 02-aplicacao.sh | INICIO | 02-aplicacao.sh iniciado em sombra-amiga
+2026-11-14 01:36:46 | sombra | 02-aplicacao.sh | OK | apt-get install nginx aspnetcore-runtime-10.0 sqlite3 curl python3
+2026-11-14 01:36:46 | sombra | 02-aplicacao.sh | OK | install -d -m 750 -o sombra-api -g sombra-api /var/lib/sombra-amiga
+2026-11-14 01:36:46 | sombra | 02-aplicacao.sh | OK | install -d -m 755 /etc/sombra-amiga /opt/sombra-amiga
+2026-11-14 01:36:46 | sombra | 02-aplicacao.sh | OK | rm -rf /opt/sombra-amiga/api.novo
+2026-11-14 01:36:46 | sombra | 02-aplicacao.sh | OK | cp -a /home/sombra/sombra-amiga/infra/../pacote/api /opt/sombra-amiga/api.novo
+2026-11-14 01:36:46 | sombra | 02-aplicacao.sh | OK | rm -rf /opt/sombra-amiga/api.anterior
+2026-11-14 01:36:46 | sombra | 02-aplicacao.sh | OK | mv /opt/sombra-amiga/api /opt/sombra-amiga/api.anterior
+2026-11-14 01:36:46 | sombra | 02-aplicacao.sh | OK | mv /opt/sombra-amiga/api.novo /opt/sombra-amiga/api
+2026-11-14 01:36:46 | sombra | 02-aplicacao.sh | OK | chown -R root:root /opt/sombra-amiga/api
+2026-11-14 01:36:46 | sombra | 02-aplicacao.sh | OK | rm -rf /var/www/sombra-amiga
+2026-11-14 01:36:46 | sombra | 02-aplicacao.sh | OK | cp -a /home/sombra/sombra-amiga/infra/../pacote/painel /var/www/sombra-amiga
+2026-11-14 01:36:46 | sombra | 02-aplicacao.sh | OK | chown -R root:root /var/www/sombra-amiga
+2026-11-14 01:36:47 | sombra | 02-aplicacao.sh | OK | systemctl daemon-reload
+2026-11-14 01:36:47 | sombra | 02-aplicacao.sh | OK | systemctl enable sombra-amiga-api
+2026-11-14 01:36:47 | sombra | 02-aplicacao.sh | OK | systemctl restart sombra-amiga-api
+2026-11-14 01:36:47 | sombra | 02-aplicacao.sh | OK | ln -sf /etc/nginx/sites-available/sombra-amiga /etc/nginx/sites-enabled/sombra-amiga
+2026-11-14 01:36:47 | sombra | 02-aplicacao.sh | OK | rm -f /etc/nginx/sites-enabled/default
+2026-11-14 01:36:47 | sombra | 02-aplicacao.sh | OK | systemctl daemon-reload
+2026-11-14 01:36:47 | sombra | 02-aplicacao.sh | OK | nginx -t
+2026-11-14 01:36:49 | sombra | 02-aplicacao.sh | OK | systemctl enable nginx
+2026-11-14 01:36:49 | sombra | 02-aplicacao.sh | OK | systemctl restart nginx
+2026-11-14 01:36:50 | sombra | 02-aplicacao.sh | FIM | 02-aplicacao.sh concluído
+2026-11-14 01:36:50 | sombra | 03-monitoramento.sh | INICIO | 03-monitoramento.sh iniciado em sombra-amiga
+2026-11-14 01:36:50 | sombra | 03-monitoramento.sh | OK | install -m 755 /home/sombra/sombra-amiga/infra/monitor.sh /usr/local/bin/sombra-amiga-monitor
+2026-11-14 01:36:50 | sombra | 03-monitoramento.sh | OK | systemctl daemon-reload
+2026-11-14 01:36:51 | sombra | 03-monitoramento.sh | OK | systemctl enable sombra-amiga-monitor
+2026-11-14 01:36:51 | sombra | 03-monitoramento.sh | OK | systemctl restart sombra-amiga-monitor
+2026-11-14 01:36:51 | sombra | 03-monitoramento.sh | OK | logrotate --debug /etc/logrotate.d/sombra-amiga
+2026-11-14 01:36:53 | sombra | 03-monitoramento.sh | OK | apt-get install auditd
+2026-11-14 01:36:54 | sombra | 03-monitoramento.sh | OK | systemctl enable --now auditd
+2026-11-14 01:36:54 | sombra | 03-monitoramento.sh | OK | augenrules --load
+2026-11-14 01:37:06 | sombra | 03-monitoramento.sh | FIM | 03-monitoramento.sh concluído

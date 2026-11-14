@@ -1,0 +1,54 @@
+
+== Máquina ==
+hostname: sombra-amiga | Ubuntu 24.04.5 LTS | ligada há 25 minutes
+  enp0s3           UP             10.0.2.15/24 metric 100 
+  enp0s8           UP             192.168.56.10/24 
+  DNS: 1.1.1.1 8.8.4.4 8.8.8.8
+
+== Serviços ==
+  sombra-amiga-api       active    pid 6449   reinícios 1
+  nginx                  active    pid 5084   reinícios 0
+  sombra-amiga-monitor   active    pid 6514   reinícios 1
+  auditd                 active    pid 453    reinícios 0
+
+== Portas em escuta ==
+  127.0.0.54:53          systemd-resolve
+  127.0.0.53%lo:53       systemd-resolve
+  127.0.0.1:5000         dotnet
+  0.0.0.0:80             nginx
+  0.0.0.0:22             sshd
+  [::]:22                sshd
+
+== Firewall ==
+  Status: active
+  OpenSSH                    ALLOW       Anywhere                  
+  80/tcp                     ALLOW       Anywhere                   # Painel e API da Sombra Amiga (nginx)
+  OpenSSH (v6)               ALLOW       Anywhere (v6)             
+  80/tcp (v6)                ALLOW       Anywhere (v6)              # Painel e API da Sombra Amiga (nginx)
+  
+
+== Saúde da API (pelo nginx) ==
+  /api/saude: Healthy
+
+== Últimas medições (/var/log/sombra-amiga/monitoramento.log) ==
+  2026-11-14 01:39:06 CPU=0% MEMORIA=92% DISCO=13% API=ok NGINX=ok
+  2026-11-14 01:39:16 CPU=0% MEMORIA=92% DISCO=13% API=ok NGINX=ok
+  2026-11-14 01:39:26 CPU=3% MEMORIA=21% DISCO=13% API=ok NGINX=ok
+  2026-11-14 01:39:36 CPU=0% MEMORIA=20% DISCO=91% API=ok NGINX=ok
+  2026-11-14 01:39:46 CPU=0% MEMORIA=19% DISCO=13% API=ok NGINX=ok
+
+== Últimos alertas (/var/log/sombra-amiga/alertas.log) ==
+  2026-11-14 01:38:15 [ALERTA] CPU em 100% (limite 80%); maior consumo: yes (pid 6552, 97.8%)
+  2026-11-14 01:38:46 [NORMALIZADO] CPU voltou a 0% (limite 80%)
+  2026-11-14 01:38:56 [ALERTA] MEMORIA em 92% (limite 85%); maior consumo: python3 (pid 6715, 73.7%)
+  2026-11-14 01:39:26 [NORMALIZADO] MEMORIA voltou a 21% (limite 85%)
+  2026-11-14 01:39:36 [ALERTA] DISCO em 91% (limite 85%)
+  2026-11-14 01:39:46 [NORMALIZADO] DISCO voltou a 13% (limite 85%)
+
+== Última auditoria dos scripts (/var/log/sombra-amiga/auditoria.log) ==
+  2026-11-14 01:37:59 | sombra | teste-falha.sh | OK | kill -9 5248
+  2026-11-14 01:38:05 | sombra | teste-falha.sh | OK | carga de CPU iniciada (1 processos yes por 30s)
+  2026-11-14 01:38:46 | sombra | teste-falha.sh | OK | carga de memória iniciada (1442 MB por 30s)
+  2026-11-14 01:39:27 | sombra | teste-falha.sh | OK | fallocate -l 18769448K /var/tmp/sombra-teste-disco.img
+  2026-11-14 01:39:37 | sombra | teste-falha.sh | OK | rm -f /var/tmp/sombra-teste-disco.img
+  2026-11-14 01:39:47 | sombra | teste-falha.sh | FIM | teste-falha.sh concluído

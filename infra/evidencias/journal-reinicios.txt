@@ -1,0 +1,6 @@
+2026-11-14T01:37:54-03:00 sombra-amiga systemd[1]: sombra-amiga-api.service: Main process exited, code=killed, status=9/KILL
+2026-11-14T01:37:57-03:00 sombra-amiga systemd[1]: sombra-amiga-api.service: Scheduled restart job, restart counter is at 1.
+2026-11-14T01:37:57-03:00 sombra-amiga systemd[1]: Started sombra-amiga-api.service - Sombra Amiga - API principal (.NET).
+2026-11-14T01:37:59-03:00 sombra-amiga systemd[1]: sombra-amiga-monitor.service: Main process exited, code=killed, status=9/KILL
+2026-11-14T01:38:04-03:00 sombra-amiga systemd[1]: sombra-amiga-monitor.service: Scheduled restart job, restart counter is at 1.
+2026-11-14T01:38:04-03:00 sombra-amiga systemd[1]: Started sombra-amiga-monitor.service - Sombra Amiga - monitoramento de CPU, memória, disco, API e nginx.

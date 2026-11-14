@@ -1,0 +1,20 @@
+# aureport -k --summary (eventos por regra de auditoria)
+
+Key Summary Report
+===========================
+total  key
+===========================
+128  sombra-aplicacao
+12  sombra-acesso
+12  sombra-kill
+11  sombra-config
+8  sombra-servicos
+8  sombra-rede
+
+# kill -9 registrados (ausearch -k sombra-kill -i), mais recentes
+type=SYSCALL msg=audit(11/14/2026 01:36:54.122:1359) : arch=x86_64 syscall=sendto success=yes exit=1068 a0=0x3 a1=0x7ffc118d75e0 a2=0x42c a3=0x0 items=0 ppid=5693 pid=5704 auid=sombra uid=root gid=root euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=(none) ses=9 comm=auditctl exe=/usr/sbin/auditctl subj=unconfined key=(null) 
+type=SYSCALL msg=audit(11/14/2026 01:36:54.126:1374) : arch=x86_64 syscall=sendto success=yes exit=1068 a0=0x3 a1=0x7ffc118d9a80 a2=0x42c a3=0x0 items=0 ppid=5693 pid=5704 auid=sombra uid=root gid=root euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=(none) ses=9 comm=auditctl exe=/usr/sbin/auditctl subj=unconfined key=(null) 
+type=OBJ_PID msg=audit(11/14/2026 01:37:54.286:1509) : opid=4855 oauid=unset ouid=sombra-api oses=-1 obj=unconfined ocomm=dotnet 
+type=SYSCALL msg=audit(11/14/2026 01:37:54.286:1509) : arch=x86_64 syscall=kill success=yes exit=0 a0=0x12f7 a1=SIGKILL a2=0x0 a3=0x7a7b717b2fc0 items=0 ppid=6411 pid=6412 auid=sombra uid=root gid=root euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=(none) ses=19 comm=bash exe=/usr/bin/bash subj=unconfined key=sombra-kill 
+type=OBJ_PID msg=audit(11/14/2026 01:37:59.590:1512) : opid=5248 oauid=unset ouid=root oses=-1 obj=unconfined ocomm=bash 
+type=SYSCALL msg=audit(11/14/2026 01:37:59.590:1512) : arch=x86_64 syscall=kill success=yes exit=0 a0=0x1480 a1=SIGKILL a2=0x0 a3=0x7a7b717b2fc0 items=0 ppid=6411 pid=6412 auid=sombra uid=root gid=root euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=(none) ses=19 comm=bash exe=/usr/bin/bash subj=unconfined key=sombra-kill 

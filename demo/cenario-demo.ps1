@@ -6,7 +6,8 @@
 
 # 127.0.0.1 em vez de localhost: o Windows tenta primeiro o IPv6, que a API nao escuta,
 # e cada chamada demoraria cerca de 2 segundos a mais.
-$api = 'http://127.0.0.1:5080/api'
+# Para a VM Linux de Operating Systems: -Api http://192.168.56.10/api
+param([string]$api = 'http://127.0.0.1:5080/api')
 
 Write-Host 'Esperando a API principal responder...'
 $pronta = $false

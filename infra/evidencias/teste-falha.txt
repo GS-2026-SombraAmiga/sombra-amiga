@@ -1,0 +1,39 @@
+### teste-falha.sh (2026-11-14 01:37:54, usuário sombra)
+
+==> Falha 1: kill -9 na API
+    PID atual: 4855 | reinícios até agora: 0
+    $ kill -9 4855
+    PID novo:  6449 | reinícios agora: 1 | voltou em 4s
+    journal: 2026-11-14T01:37:54-03:00 sombra-amiga systemd[1]: sombra-amiga-api.service: Main process exited, code=killed, status=9/KILL
+    journal: 2026-11-14T01:37:57-03:00 sombra-amiga systemd[1]: sombra-amiga-api.service: Scheduled restart job, restart counter is at 1.
+    journal: 2026-11-14T01:37:57-03:00 sombra-amiga systemd[1]: Started sombra-amiga-api.service - Sombra Amiga - API principal (.NET).
+    ok: API respondendo de novo pelo nginx: Healthy
+    Auditoria (auditd) de quem mandou o kill -9:
+      auid=sombra (quem logou) uid=root comm=bash -> matou opid=4855 ocomm=dotnet
+
+==> Falha 2: kill -9 no próprio monitor
+    PID atual: 5248 | reinícios até agora: 0
+    $ kill -9 5248
+    PID novo:  6514 | reinícios agora: 1 | voltou em 6s
+    journal: 2026-11-14T01:37:59-03:00 sombra-amiga systemd[1]: sombra-amiga-monitor.service: Main process exited, code=killed, status=9/KILL
+    journal: 2026-11-14T01:38:04-03:00 sombra-amiga systemd[1]: sombra-amiga-monitor.service: Scheduled restart job, restart counter is at 1.
+    journal: 2026-11-14T01:38:04-03:00 sombra-amiga systemd[1]: Started sombra-amiga-monitor.service - Sombra Amiga - monitoramento de CPU, memória, disco, API e nginx.
+    monitoramento.log: 2026-11-14 01:38:04 monitor iniciado (pid 6514; limites CPU 80%, memória 85%, disco 85%; a cada 10s)
+
+==> Falha 3: CPU a 100% por 30s (limite 80%)
+    alertas.log: 2026-11-14 01:38:15 [ALERTA] CPU em 100% (limite 80%); maior consumo: yes (pid 6552, 97.8%)
+    alertas.log: 2026-11-14 01:38:46 [NORMALIZADO] CPU voltou a 0% (limite 80%)
+
+==> Falha 4: ocupando 1442 MB de memória por 30s (limite 85%)
+    alertas.log: 2026-11-14 01:38:56 [ALERTA] MEMORIA em 92% (limite 85%); maior consumo: python3 (pid 6715, 73.7%)
+    alertas.log: 2026-11-14 01:39:26 [NORMALIZADO] MEMORIA voltou a 21% (limite 85%)
+    ok: a API continuou no ar durante o teste
+
+==> Falha 5: reservando 17 GB em disco (limite 85%)
+    $ fallocate -l 18769448K /var/tmp/sombra-teste-disco.img
+    disco agora: 91% usado
+    alertas.log: 2026-11-14 01:39:36 [ALERTA] DISCO em 91% (limite 85%)
+    $ rm -f /var/tmp/sombra-teste-disco.img
+    alertas.log: 2026-11-14 01:39:46 [NORMALIZADO] DISCO voltou a 13% (limite 85%)
+
+### teste-falha.sh concluído
