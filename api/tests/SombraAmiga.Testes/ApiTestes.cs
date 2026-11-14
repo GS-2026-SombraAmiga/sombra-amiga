@@ -41,6 +41,15 @@ public class ApiTestes(ApiFabrica fabrica) : IClassFixture<ApiFabrica>
     };
 
     [Fact]
+    public async Task Saude_responde_healthy_quando_o_banco_esta_acessivel()
+    {
+        var resposta = await _cliente.GetAsync("/api/saude");
+
+        Assert.Equal(HttpStatusCode.OK, resposta.StatusCode);
+        Assert.Equal("Healthy", await resposta.Content.ReadAsStringAsync());
+    }
+
+    [Fact]
     public async Task Cadastro_nao_devolve_cpf_completo_contato_nem_condicao_de_saude()
     {
         var resposta = await _cliente.PostAsJsonAsync("/api/cidadaos", Idoso("52998224725"));

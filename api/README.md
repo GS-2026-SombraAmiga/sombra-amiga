@@ -53,6 +53,7 @@ dotnet test
 | GET | `/api/alertas/ativos` | Alertas ativos |
 | POST | `/api/alertas/previsao` | Publica o alerta vindo do modelo de ML |
 | GET | `/api/indicadores/impacto` | Indicador de impacto da Ficha |
+| GET | `/api/saude` | Health check (testa o banco); usado pelo monitoramento da VM Linux |
 
 ## Regras de risco
 

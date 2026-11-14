@@ -19,6 +19,7 @@ builder.Services.AdicionarRedeDeApoio(p =>
     return new ConfiguracaoRedeDeApoio(configuracao["RedeDeApoio:Url"], configuracao["RedeDeApoio:Chave"]);
 });
 
+builder.Services.AddHealthChecks().AddCheck<VerificacaoBanco>("banco");
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<TratadorDeErros>();
 builder.Services.AddCors(o => o.AddDefaultPolicy(p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
@@ -43,6 +44,7 @@ app.UseCors();
 app.UseSwagger();
 app.UseSwaggerUI();
 app.MapControllers();
+app.MapHealthChecks("/api/saude");
 
 await app.RunAsync();
 
