@@ -1,0 +1,19 @@
+; Zona sombraamiga.test - CitizenTech Sombra Amiga (equipe RM555978)
+$TTL 604800
+@   IN  SOA ns1.sombraamiga.test. admin.sombraamiga.test. (
+        2026111501 ; Serial
+        604800     ; Refresh
+        86400      ; Retry
+        2419200    ; Expire
+        604800 )   ; Negative Cache TTL
+
+@       IN  NS  ns1.sombraamiga.test.
+
+; CT-NODE: servidor DNS, nó de infraestrutura, área de dados e agente de monitoramento
+ns1     IN  A   192.168.56.10
+node    IN  A   192.168.56.10
+dados   IN  A   192.168.56.10
+monitor IN  A   192.168.56.10
+
+; CT-CLIENT: máquina de validação
+cliente IN  A   192.168.56.20

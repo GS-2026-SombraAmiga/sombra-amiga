@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Relatório GS Operating Systems - Sombra Amiga</title>
+<style>
+  @page { size: A4; margin: 16mm 15mm; }
+  body { font-family: "Segoe UI", Arial, sans-serif; font-size: 10.5pt; color: #1d1d1f; line-height: 1.42; }
+  h1 { font-size: 20pt; margin: 0 0 4px; color: #b3410e; }
+  h2 { font-size: 13.5pt; margin: 18px 0 6px; padding-bottom: 3px; border-bottom: 2px solid #e8742a; color: #222; page-break-after: avoid; }
+  h3 { font-size: 11pt; margin: 12px 0 4px; page-break-after: avoid; }
+  p { margin: 4px 0 6px; }
+  table { border-collapse: collapse; width: 100%; margin: 6px 0 8px; font-size: 9.5pt; page-break-inside: avoid; }
+  th, td { border: 1px solid #c9c9c9; padding: 4px 6px; text-align: left; vertical-align: top; }
+  th { background: #f6e7dc; }
+  code { font-family: Consolas, monospace; font-size: 9pt; background: #f3f3f3; padding: 0 3px; border-radius: 3px; }
+  pre { font-family: Consolas, monospace; font-size: 8.8pt; background: #f6f6f6; border: 1px solid #ddd; padding: 6px 8px; white-space: pre-wrap; page-break-inside: avoid; }
+  figure { margin: 8px 0 12px; page-break-inside: avoid; }
+  figure img { width: 100%; border: 1px solid #bbb; }
+  figcaption { font-size: 8.8pt; color: #555; margin-top: 2px; }
+  .capa { border: 2px solid #e8742a; border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; }
+  .capa td, .capa th { border: none; padding: 2px 8px 2px 0; font-size: 10.5pt; }
+  .capa th { background: none; width: 34%; color: #555; font-weight: 600; }
+  .quebra { page-break-before: always; }
+  svg text { font-family: "Segoe UI", Arial, sans-serif; }
+</style>
+</head>
+<body>
+
+<div class="capa">
+  <h1>Sombra Amiga</h1>
+  <p style="margin:0 0 10px;font-size:12pt">Relatório técnico — Global Solution 2026.2 — <b>Operating Systems</b><br>Nó de Infraestrutura Linux da CitizenTech</p>
+  <table>
+    <tr><th>Turma</th><td>3ESPG — Engenharia de Software, FIAP</td></tr>
+    <tr><th>Líder</th><td>Glauco Heitor Gonçalves — RM 555978 — <code>GlaucoGoncalves_RM555978</code> — administrador</td></tr>
+    <tr><th>Integrante</th><td>Pedro Henrique Junqueira — RM 556278 — <code>PedroJunqueira_RM556278</code> — executor do agente</td></tr>
+    <tr><th>ODS relacionados</th><td>3 (Saúde e Bem-Estar), 10 (Redução das Desigualdades), 11 (Cidades e Comunidades Sustentáveis), 13 (Ação Contra a Mudança Global do Clima)</td></tr>
+    <tr><th>Data da entrega</th><td>Novembro de 2026 (prazo 19/11/2026, 23h59)</td></tr>
+    <tr><th>Arquivo</th><td><code>GS_OS_GlaucoGoncalves_RM555978.zip</code></td></tr>
+  </table>
+</div>
+
+<h2>1. Ficha da CitizenTech</h2>
+<table>
+  <tr><th style="width:30%">Campo</th><th>Conteúdo</th></tr>
+  <tr><td>Cidadão beneficiado</td><td>Idosos e trabalhadores de rua expostos ao calor extremo</td></tr>
+  <tr><td>Problema em uma frase</td><td>Nos dias de calor extremo, idosos e trabalhadores de rua não sabem a tempo que correm risco nem onde encontrar sombra e água por perto.</td></tr>
+  <tr><td>Como a solução ajuda</td><td>Sensores nos pontos de hidratação medem o calor, um modelo prevê o risco do dia seguinte e o app avisa o cidadão, mostra os pontos de sombra e água próximos e permite um check-in "estou bem" para um familiar acompanhar.</td></tr>
+  <tr><td>ODS relacionados</td><td>3, 10, 11 e 13 (tabela abaixo)</td></tr>
+  <tr><td>Domínio de teste</td><td><code>sombraamiga.test</code></td></tr>
+  <tr><td>Cidade e bairro</td><td>São Paulo, Brasilândia (zona norte)</td></tr>
+  <tr><td>Indicador proposto de impacto</td><td>Percentual de check-ins "estou bem" confirmados em dias de alerta de calor (cidadãos que confirmaram ÷ cidadãos cadastrados que receberam o alerta).</td></tr>
+</table>
+
+<h3>Resumo dos ODS selecionados (fonte: brasil.un.org/pt-br/sdgs)</h3>
+<table>
+  <tr><th style="width:6%">ODS</th><th style="width:17%">Nome</th><th style="width:38%">Resumo objetivo (ONU Brasil)</th><th>Como a CitizenTech contribui</th></tr>
+  <tr><td>3</td><td>Saúde e Bem-Estar</td><td>Assegurar uma vida saudável e promover o bem-estar para todas e todos, em todas as idades. Meta 3.d: reforçar o alerta precoce e a redução de riscos à saúde.</td><td>Avisa com antecedência sobre o calor extremo, que agrava problemas cardíacos e respiratórios em idosos; o check-in permite que um familiar perceba quem não respondeu.</td></tr>
+  <tr><td>10</td><td>Redução das Desigualdades</td><td>Reduzir a desigualdade dentro dos países e entre eles. Meta 10.2: inclusão social de todos, independentemente de idade ou condição econômica.</td><td>Atende quem mais sofre com o calor e tem menos recursos para se proteger: idosos e trabalhadores de rua de um bairro periférico.</td></tr>
+  <tr><td>11</td><td>Cidades e Comunidades Sustentáveis</td><td>Tornar as cidades inclusivas, seguras, resilientes e sustentáveis. Meta 11.7: espaços públicos seguros e acessíveis, em especial para pessoas idosas.</td><td>Mapeia e divulga pontos públicos de sombra e água na Brasilândia.</td></tr>
+  <tr><td>13</td><td>Ação Contra a Mudança Global do Clima</td><td>Tomar medidas urgentes para combater a mudança climática e seus impactos. Metas 13.1 e 13.3: adaptação a riscos climáticos e alerta precoce.</td><td>Usa dados de temperatura para prever ondas de calor e alertar a população: adaptação a um efeito local da mudança do clima.</td></tr>
+</table>
+
+<h2>2. Arquitetura</h2>
+<svg viewBox="0 0 720 230" width="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagrama CT-NODE e CT-CLIENT">
+  <rect x="10" y="40" width="330" height="175" rx="10" fill="#fff4ec" stroke="#e8742a" stroke-width="2"/>
+  <text x="25" y="65" font-size="15" font-weight="700" fill="#b3410e">CT-NODE  ct-node-rm555978</text>
+  <text x="25" y="85" font-size="12" fill="#333">192.168.56.10/24 · Ubuntu Desktop 24.04.5</text>
+  <text x="25" y="110" font-size="12" fill="#333">• contas NomeAluno_RM + grupo citizenops</text>
+  <text x="25" y="129" font-size="12" fill="#333">• /srv/citizentech/{data, config, logs}</text>
+  <text x="25" y="148" font-size="12" fill="#333">• 2º disco sdb1 (ext4) em /srv/citizentech/data</text>
+  <text x="25" y="167" font-size="12" fill="#333">• citizentech-agent (systemd, executor Pedro)</text>
+  <text x="25" y="186" font-size="12" fill="#333">• OpenSSH :22 · BIND9 :53 (sombraamiga.test)</text>
+  <rect x="440" y="70" width="270" height="110" rx="10" fill="#eef4fb" stroke="#4a7fb5" stroke-width="2"/>
+  <text x="455" y="95" font-size="15" font-weight="700" fill="#2c5a8a">CT-CLIENT  ct-client-rm555978</text>
+  <text x="455" y="115" font-size="12" fill="#333">192.168.56.20/24 · Ubuntu Desktop 24.04.5</text>
+  <text x="455" y="139" font-size="12" fill="#333">• contas NomeAluno_RM + citizenops</text>
+  <text x="455" y="158" font-size="12" fill="#333">• cliente SSH, ping e dig</text>
+  <line x1="438" y1="100" x2="345" y2="100" stroke="#444" stroke-width="1.6" marker-end="url(#seta)"/>
+  <text x="352" y="94" font-size="11" fill="#444">ping</text>
+  <line x1="438" y1="125" x2="345" y2="125" stroke="#444" stroke-width="1.6" marker-end="url(#seta)"/>
+  <text x="352" y="119" font-size="11" fill="#444">SSH :22</text>
+  <line x1="438" y1="150" x2="345" y2="150" stroke="#444" stroke-width="1.6" marker-end="url(#seta)"/>
+  <text x="352" y="144" font-size="11" fill="#444">dig :53</text>
+  <text x="200" y="24" font-size="12" fill="#555">Rede privada host-only 192.168.56.0/24, sem gateway (internet pela placa NAT de cada VM)</text>
+  <defs><marker id="seta" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs>
+</svg>
+<p>Duas VMs Ubuntu Desktop no VirtualBox, cada uma com uma placa NAT (repositórios) e uma placa host-only na rede privada. O CT-NODE concentra o que a Sombra Amiga precisa como base operacional: contas nominais com papéis separados, uma área de dados em disco próprio (isolada do sistema e persistente), um agente supervisionado pelo systemd que registra o estado do nó, acesso remoto administrativo e nomes de rede consistentes. Em produção, esse nó receberia os componentes da solução (API, painel e coleta dos sensores dos pontos de hidratação); essa integração está fora do escopo desta disciplina e aparece no repositório do projeto apenas como trabalho complementar (pasta <code>infra/</code>).</p>
+
+<h2>3. Usuários, grupos e permissões</h2>
+<table>
+  <tr><th>Nome completo</th><th>RM</th><th>Login NomeAluno_RM (nas duas VMs)</th><th>Turma</th><th>Papel</th></tr>
+  <tr><td>Glauco Heitor Gonçalves</td><td>555978</td><td><code>GlaucoGoncalves_RM555978</code></td><td>3ESPG</td><td>Líder e administrador (grupo sudo)</td></tr>
+  <tr><td>Pedro Henrique Junqueira</td><td>556278</td><td><code>PedroJunqueira_RM556278</code></td><td>3ESPG</td><td>Executor do agente (sem sudo)</td></tr>
+</table>
+<table>
+  <tr><th style="width:26%">Item</th><th style="width:40%">Decisão da equipe</th><th>Evidência</th></tr>
+  <tr><td>Aluno administrador</td><td><code>GlaucoGoncalves_RM555978</code>, membro de <code>sudo</code></td><td>E02_01, E02_02</td></tr>
+  <tr><td>Aluno executor do agente</td><td><code>PedroJunqueira_RM556278</code>, sem sudo; <code>User=</code> da unit</td><td>E02, E05_02</td></tr>
+  <tr><td>Grupo operacional</td><td><code>citizenops</code> (os dois integrantes)</td><td>E02</td></tr>
+  <tr><td>Diretório de dados</td><td><code>/srv/citizentech/data</code> — root:citizenops, 2770 (2º disco montado)</td><td>E03, E04_02</td></tr>
+  <tr><td>Diretório de configuração</td><td><code>/srv/citizentech/config</code> — root:citizenops, 2750; <code>agent.conf</code> 640 (executor só lê)</td><td>E03, E06_02</td></tr>
+  <tr><td>Diretório de logs</td><td><code>/srv/citizentech/logs</code> — root:citizenops, 2770; <code>agent.log</code> do executor</td><td>E03</td></tr>
+</table>
+<p>O bit setgid (2) mantém o grupo <code>citizenops</code> nos arquivos novos. Outros usuários não acessam nenhum dos três diretórios. A sessão do executor não tem sudo (<code>sudo -l -U PedroJunqueira_RM556278</code>: sem permissão).</p>
+<figure><img src="../evidencias/E02_01_usuarios_grupos_node.png"><figcaption>E02_01 — contas, grupo citizenops e sudo do administrador no CT-NODE (o mesmo no CT-CLIENT em E02_02).</figcaption></figure>
+<figure><img src="../evidencias/E03_01_permissoes.png"><figcaption>E03_01 — estrutura /srv/citizentech, permissões e donos dos arquivos do agente.</figcaption></figure>
+
+<h2>4. Armazenamento</h2>
+<p>Segundo disco virtual de 2 GB (<code>/dev/sdb</code>) só no CT-NODE, com tabela GPT, uma partição <code>sdb1</code> e sistema de arquivos ext4 com rótulo <code>CITIZENDATA</code>. Ele é montado em <code>/srv/citizentech/data</code> pela linha abaixo do <code>/etc/fstab</code>, que usa o UUID:</p>
+<pre>UUID=e5b6f165-d970-480a-9270-eb1b954fe924  /srv/citizentech/data  ext4  defaults  0  2</pre>
+<p>Como a montagem esconde as permissões do diretório original, o dono <code>root:citizenops</code> e o modo 2770 foram reaplicados depois da primeira montagem. A persistência foi validada com <code>umount</code> + <code>mount -a</code> e com reinicialização da VM (seção 9).</p>
+<figure><img src="../evidencias/E04_02_montagem_fstab.png"><figcaption>E04_02 — linha do fstab, findmnt, df -hT e permissões do volume montado (disco e partição em E04_01).</figcaption></figure>
+
+<h2>5. Processo, serviço e logs</h2>
+<p>O agente (<code>/usr/local/bin/citizentech-agent.sh</code>) registra a cada 30 segundos que o nó está operacional. Ele lê <code>PROJECT</code> e <code>TEAM</code> de <code>/srv/citizentech/config/agent.conf</code>, grava o estado atual em <code>/srv/citizentech/data/status.txt</code> (no 2º disco), acrescenta o histórico em <code>/srv/citizentech/logs/agent.log</code> e escreve a mesma linha na saída padrão, que o journald guarda. Cada linha traz data, projeto, <code>equipe=RM555978</code>, usuário executor, hostname, carga do sistema e uso do volume de dados.</p>
+<p>A unit <code>citizentech-agent.service</code> usa <code>User=PedroJunqueira_RM556278</code>, <code>Group=citizenops</code>, <code>RequiresMountsFor=/srv/citizentech/data</code> e <code>Restart=always</code>; está <code>enabled</code> e <code>active</code> (E05_01). <b>Falha de gravação:</b> se qualquer escrita falhar, o agente registra <code>ERRO</code> na saída de erro e termina com código 1. O systemd registra <code>status=1/FAILURE</code> e o reinicia; a linha <code>status=OK</code> só é emitida depois de gravações bem-sucedidas (E06_03).</p>
+<figure><img src="../evidencias/E05_02_processo.png"><figcaption>E05_02 — User/Group/MainPID da unit e processo rodando como PedroJunqueira_RM556278 e citizenops.</figcaption></figure>
+<figure><img src="../evidencias/E06_02_estado_volume.png"><figcaption>E06_02 — estado recente no volume, dono do arquivo, histórico em logs/ e configuração (journal em E06_01; restart em E05_03).</figcaption></figure>
+
+<h2>6. Rede e SSH</h2>
+<table>
+  <tr><th>Máquina</th><th>Hostname</th><th>IP</th><th>Função</th></tr>
+  <tr><td>CT-NODE</td><td><code>ct-node-rm555978</code></td><td>192.168.56.10/24 (enp0s8)</td><td>Infraestrutura: contas, armazenamento, agente, SSH e BIND9</td></tr>
+  <tr><td>CT-CLIENT</td><td><code>ct-client-rm555978</code></td><td>192.168.56.20/24 (enp0s8)</td><td>Validação: ping, SSH e consultas DNS</td></tr>
+</table>
+<p>A placa privada tem IP fixo e nenhum gateway; a rota padrão continua pela placa NAT (10.0.2.2), como mostram os <code>ip route</code> de E07_01 e E07_02. O CT-CLIENT alcança o nó (E07_03: 4 pacotes, 0% de perda). O OpenSSH do nó está ativo, e o login foi feito do CT-CLIENT com a conta nominal do executor.</p>
+<figure><img src="../evidencias/E08_01_ssh_client_para_node.png"><figcaption>E08_01 — sessão SSH iniciada no CT-CLIENT (Glauco) com a conta PedroJunqueira_RM556278 no CT-NODE; whoami, hostname e id na sessão remota.</figcaption></figure>
+
+<h2>7. DNS/BIND9</h2>
+<p>Zona <code>sombraamiga.test</code>, declarada em <code>/etc/bind/named.conf.local</code> e com registros em <code>/etc/bind/db.sombraamiga.test</code> (serial 2026111501).</p>
+<table>
+  <tr><th>Registro</th><th>Tipo</th><th>Destino/IP</th><th>Justificativa</th></tr>
+  <tr><td>@</td><td>NS</td><td>ns1.sombraamiga.test.</td><td>Servidor autoritativo da zona</td></tr>
+  <tr><td>ns1</td><td>A</td><td>192.168.56.10</td><td>Servidor DNS</td></tr>
+  <tr><td>node</td><td>A</td><td>192.168.56.10</td><td>Nó de infraestrutura</td></tr>
+  <tr><td>dados</td><td>A</td><td>192.168.56.10</td><td>Área lógica de dados</td></tr>
+  <tr><td>monitor</td><td>A</td><td>192.168.56.10</td><td>Monitoramento/serviço (agente)</td></tr>
+  <tr><td>cliente</td><td>A</td><td>192.168.56.20</td><td>Máquina de validação</td></tr>
+</table>
+<figure><img src="../evidencias/E09_01_dns_validacao_node.png"><figcaption>E09_01 — named-checkconf e named-checkzone sem erro; named escutando em 192.168.56.10:53.</figcaption></figure>
+<figure><img src="../evidencias/E09_02_dns_consultas_client.png"><figcaption>E09_02 — quatro consultas dig distintas, feitas no CT-CLIENT e direcionadas ao CT-NODE, mais nslookup.</figcaption></figure>
+
+<h2>8. Evidências consolidadas</h2>
+<table>
+  <tr><th>ID</th><th>Requisito</th><th>Comando/teste</th><th>Resultado observado</th></tr>
+  <tr><td>E01</td><td>Sistema / identidade</td><td><code>hostnamectl</code>, <code>/etc/os-release</code> nas duas VMs</td><td>ct-node-rm555978 e ct-client-rm555978, Ubuntu 24.04.5 LTS</td></tr>
+  <tr><td>E02</td><td>Usuários / grupos / sudo</td><td><code>id</code>, <code>getent group citizenops</code>, <code>sudo -l -U</code> nas duas VMs</td><td>Contas iguais nas duas VMs; Glauco com (ALL : ALL) ALL; Pedro sem sudo</td></tr>
+  <tr><td>E03</td><td>Permissões</td><td><code>ls -ld</code>, <code>namei -l</code>, <code>ls -l</code></td><td>root:citizenops; 2770 em data e logs, 2750 em config; arquivos do executor</td></tr>
+  <tr><td>E04</td><td>Armazenamento / fstab</td><td><code>lsblk -f</code>, <code>blkid</code>, <code>parted print</code>, <code>grep fstab</code>, <code>findmnt</code>, <code>df -hT</code></td><td>sdb1 ext4 CITIZENDATA montado por UUID em /srv/citizentech/data</td></tr>
+  <tr><td>E05</td><td>Serviço / processo</td><td><code>systemctl status/is-enabled/show</code>, <code>ps -o user:32</code>, restart</td><td>enabled, active; processo como PedroJunqueira_RM556278/citizenops; volta após restart</td></tr>
+  <tr><td>E06</td><td>Logs / status</td><td><code>journalctl -u</code>, <code>cat status.txt</code>, <code>tail agent.log</code>, falha com <code>chattr +i</code></td><td>Estado recente com RM555978, executor e host; ERRO e saída 1 na falha; recuperação</td></tr>
+  <tr><td>E07</td><td>Rede</td><td><code>ip a</code>, <code>ip route</code> nas duas; <code>ping</code> do cliente</td><td>192.168.56.10 e .20 sem gateway na privada; 0% de perda</td></tr>
+  <tr><td>E08</td><td>SSH</td><td><code>ssh PedroJunqueira_RM556278@192.168.56.10</code> no CT-CLIENT</td><td>Login remoto; whoami/hostname/id no CT-NODE</td></tr>
+  <tr><td>E09</td><td>DNS/BIND9</td><td><code>named-checkconf</code>, <code>named-checkzone</code>; 4× <code>dig @192.168.56.10</code> no cliente</td><td>Sem erros; node/dados/monitor → .10 e cliente → .20</td></tr>
+</table>
+
+<h2>9. Problemas encontrados e solução</h2>
+<p><b>Problema real — instalação falhou com duas placas de rede.</b> A primeira instalação automática das duas VMs terminou em "Algo deu errado". No terminal da sessão de instalação, <code>apt</code> mostrava <i>Temporary failure resolving archive.ubuntu.com</i>, e <code>ip -br a</code> e <code>nmcli -t dev</code> mostraram a causa: a sessão do instalador cria uma única conexão de rede para todas as placas (<code>netplan-zz-all-en</code>), que foi ativada na placa host-only, sem internet, deixando a placa NAT desconectada. <b>Correção:</b> as VMs foram reinstaladas só com a placa NAT, e a placa host-only foi acrescentada depois, com a VM desligada. O IP fixo foi configurado no sistema instalado.</p>
+<p><b>Problema real — travamento do login gráfico no CT-NODE.</b> O login travava na tela do GDM; o <code>journalctl -p err</code> mostrou avisos do driver de vídeo <code>vmwgfx</code>. Desativar o Wayland no GDM (<code>WaylandEnable=false</code> em <code>/etc/gdm3/custom.conf</code>) resolveu.</p>
+<p><b>Verificações preventivas.</b></p>
+<ul style="margin:2px 0 6px 18px;padding:0">
+  <li><b>Falha de gravação:</b> com <code>sudo chattr +i</code> no <code>status.txt</code>, o agente registrou <code>ERRO</code>, saiu com código 1 e foi reiniciado pelo systemd. Com <code>chattr -i</code>, voltou a gravar <code>status=OK</code> (E06_03).</li>
+  <li><b>Reinicialização do CT-NODE:</b> depois do reboot, <code>findmnt</code> mostrou o volume montado, o agente estava <code>enabled</code> e <code>active</code>, o named e o ssh estavam ativos e o IP privado continuava configurado.</li>
+</ul>
+<figure><img src="../evidencias/E06_03_falha_de_gravacao.png"><figcaption>E06_03 — tratamento da falha de gravação: ERRO, status=1/FAILURE, reinício e recuperação com status=OK.</figcaption></figure>
+
+<h2>10. Conclusão</h2>
+<p>O nó entrega à Sombra Amiga uma base operacional pequena e verificável:</p>
+<ul style="margin:2px 0 6px 18px;padding:0">
+  <li><b>Contas e papéis:</b> contas nominais com papéis separados (administrador com sudo, executor sem sudo) e permissões por grupo.</li>
+  <li><b>Dados:</b> uma área de dados em disco próprio, montada de forma persistente.</li>
+  <li><b>Agente:</b> um serviço que registra o estado do nó sob a identidade do executor e trata falhas de escrita.</li>
+  <li><b>Rede:</b> acesso remoto por SSH e nomes de rede próprios no BIND9.</li>
+</ul>
+<p>O funcionamento é comprovado pelas evidências E01 a E09: contas e grupos nas duas VMs, disco montado pelo fstab, agente ativo e habilitado gravando estado recente com RM555978, ping e SSH do cliente para o nó, e zona válida respondendo a consultas remotas. Os testes de falha de gravação e de reinicialização mostram que o ambiente se mantém sozinho.</p>
+
+</body>
+</html>
