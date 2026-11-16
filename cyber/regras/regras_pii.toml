@@ -1,0 +1,65 @@
+# Regras de dados sensíveis (PII) da Sentinela Cidadã.
+#
+# Cada [[categoria]] descreve um tipo de dado pessoal:
+#   sensibilidade  1 (baixa) a 5 (máxima): quanto o vazamento prejudica o cidadão
+#   campos         expressões regulares para NOMES de variáveis, propriedades e parâmetros
+#   valores        expressões regulares para VALORES escritos no código ou na configuração
+#   validar        validação extra do valor encontrado (hoje: "cpf", que confere os dígitos)
+#   alerta         texto de reserva para o cidadão, usado quando o LLM não está disponível
+#
+# Para acrescentar uma regra, copie um bloco [[categoria]] e ajuste. Nenhum código precisa mudar.
+
+[[categoria]]
+id = "cpf"
+nome = "CPF"
+sensibilidade = 5
+campos = ['(?i)^cpf$', '(?i)cpf(numero|completo)?$', '(?i)^(numero)?documento$']
+valores = ['\b\d{3}\.\d{3}\.\d{3}-\d{2}\b', '(?<![\w.])\d{11}(?![\w.])']
+validar = "cpf"
+alerta = "O CPF de um cidadão atendido pela Sombra Amiga pode ser lido por quem consegue ver {saida}. Com o CPF, alguém pode se passar por essa pessoa em cadastros e golpes."
+
+[[categoria]]
+id = "saude"
+nome = "Dado de saúde"
+sensibilidade = 5
+campos = ['(?i)condicao_?saude', '(?i)diagnostico', '(?i)doenca', '(?i)medicamento', '(?i)historico_?medico']
+valores = []
+alerta = "A condição de saúde de um idoso ou trabalhador de rua pode ser vista por quem consegue ver {saida}. Isso expõe a pessoa a discriminação e é dado sensível pela LGPD."
+
+[[categoria]]
+id = "senha"
+nome = "Senha ou segredo"
+sensibilidade = 5
+campos = ['(?i)^(senha|password|pwd)$', '(?i)(senha|password|secret|segredo)$', '(?i)^(token|apikey|api_key)$', '(?i)^chave(_?(servico|api|secreta))?$']
+valores = []
+alerta = "Uma senha ou chave de acesso do sistema pode ser lida por quem consegue ver {saida}. Com ela, alguém poderia entrar no sistema e ver os dados dos cidadãos."
+
+[[categoria]]
+id = "contato"
+nome = "Contato pessoal"
+sensibilidade = 3
+campos = ['(?i)contato_?familiar', '(?i)^(telefone|celular|whatsapp)$', '(?i)^e?mail$']
+valores = ['(?<!\d)\(?\d{2}\)?\s9\d{4}-\d{4}(?!\d)', '\b[\w.+-]+@[\w-]+\.[\w.]+\b']
+alerta = "O telefone ou contato da família de um cidadão pode ser lido por quem consegue ver {saida}. A família pode receber golpes que usam o nome da pessoa atendida."
+
+[[categoria]]
+id = "localizacao"
+nome = "Localização ou endereço"
+sensibilidade = 3
+campos = ['(?i)^(latitude|longitude)$', '(?i)endereco(_?residencial)?$', '(?i)^cep$']
+valores = []
+alerta = "Onde um cidadão mora ou está pode ser descoberto por quem consegue ver {saida}. Para um idoso que vive sozinho, isso é um risco à segurança."
+
+# Nomes que contêm estas palavras indicam dado já protegido (ex.: CpfMascarado, SenhaHash).
+[protecao]
+nomes_protegidos = '(?i)(mascarad|masked|hash|anonimiz|ofuscad|redacted|^tem[A-Z])'
+# Chamadas que protegem o dado antes de ele sair (ex.: Mascarar(cpf), Hash(senha), cpf.Mascarado).
+sanitizadores = '(?i)\b\w*(mascar|mask|hash|sha256|anonimiz|ofusc|redact)\w*\b'
+# Atribuições que só dizem SE o dado existe ou o tamanho dele (ex.: temCondicao = !IsNullOrWhiteSpace(saude))
+# não carregam o dado adiante.
+#
+# Chamadas que passam o dado adiante numa atribuição (montam texto a partir dele).
+# O retorno de outras chamadas e construtores (ex.: new DadosCadastro(cpf), servico.Cadastrar(dados))
+# não é tratado como o dado: o vazamento é apontado quando o membro sensível chega à saída.
+chamadas_que_propagam = '(?i)^(format|concat|join|trim\w*|to(upper|lower)\w*|substring|replace|tostring|append\w*|insert|pad(left|right)|strip|valueof|formatted|interpolate)$'
+derivacoes_seguras ='(?i)(IsNullOr\w+|\.\s*(Length|Count|Any|isEmpty|isBlank)\b|[!=]=|^\s*!)'

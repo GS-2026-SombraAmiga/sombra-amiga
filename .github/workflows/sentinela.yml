@@ -1,0 +1,33 @@
+name: Sentinela Cidadã
+
+# Bloqueia a entrega se algum dado pessoal (CPF, saúde, senha, contato) chegar a uma saída insegura.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  privacidade:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: cyber
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Testes da ferramenta
+        run: python -m unittest discover -s testes -v
+
+      - name: Taint Analysis do protótipo (bloqueia vazamentos)
+        run: python -m sentinela analisar ../api/src ../servico-soa/src ../api/tests --nome "Protótipo Sombra Amiga" --saida saida --bloquear --sem-llm
+
+      - name: Relatório
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sentinela-relatorio
+          path: cyber/saida/

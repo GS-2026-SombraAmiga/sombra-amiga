@@ -1,0 +1,14 @@
+$ python -m sentinela analisar exemplos/com-vazamento --nome "Exemplo com vazamento" --bloquear
+Sentinela Cidadã · Exemplo com vazamento
+  Arquivos: 1 · métodos seguidos: 3
+  Risco Cidadão: 100/100 (Crítico)
+  Achados: Crítica 2, Alta 4, Média 0, Baixa 0
+  [VAZAMENTO CRÍTICA] CPF -> resposta em cyber/exemplos/com-vazamento/ServicoCadastroInseguro.cs:26 (CadastrarAsync)
+  [VAZAMENTO CRÍTICA] CPF -> excecao em cyber/exemplos/com-vazamento/ServicoCadastroInseguro.cs:20 (CadastrarAsync)
+  [VAZAMENTO ALTA] CPF -> log em cyber/exemplos/com-vazamento/ServicoCadastroInseguro.cs:12 (CadastrarAsync)
+  [VAZAMENTO ALTA] Dado de saúde -> console em cyber/exemplos/com-vazamento/ServicoCadastroInseguro.cs:16 (CadastrarAsync)
+  [VAZAMENTO ALTA] Senha ou segredo -> log em cyber/exemplos/com-vazamento/ServicoCadastroInseguro.cs:32 (TrocarSenha)
+  [VAZAMENTO ALTA] Contato pessoal -> http_externo em cyber/exemplos/com-vazamento/ServicoCadastroInseguro.cs:23 (CadastrarAsync)
+  Relatórios: evidencias\exemplo-com-vazamento.json e .md
+BLOQUEADO: 6 vazamento(s) de dado pessoal para saída insegura.
+(código de saída: 1)

@@ -1,0 +1,8 @@
+$ python -m sentinela analisar exemplos/corrigido --nome "Exemplo corrigido" --bloquear
+Sentinela Cidadã · Exemplo corrigido
+  Arquivos: 1 · métodos seguidos: 4
+  Risco Cidadão: 0/100 (Baixo)
+  Achados: Crítica 0, Alta 0, Média 0, Baixa 0
+  Relatórios: evidencias\exemplo-corrigido.json e .md
+LIBERADO: nenhum dado pessoal chega a uma saída insegura.
+(código de saída: 0)

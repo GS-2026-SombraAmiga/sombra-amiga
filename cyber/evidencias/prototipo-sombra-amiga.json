@@ -1,0 +1,698 @@
+{
+  "alvo": "Protótipo Sombra Amiga",
+  "gerado_em": "2026-11-16T04:40:38-03:00",
+  "arquivos_analisados": 101,
+  "metodos_analisados": 163,
+  "fonte_alertas": "texto padrao",
+  "resumo": {
+    "risco_cidadao": 30,
+    "faixa": "moderado",
+    "faixa_rotulo": "Moderado",
+    "por_gravidade": {
+      "critica": 0,
+      "alta": 0,
+      "media": 4,
+      "baixa": 14
+    },
+    "por_tipo": {
+      "segredo": 5,
+      "pii_literal": 13
+    },
+    "por_categoria": {
+      "Senha ou segredo": 5,
+      "CPF": 9,
+      "Contato pessoal": 4
+    },
+    "vazamentos_bloqueantes": 0
+  },
+  "achados": [
+    {
+      "tipo": "segredo",
+      "tipo_rotulo": "Segredo na configuração",
+      "categoria": "Senha ou segredo",
+      "categoria_id": "senha",
+      "sensibilidade": 5,
+      "exposicao": 2,
+      "peso": 10,
+      "gravidade": "media",
+      "arquivo": "api/src/SombraAmiga.Api/appsettings.json",
+      "linha": 7,
+      "metodo": "",
+      "saida": "configuracao",
+      "saida_descricao": "o código e a configuração guardados no repositório (valor de desenvolvimento, trocável por variável de ambiente)",
+      "trecho": "\"Chave\": \"chave-de-desenvolvimento-sombra-amiga\"",
+      "caminho": [],
+      "alerta": "Uma senha ou chave de acesso do sistema pode ser lida por quem consegue ver o código e a configuração guardados no repositório (valor de desenvolvimento, trocável por variável de ambiente). Com ela, alguém poderia entrar no sistema e ver os dados dos cidadãos.",
+      "alerta_fonte": "texto padrao"
+    },
+    {
+      "tipo": "segredo",
+      "tipo_rotulo": "Segredo na configuração",
+      "categoria": "Senha ou segredo",
+      "categoria_id": "senha",
+      "sensibilidade": 5,
+      "exposicao": 2,
+      "peso": 10,
+      "gravidade": "media",
+      "arquivo": "servico-soa/src/main/resources/application.properties",
+      "linha": 8,
+      "metodo": "",
+      "saida": "configuracao",
+      "saida_descricao": "o código e a configuração guardados no repositório (valor de desenvolvimento, trocável por variável de ambiente)",
+      "trecho": "spring.datasource.password=${DATASOURCE_PASSWORD:rededeapoio}",
+      "caminho": [],
+      "alerta": "Uma senha ou chave de acesso do sistema pode ser lida por quem consegue ver o código e a configuração guardados no repositório (valor de desenvolvimento, trocável por variável de ambiente). Com ela, alguém poderia entrar no sistema e ver os dados dos cidadãos.",
+      "alerta_fonte": "texto padrao"
+    },
+    {
+      "tipo": "segredo",
+      "tipo_rotulo": "Segredo na configuração",
+      "categoria": "Senha ou segredo",
+      "categoria_id": "senha",
+      "sensibilidade": 5,
+      "exposicao": 2,
+      "peso": 10,
+      "gravidade": "media",
+      "arquivo": "servico-soa/src/main/resources/application.properties",
+      "linha": 12,
+      "metodo": "",
+      "saida": "configuracao",
+      "saida_descricao": "o código e a configuração guardados no repositório (valor de desenvolvimento, trocável por variável de ambiente)",
+      "trecho": "api.security.token.secret=${JWT_SECRET:segredo-de-desenvolvimento-rede-de-apoio}",
+      "caminho": [],
+      "alerta": "Uma senha ou chave de acesso do sistema pode ser lida por quem consegue ver o código e a configuração guardados no repositório (valor de desenvolvimento, trocável por variável de ambiente). Com ela, alguém poderia entrar no sistema e ver os dados dos cidadãos.",
+      "alerta_fonte": "texto padrao"
+    },
+    {
+      "tipo": "segredo",
+      "tipo_rotulo": "Segredo na configuração",
+      "categoria": "Senha ou segredo",
+      "categoria_id": "senha",
+      "sensibilidade": 5,
+      "exposicao": 2,
+      "peso": 10,
+      "gravidade": "media",
+      "arquivo": "servico-soa/src/main/resources/application.properties",
+      "linha": 13,
+      "metodo": "",
+      "saida": "configuracao",
+      "saida_descricao": "o código e a configuração guardados no repositório (valor de desenvolvimento, trocável por variável de ambiente)",
+      "trecho": "app.servico.chave=${CHAVE_SERVICO:chave-de-desenvolvimento-sombra-amiga}",
+      "caminho": [],
+      "alerta": "Uma senha ou chave de acesso do sistema pode ser lida por quem consegue ver o código e a configuração guardados no repositório (valor de desenvolvimento, trocável por variável de ambiente). Com ela, alguém poderia entrar no sistema e ver os dados dos cidadãos.",
+      "alerta_fonte": "texto padrao"
+    },
+    {
+      "tipo": "pii_literal",
+      "tipo_rotulo": "Dado pessoal no código",
+      "categoria": "CPF",
+      "categoria_id": "cpf",
+      "sensibilidade": 5,
+      "exposicao": 1,
+      "peso": 5,
+      "gravidade": "baixa",
+      "arquivo": "api/tests/SombraAmiga.Testes/ApiTestes.cs",
+      "linha": 55,
+      "metodo": "",
+      "saida": "codigo_fonte",
+      "saida_descricao": "o código-fonte, que fica no repositório (dado de teste)",
+      "trecho": "var resposta = await _cliente.PostAsJsonAsync(\"/api/cidadaos\", Idoso(\"52998224725\"));",
+      "caminho": [],
+      "alerta": "O CPF de um cidadão atendido pela Sombra Amiga pode ser lido por quem consegue ver o código-fonte, que fica no repositório (dado de teste). Com o CPF, alguém pode se passar por essa pessoa em cadastros e golpes.",
+      "alerta_fonte": "texto padrao"
+    },
+    {
+      "tipo": "pii_literal",
+      "tipo_rotulo": "Dado pessoal no código",
+      "categoria": "CPF",
+      "categoria_id": "cpf",
+      "sensibilidade": 5,
+      "exposicao": 1,
+      "peso": 5,
+      "gravidade": "baixa",
+      "arquivo": "api/tests/SombraAmiga.Testes/ApiTestes.cs",
+      "linha": 72,
+      "metodo": "",
+      "saida": "codigo_fonte",
+      "saida_descricao": "o código-fonte, que fica no repositório (dado de teste)",
+      "trecho": "await _cliente.PostAsJsonAsync(\"/api/cidadaos\", Idoso(\"11144477735\"));",
+      "caminho": [],
+      "alerta": "O CPF de um cidadão atendido pela Sombra Amiga pode ser lido por quem consegue ver o código-fonte, que fica no repositório (dado de teste). Com o CPF, alguém pode se passar por essa pessoa em cadastros e golpes.",
+      "alerta_fonte": "texto padrao"
+    },
+    {
+      "tipo": "pii_literal",
+      "tipo_rotulo": "Dado pessoal no código",
+      "categoria": "CPF",
+      "categoria_id": "cpf",
+      "sensibilidade": 5,
+      "exposicao": 1,
+      "peso": 5,
+      "gravidade": "baixa",
+      "arquivo": "api/tests/SombraAmiga.Testes/ApiTestes.cs",
+      "linha": 74,
+      "metodo": "",
+      "saida": "codigo_fonte",
+      "saida_descricao": "o código-fonte, que fica no repositório (dado de teste)",
+      "trecho": "var resposta = await _cliente.PostAsJsonAsync(\"/api/cidadaos\", Idoso(\"111.444.777-35\"));",
+      "caminho": [],
+      "alerta": "O CPF de um cidadão atendido pela Sombra Amiga pode ser lido por quem consegue ver o código-fonte, que fica no repositório (dado de teste). Com o CPF, alguém pode se passar por essa pessoa em cadastros e golpes.",
+      "alerta_fonte": "texto padrao"
+    },
+    {
+      "tipo": "pii_literal",
+      "tipo_rotulo": "Dado pessoal no código",
+      "categoria": "CPF",
+      "categoria_id": "cpf",
+      "sensibilidade": 5,
+      "exposicao": 1,
+      "peso": 5,
+      "gravidade": "baixa",
+      "arquivo": "api/tests/SombraAmiga.Testes/ApiTestes.cs",
+      "linha": 104,
+      "metodo": "",
+      "saida": "codigo_fonte",
+      "saida_descricao": "o código-fonte, que fica no repositório (dado de teste)",
+      "trecho": "cpf = \"86288366757\",",
+      "caminho": [],
+      "alerta": "O CPF de um cidadão atendido pela Sombra Amiga pode ser lido por quem consegue ver o código-fonte, que fica no repositório (dado de teste). Com o CPF, alguém pode se passar por essa pessoa em cadastros e golpes.",
+      "alerta_fonte": "texto padrao"
+    },
+    {
+      "tipo": "pii_literal",
+      "tipo_rotulo": "Dado pessoal no código",
+      "categoria": "CPF",
+      "categoria_id": "cpf",
+      "sensibilidade": 5,
+      "exposicao": 1,
+      "peso": 5,
+      "gravidade": "baixa",
+      "arquivo": "api/tests/SombraAmiga.Testes/DominioTestes.cs",
+      "linha": 9,
+      "metodo": "",
+      "saida": "codigo_fonte",
+      "saida_descricao": "o código-fonte, que fica no repositório (dado de teste)",
+      "trecho": "[InlineData(\"52998224725\")]",
+      "caminho": [],
+      "alerta": "O CPF de um cidadão atendido pela Sombra Amiga pode ser lido por quem consegue ver o código-fonte, que fica no repositório (dado de teste). Com o CPF, alguém pode se passar por essa pessoa em cadastros e golpes.",
+      "alerta_fonte": "texto padrao"
+    },
+    {
+      "tipo": "pii_literal",
+      "tipo_rotulo": "Dado pessoal no código",
+      "categoria": "CPF",
+      "categoria_id": "cpf",
+      "sensibilidade": 5,
+      "exposicao": 1,
+      "peso": 5,
+      "gravidade": "baixa",
+      "arquivo": "api/tests/SombraAmiga.Testes/DominioTestes.cs",
+      "linha": 10,
+      "metodo": "",
+      "saida": "codigo_fonte",
+      "saida_descricao": "o código-fonte, que fica no repositório (dado de teste)",
+      "trecho": "[InlineData(\"529.982.247-25\")]",
+      "caminho": [],
+      "alerta": "O CPF de um cidadão atendido pela Sombra Amiga pode ser lido por quem consegue ver o código-fonte, que fica no repositório (dado de teste). Com o CPF, alguém pode se passar por essa pessoa em cadastros e golpes.",
+      "alerta_fonte": "texto padrao"
+    },
+    {
+      "tipo": "pii_literal",
+      "tipo_rotulo": "Dado pessoal no código",
+      "categoria": "CPF",
+      "categoria_id": "cpf",
+      "sensibilidade": 5,
+      "exposicao": 1,
+      "peso": 5,
+      "gravidade": "baixa",
+      "arquivo": "api/tests/SombraAmiga.Testes/RedeDeApoioTestes.cs",
+      "linha": 28,
+      "metodo": "",
+      "saida": "codigo_fonte",
+      "saida_descricao": "o código-fonte, que fica no repositório (dado de teste)",
+      "trecho": "var idoso = new Idoso(\"Lurdes\", Cpf.Criar(\"52998224725\"), \"Filha\", null);",
+      "caminho": [],
+      "alerta": "O CPF de um cidadão atendido pela Sombra Amiga pode ser lido por quem consegue ver o código-fonte, que fica no repositório (dado de teste). Com o CPF, alguém pode se passar por essa pessoa em cadastros e golpes.",
+      "alerta_fonte": "texto padrao"
+    },
+    {
+      "tipo": "pii_literal",
+      "tipo_rotulo": "Dado pessoal no código",
+      "categoria": "CPF",
+      "categoria_id": "cpf",
+      "sensibilidade": 5,
+      "exposicao": 1,
+      "peso": 5,
+      "gravidade": "baixa",
+      "arquivo": "api/tests/SombraAmiga.Testes/ServicosTestes.cs",
+      "linha": 128,
+      "metodo": "",
+      "saida": "codigo_fonte",
+      "saida_descricao": "o código-fonte, que fica no repositório (dado de teste)",
+      "trecho": "var idoso = new Idoso(\"Lurdes\", Cpf.Criar(\"52998224725\"), \"Filha\", \"Hipertensão\");",
+      "caminho": [],
+      "alerta": "O CPF de um cidadão atendido pela Sombra Amiga pode ser lido por quem consegue ver o código-fonte, que fica no repositório (dado de teste). Com o CPF, alguém pode se passar por essa pessoa em cadastros e golpes.",
+      "alerta_fonte": "texto padrao"
+    },
+    {
+      "tipo": "pii_literal",
+      "tipo_rotulo": "Dado pessoal no código",
+      "categoria": "CPF",
+      "categoria_id": "cpf",
+      "sensibilidade": 5,
+      "exposicao": 1,
+      "peso": 5,
+      "gravidade": "baixa",
+      "arquivo": "api/tests/SombraAmiga.Testes/ServicosTestes.cs",
+      "linha": 179,
+      "metodo": "",
+      "saida": "codigo_fonte",
+      "saida_descricao": "o código-fonte, que fica no repositório (dado de teste)",
+      "trecho": "var b = new Idoso(\"B\", Cpf.Criar(\"11144477735\"), \"Filho\", null);",
+      "caminho": [],
+      "alerta": "O CPF de um cidadão atendido pela Sombra Amiga pode ser lido por quem consegue ver o código-fonte, que fica no repositório (dado de teste). Com o CPF, alguém pode se passar por essa pessoa em cadastros e golpes.",
+      "alerta_fonte": "texto padrao"
+    },
+    {
+      "tipo": "segredo",
+      "tipo_rotulo": "Segredo na configuração",
+      "categoria": "Senha ou segredo",
+      "categoria_id": "senha",
+      "sensibilidade": 5,
+      "exposicao": 1,
+      "peso": 5,
+      "gravidade": "baixa",
+      "arquivo": "servico-soa/src/test/java/br/com/fiap3espg/rededeapoio/infra/security/TokenServiceTest.java",
+      "linha": 15,
+      "metodo": "",
+      "saida": "configuracao",
+      "saida_descricao": "o código e a configuração guardados no repositório (segredo fictício de teste)",
+      "trecho": "private static final String SEGREDO = \"segredo-de-teste\";",
+      "caminho": [],
+      "alerta": "Uma senha ou chave de acesso do sistema pode ser lida por quem consegue ver o código e a configuração guardados no repositório (segredo fictício de teste). Com ela, alguém poderia entrar no sistema e ver os dados dos cidadãos.",
+      "alerta_fonte": "texto padrao"
+    },
+    {
+      "tipo": "pii_literal",
+      "tipo_rotulo": "Dado pessoal no código",
+      "categoria": "Contato pessoal",
+      "categoria_id": "contato",
+      "sensibilidade": 3,
+      "exposicao": 1,
+      "peso": 3,
+      "gravidade": "baixa",
+      "arquivo": "servico-soa/src/test/java/br/com/fiap3espg/rededeapoio/infra/security/TokenServiceTest.java",
+      "linha": 24,
+      "metodo": "",
+      "saida": "codigo_fonte",
+      "saida_descricao": "o código-fonte, que fica no repositório (dado de teste)",
+      "trecho": "assertThat(service.getSubject(token)).isEqualTo(\"agente1@teste.com\");",
+      "caminho": [],
+      "alerta": "O telefone ou contato da família de um cidadão pode ser lido por quem consegue ver o código-fonte, que fica no repositório (dado de teste). A família pode receber golpes que usam o nome da pessoa atendida.",
+      "alerta_fonte": "texto padrao"
+    },
+    {
+      "tipo": "pii_literal",
+      "tipo_rotulo": "Dado pessoal no código",
+      "categoria": "Contato pessoal",
+      "categoria_id": "contato",
+      "sensibilidade": 3,
+      "exposicao": 1,
+      "peso": 3,
+      "gravidade": "baixa",
+      "arquivo": "servico-soa/src/test/java/br/com/fiap3espg/rededeapoio/integracao/FluxoRedeDeApoioIntegrationTest.java",
+      "linha": 38,
+      "metodo": "",
+      "saida": "codigo_fonte",
+      "saida_descricao": "o código-fonte, que fica no repositório (dado de teste)",
+      "trecho": "private static final String COORDENADOR = \"coordenador@sombraamiga.dev\";",
+      "caminho": [],
+      "alerta": "O telefone ou contato da família de um cidadão pode ser lido por quem consegue ver o código-fonte, que fica no repositório (dado de teste). A família pode receber golpes que usam o nome da pessoa atendida.",
+      "alerta_fonte": "texto padrao"
+    },
+    {
+      "tipo": "pii_literal",
+      "tipo_rotulo": "Dado pessoal no código",
+      "categoria": "Contato pessoal",
+      "categoria_id": "contato",
+      "sensibilidade": 3,
+      "exposicao": 1,
+      "peso": 3,
+      "gravidade": "baixa",
+      "arquivo": "servico-soa/src/test/java/br/com/fiap3espg/rededeapoio/integracao/FluxoRedeDeApoioIntegrationTest.java",
+      "linha": 108,
+      "metodo": "",
+      "saida": "codigo_fonte",
+      "saida_descricao": "o código-fonte, que fica no repositório (dado de teste)",
+      "trecho": "cadastrarAgente(coordenador, \"ana@teste.com\");",
+      "caminho": [],
+      "alerta": "O telefone ou contato da família de um cidadão pode ser lido por quem consegue ver o código-fonte, que fica no repositório (dado de teste). A família pode receber golpes que usam o nome da pessoa atendida.",
+      "alerta_fonte": "texto padrao"
+    },
+    {
+      "tipo": "pii_literal",
+      "tipo_rotulo": "Dado pessoal no código",
+      "categoria": "Contato pessoal",
+      "categoria_id": "contato",
+      "sensibilidade": 3,
+      "exposicao": 1,
+      "peso": 3,
+      "gravidade": "baixa",
+      "arquivo": "servico-soa/src/test/java/br/com/fiap3espg/rededeapoio/integracao/FluxoRedeDeApoioIntegrationTest.java",
+      "linha": 172,
+      "metodo": "",
+      "saida": "codigo_fonte",
+      "saida_descricao": "o código-fonte, que fica no repositório (dado de teste)",
+      "trecho": "cadastrarAgente(coordenador, \"bruno@teste.com\");",
+      "caminho": [],
+      "alerta": "O telefone ou contato da família de um cidadão pode ser lido por quem consegue ver o código-fonte, que fica no repositório (dado de teste). A família pode receber golpes que usam o nome da pessoa atendida.",
+      "alerta_fonte": "texto padrao"
+    }
+  ],
+  "inventario": [
+    {
+      "arquivo": "api/src/SombraAmiga.Api/Contratos/Contratos.cs",
+      "linha": 10,
+      "identificador": "Cpf",
+      "categoria": "CPF"
+    },
+    {
+      "arquivo": "api/src/SombraAmiga.Api/Contratos/Contratos.cs",
+      "linha": 11,
+      "identificador": "ContatoFamiliar",
+      "categoria": "Contato pessoal"
+    },
+    {
+      "arquivo": "api/src/SombraAmiga.Api/Contratos/Contratos.cs",
+      "linha": 12,
+      "identificador": "CondicaoSaude",
+      "categoria": "Dado de saúde"
+    },
+    {
+      "arquivo": "api/src/SombraAmiga.Api/Contratos/Contratos.cs",
+      "linha": 29,
+      "identificador": "Latitude",
+      "categoria": "Localização ou endereço"
+    },
+    {
+      "arquivo": "api/src/SombraAmiga.Api/Contratos/Contratos.cs",
+      "linha": 30,
+      "identificador": "Longitude",
+      "categoria": "Localização ou endereço"
+    },
+    {
+      "arquivo": "api/src/SombraAmiga.Api/Controllers/PontosController.cs",
+      "linha": 22,
+      "identificador": "latitude",
+      "categoria": "Localização ou endereço"
+    },
+    {
+      "arquivo": "api/src/SombraAmiga.Api/Controllers/PontosController.cs",
+      "linha": 22,
+      "identificador": "longitude",
+      "categoria": "Localização ou endereço"
+    },
+    {
+      "arquivo": "api/src/SombraAmiga.Dominio/Comum/Cpf.cs",
+      "linha": 25,
+      "identificador": "cpf",
+      "categoria": "CPF"
+    },
+    {
+      "arquivo": "api/src/SombraAmiga.Dominio/Entidades/Cidadao.cs",
+      "linha": 11,
+      "identificador": "AjusteCondicaoSaudeC",
+      "categoria": "Dado de saúde"
+    },
+    {
+      "arquivo": "api/src/SombraAmiga.Dominio/Entidades/Cidadao.cs",
+      "linha": 14,
+      "identificador": "Cpf",
+      "categoria": "CPF"
+    },
+    {
+      "arquivo": "api/src/SombraAmiga.Dominio/Entidades/Cidadao.cs",
+      "linha": 15,
+      "identificador": "ContatoFamiliar",
+      "categoria": "Contato pessoal"
+    },
+    {
+      "arquivo": "api/src/SombraAmiga.Dominio/Entidades/Cidadao.cs",
+      "linha": 16,
+      "identificador": "CondicaoSaude",
+      "categoria": "Dado de saúde"
+    },
+    {
+      "arquivo": "api/src/SombraAmiga.Dominio/Entidades/Idoso.cs",
+      "linha": 13,
+      "identificador": "cpf",
+      "categoria": "CPF"
+    },
+    {
+      "arquivo": "api/src/SombraAmiga.Dominio/Entidades/Idoso.cs",
+      "linha": 13,
+      "identificador": "contatoFamiliar",
+      "categoria": "Contato pessoal"
+    },
+    {
+      "arquivo": "api/src/SombraAmiga.Dominio/Entidades/Idoso.cs",
+      "linha": 13,
+      "identificador": "condicaoSaude",
+      "categoria": "Dado de saúde"
+    },
+    {
+      "arquivo": "api/src/SombraAmiga.Dominio/Entidades/PontoHidratacao.cs",
+      "linha": 11,
+      "identificador": "Latitude",
+      "categoria": "Localização ou endereço"
+    },
+    {
+      "arquivo": "api/src/SombraAmiga.Dominio/Entidades/PontoHidratacao.cs",
+      "linha": 12,
+      "identificador": "Longitude",
+      "categoria": "Localização ou endereço"
+    },
+    {
+      "arquivo": "api/src/SombraAmiga.Dominio/Entidades/TrabalhadorDeRua.cs",
+      "linha": 15,
+      "identificador": "cpf",
+      "categoria": "CPF"
+    },
+    {
+      "arquivo": "api/src/SombraAmiga.Dominio/Entidades/TrabalhadorDeRua.cs",
+      "linha": 15,
+      "identificador": "contatoFamiliar",
+      "categoria": "Contato pessoal"
+    },
+    {
+      "arquivo": "api/src/SombraAmiga.Dominio/Entidades/TrabalhadorDeRua.cs",
+      "linha": 15,
+      "identificador": "condicaoSaude",
+      "categoria": "Dado de saúde"
+    },
+    {
+      "arquivo": "api/src/SombraAmiga.Dominio/Repositorios/IRepositorios.cs",
+      "linha": 16,
+      "identificador": "cpf",
+      "categoria": "CPF"
+    },
+    {
+      "arquivo": "api/src/SombraAmiga.Dominio/Servicos/ServicoCidadaos.cs",
+      "linha": 10,
+      "identificador": "Cpf",
+      "categoria": "CPF"
+    },
+    {
+      "arquivo": "api/src/SombraAmiga.Dominio/Servicos/ServicoCidadaos.cs",
+      "linha": 11,
+      "identificador": "ContatoFamiliar",
+      "categoria": "Contato pessoal"
+    },
+    {
+      "arquivo": "api/src/SombraAmiga.Dominio/Servicos/ServicoCidadaos.cs",
+      "linha": 12,
+      "identificador": "CondicaoSaude",
+      "categoria": "Dado de saúde"
+    },
+    {
+      "arquivo": "api/src/SombraAmiga.Infra/RedeDeApoio/ClienteRedeDeApoio.cs",
+      "linha": 39,
+      "identificador": "Chave",
+      "categoria": "Senha ou segredo"
+    },
+    {
+      "arquivo": "api/src/SombraAmiga.Infra/Repositorios/Repositorios.cs",
+      "linha": 28,
+      "identificador": "cpf",
+      "categoria": "CPF"
+    },
+    {
+      "arquivo": "servico-soa/src/main/java/br/com/fiap3espg/rededeapoio/domain/agente/Agente.java",
+      "linha": 26,
+      "identificador": "email",
+      "categoria": "Contato pessoal"
+    },
+    {
+      "arquivo": "servico-soa/src/main/java/br/com/fiap3espg/rededeapoio/domain/agente/Agente.java",
+      "linha": 27,
+      "identificador": "senha",
+      "categoria": "Senha ou segredo"
+    },
+    {
+      "arquivo": "servico-soa/src/main/java/br/com/fiap3espg/rededeapoio/domain/agente/AgenteRepository.java",
+      "linha": 10,
+      "identificador": "email",
+      "categoria": "Contato pessoal"
+    },
+    {
+      "arquivo": "servico-soa/src/main/java/br/com/fiap3espg/rededeapoio/domain/agente/DadosCadastroAgente.java",
+      "linha": 16,
+      "identificador": "email",
+      "categoria": "Contato pessoal"
+    },
+    {
+      "arquivo": "servico-soa/src/main/java/br/com/fiap3espg/rededeapoio/domain/agente/DadosCadastroAgente.java",
+      "linha": 20,
+      "identificador": "senha",
+      "categoria": "Senha ou segredo"
+    },
+    {
+      "arquivo": "servico-soa/src/main/java/br/com/fiap3espg/rededeapoio/domain/agente/DadosDetalhamentoAgente.java",
+      "linha": 7,
+      "identificador": "email",
+      "categoria": "Contato pessoal"
+    },
+    {
+      "arquivo": "servico-soa/src/main/java/br/com/fiap3espg/rededeapoio/domain/agente/DadosLogin.java",
+      "linha": 7,
+      "identificador": "email",
+      "categoria": "Contato pessoal"
+    },
+    {
+      "arquivo": "servico-soa/src/main/java/br/com/fiap3espg/rededeapoio/domain/agente/DadosLogin.java",
+      "linha": 10,
+      "identificador": "senha",
+      "categoria": "Senha ou segredo"
+    },
+    {
+      "arquivo": "servico-soa/src/main/java/br/com/fiap3espg/rededeapoio/domain/pedido/DadosAberturaPedido.java",
+      "linha": 16,
+      "identificador": "latitude",
+      "categoria": "Localização ou endereço"
+    },
+    {
+      "arquivo": "servico-soa/src/main/java/br/com/fiap3espg/rededeapoio/domain/pedido/DadosAberturaPedido.java",
+      "linha": 19,
+      "identificador": "longitude",
+      "categoria": "Localização ou endereço"
+    },
+    {
+      "arquivo": "servico-soa/src/main/java/br/com/fiap3espg/rededeapoio/domain/pedido/DadosDetalhamentoPedido.java",
+      "linha": 12,
+      "identificador": "latitude",
+      "categoria": "Localização ou endereço"
+    },
+    {
+      "arquivo": "servico-soa/src/main/java/br/com/fiap3espg/rededeapoio/domain/pedido/DadosDetalhamentoPedido.java",
+      "linha": 13,
+      "identificador": "longitude",
+      "categoria": "Localização ou endereço"
+    },
+    {
+      "arquivo": "servico-soa/src/main/java/br/com/fiap3espg/rededeapoio/domain/pedido/PedidoAjuda.java",
+      "linha": 28,
+      "identificador": "latitude",
+      "categoria": "Localização ou endereço"
+    },
+    {
+      "arquivo": "servico-soa/src/main/java/br/com/fiap3espg/rededeapoio/domain/pedido/PedidoAjuda.java",
+      "linha": 29,
+      "identificador": "longitude",
+      "categoria": "Localização ou endereço"
+    },
+    {
+      "arquivo": "servico-soa/src/main/java/br/com/fiap3espg/rededeapoio/infra/security/SecurityFilter.java",
+      "linha": 33,
+      "identificador": "chaveServico",
+      "categoria": "Senha ou segredo"
+    },
+    {
+      "arquivo": "servico-soa/src/main/java/br/com/fiap3espg/rededeapoio/infra/security/SecurityFilter.java",
+      "linha": 42,
+      "identificador": "token",
+      "categoria": "Senha ou segredo"
+    },
+    {
+      "arquivo": "servico-soa/src/main/java/br/com/fiap3espg/rededeapoio/infra/security/SecurityFilter.java",
+      "linha": 54,
+      "identificador": "email",
+      "categoria": "Contato pessoal"
+    },
+    {
+      "arquivo": "servico-soa/src/main/java/br/com/fiap3espg/rededeapoio/infra/security/TokenService.java",
+      "linha": 20,
+      "identificador": "secret",
+      "categoria": "Senha ou segredo"
+    },
+    {
+      "arquivo": "servico-soa/src/main/java/br/com/fiap3espg/rededeapoio/infra/springdoc/SpringDocConfig.java",
+      "linha": 18,
+      "identificador": "CHAVE_SERVICO",
+      "categoria": "Senha ou segredo"
+    },
+    {
+      "arquivo": "servico-soa/src/main/java/br/com/fiap3espg/rededeapoio/service/AutenticacaoService.java",
+      "linha": 17,
+      "identificador": "email",
+      "categoria": "Contato pessoal"
+    },
+    {
+      "arquivo": "servico-soa/src/test/java/br/com/fiap3espg/rededeapoio/infra/security/TokenServiceTest.java",
+      "linha": 15,
+      "identificador": "SEGREDO",
+      "categoria": "Senha ou segredo"
+    },
+    {
+      "arquivo": "servico-soa/src/test/java/br/com/fiap3espg/rededeapoio/infra/security/TokenServiceTest.java",
+      "linha": 22,
+      "identificador": "token",
+      "categoria": "Senha ou segredo"
+    },
+    {
+      "arquivo": "servico-soa/src/test/java/br/com/fiap3espg/rededeapoio/integracao/FluxoRedeDeApoioIntegrationTest.java",
+      "linha": 49,
+      "identificador": "chaveServico",
+      "categoria": "Senha ou segredo"
+    },
+    {
+      "arquivo": "servico-soa/src/test/java/br/com/fiap3espg/rededeapoio/integracao/FluxoRedeDeApoioIntegrationTest.java",
+      "linha": 56,
+      "identificador": "email",
+      "categoria": "Contato pessoal"
+    },
+    {
+      "arquivo": "servico-soa/src/test/java/br/com/fiap3espg/rededeapoio/integracao/FluxoRedeDeApoioIntegrationTest.java",
+      "linha": 56,
+      "identificador": "senha",
+      "categoria": "Senha ou segredo"
+    },
+    {
+      "arquivo": "api/tests/SombraAmiga.Testes/ApiTestes.cs",
+      "linha": 34,
+      "identificador": "cpf",
+      "categoria": "CPF"
+    },
+    {
+      "arquivo": "api/tests/SombraAmiga.Testes/ApiTestes.cs",
+      "linha": 208,
+      "identificador": "documento",
+      "categoria": "CPF"
+    },
+    {
+      "arquivo": "api/tests/SombraAmiga.Testes/DominioTestes.cs",
+      "linha": 25,
+      "identificador": "cpf",
+      "categoria": "CPF"
+    }
+  ]
+}

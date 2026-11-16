@@ -1,0 +1,8 @@
+$ python -m sentinela analisar ../api/src ../servico-soa/src ../api/tests --nome "Protótipo Sombra Amiga" --bloquear
+Sentinela Cidadã · Protótipo Sombra Amiga
+  Arquivos: 101 · métodos seguidos: 163
+  Risco Cidadão: 30/100 (Moderado)
+  Achados: Crítica 0, Alta 0, Média 4, Baixa 14
+  Relatórios: evidencias\prototipo-sombra-amiga.json e .md
+LIBERADO: nenhum dado pessoal chega a uma saída insegura.
+(código de saída: 0)

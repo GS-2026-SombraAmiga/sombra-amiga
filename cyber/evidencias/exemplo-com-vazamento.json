@@ -1,0 +1,196 @@
+{
+  "alvo": "Exemplo com vazamento",
+  "gerado_em": "2026-11-16T04:40:38-03:00",
+  "arquivos_analisados": 1,
+  "metodos_analisados": 3,
+  "fonte_alertas": "texto padrao",
+  "resumo": {
+    "risco_cidadao": 100,
+    "faixa": "critico",
+    "faixa_rotulo": "Crítico",
+    "por_gravidade": {
+      "critica": 2,
+      "alta": 4,
+      "media": 0,
+      "baixa": 0
+    },
+    "por_tipo": {
+      "vazamento": 6
+    },
+    "por_categoria": {
+      "CPF": 3,
+      "Dado de saúde": 1,
+      "Senha ou segredo": 1,
+      "Contato pessoal": 1
+    },
+    "vazamentos_bloqueantes": 6
+  },
+  "achados": [
+    {
+      "tipo": "vazamento",
+      "tipo_rotulo": "Vazamento (Taint Analysis)",
+      "categoria": "CPF",
+      "categoria_id": "cpf",
+      "sensibilidade": 5,
+      "exposicao": 5,
+      "peso": 25,
+      "gravidade": "critica",
+      "arquivo": "cyber/exemplos/com-vazamento/ServicoCadastroInseguro.cs",
+      "linha": 26,
+      "metodo": "CadastrarAsync",
+      "saida": "resposta",
+      "saida_descricao": "as respostas da API, que qualquer pessoa com acesso ao app recebe",
+      "trecho": "return Results.Ok(new { dados.Nome, dados.Cpf })",
+      "caminho": [
+        {
+          "linha": 26,
+          "texto": "return Results.Ok(new { dados.Nome, dados.Cpf })"
+        }
+      ],
+      "alerta": "O CPF de um cidadão atendido pela Sombra Amiga pode ser lido por quem consegue ver as respostas da API, que qualquer pessoa com acesso ao app recebe. Com o CPF, alguém pode se passar por essa pessoa em cadastros e golpes.",
+      "alerta_fonte": "texto padrao"
+    },
+    {
+      "tipo": "vazamento",
+      "tipo_rotulo": "Vazamento (Taint Analysis)",
+      "categoria": "CPF",
+      "categoria_id": "cpf",
+      "sensibilidade": 5,
+      "exposicao": 4,
+      "peso": 20,
+      "gravidade": "critica",
+      "arquivo": "cyber/exemplos/com-vazamento/ServicoCadastroInseguro.cs",
+      "linha": 20,
+      "metodo": "CadastrarAsync",
+      "saida": "excecao",
+      "saida_descricao": "as mensagens de erro, que podem chegar a quem usa o app",
+      "trecho": "if (await ExisteAsync(dados.Cpf)) throw new ConflitoException($\"O CPF {dados.Cpf} já está cadastrado.\")",
+      "caminho": [
+        {
+          "linha": 20,
+          "texto": "if (await ExisteAsync(dados.Cpf)) throw new ConflitoException($\"O CPF {dados.Cpf} já está cadastrado.\")"
+        }
+      ],
+      "alerta": "O CPF de um cidadão atendido pela Sombra Amiga pode ser lido por quem consegue ver as mensagens de erro, que podem chegar a quem usa o app. Com o CPF, alguém pode se passar por essa pessoa em cadastros e golpes.",
+      "alerta_fonte": "texto padrao"
+    },
+    {
+      "tipo": "vazamento",
+      "tipo_rotulo": "Vazamento (Taint Analysis)",
+      "categoria": "CPF",
+      "categoria_id": "cpf",
+      "sensibilidade": 5,
+      "exposicao": 3,
+      "peso": 15,
+      "gravidade": "alta",
+      "arquivo": "cyber/exemplos/com-vazamento/ServicoCadastroInseguro.cs",
+      "linha": 12,
+      "metodo": "CadastrarAsync",
+      "saida": "log",
+      "saida_descricao": "os registros (logs) do sistema",
+      "trecho": "log.LogInformation(\"Cadastrando cidadão com CPF {Cpf}\", dados.Cpf)",
+      "caminho": [
+        {
+          "linha": 12,
+          "texto": "log.LogInformation(\"Cadastrando cidadão com CPF {Cpf}\", dados.Cpf)"
+        }
+      ],
+      "alerta": "O CPF de um cidadão atendido pela Sombra Amiga pode ser lido por quem consegue ver os registros (logs) do sistema. Com o CPF, alguém pode se passar por essa pessoa em cadastros e golpes.",
+      "alerta_fonte": "texto padrao"
+    },
+    {
+      "tipo": "vazamento",
+      "tipo_rotulo": "Vazamento (Taint Analysis)",
+      "categoria": "Dado de saúde",
+      "categoria_id": "saude",
+      "sensibilidade": 5,
+      "exposicao": 3,
+      "peso": 15,
+      "gravidade": "alta",
+      "arquivo": "cyber/exemplos/com-vazamento/ServicoCadastroInseguro.cs",
+      "linha": 16,
+      "metodo": "CadastrarAsync",
+      "saida": "console",
+      "saida_descricao": "a tela e os registros do servidor",
+      "trecho": "Console.WriteLine(resumo)",
+      "caminho": [
+        {
+          "linha": 15,
+          "texto": "resumo recebe Dado de saúde: var resumo = $\"{dados.Nome} tem {dados.CondicaoSaude}\""
+        },
+        {
+          "linha": 16,
+          "texto": "Console.WriteLine(resumo)"
+        }
+      ],
+      "alerta": "A condição de saúde de um idoso ou trabalhador de rua pode ser vista por quem consegue ver a tela e os registros do servidor. Isso expõe a pessoa a discriminação e é dado sensível pela LGPD.",
+      "alerta_fonte": "texto padrao"
+    },
+    {
+      "tipo": "vazamento",
+      "tipo_rotulo": "Vazamento (Taint Analysis)",
+      "categoria": "Senha ou segredo",
+      "categoria_id": "senha",
+      "sensibilidade": 5,
+      "exposicao": 3,
+      "peso": 15,
+      "gravidade": "alta",
+      "arquivo": "cyber/exemplos/com-vazamento/ServicoCadastroInseguro.cs",
+      "linha": 32,
+      "metodo": "TrocarSenha",
+      "saida": "log",
+      "saida_descricao": "os registros (logs) do sistema",
+      "trecho": "log.LogWarning(\"Senha do usuário {Usuario} trocada para {Senha}\", usuario, senha)",
+      "caminho": [
+        {
+          "linha": 29,
+          "texto": "parâmetro senha (Senha ou segredo)"
+        },
+        {
+          "linha": 32,
+          "texto": "log.LogWarning(\"Senha do usuário {Usuario} trocada para {Senha}\", usuario, senha)"
+        }
+      ],
+      "alerta": "Uma senha ou chave de acesso do sistema pode ser lida por quem consegue ver os registros (logs) do sistema. Com ela, alguém poderia entrar no sistema e ver os dados dos cidadãos.",
+      "alerta_fonte": "texto padrao"
+    },
+    {
+      "tipo": "vazamento",
+      "tipo_rotulo": "Vazamento (Taint Analysis)",
+      "categoria": "Contato pessoal",
+      "categoria_id": "contato",
+      "sensibilidade": 3,
+      "exposicao": 4,
+      "peso": 12,
+      "gravidade": "alta",
+      "arquivo": "cyber/exemplos/com-vazamento/ServicoCadastroInseguro.cs",
+      "linha": 23,
+      "metodo": "CadastrarAsync",
+      "saida": "http_externo",
+      "saida_descricao": "os dados enviados a outro sistema pela internet",
+      "trecho": "await http.PostAsJsonAsync(\"https://parceiro.example/contatos\", new { dados.ContatoFamiliar })",
+      "caminho": [
+        {
+          "linha": 23,
+          "texto": "await http.PostAsJsonAsync(\"https://parceiro.example/contatos\", new { dados.ContatoFamiliar })"
+        }
+      ],
+      "alerta": "O telefone ou contato da família de um cidadão pode ser lido por quem consegue ver os dados enviados a outro sistema pela internet. A família pode receber golpes que usam o nome da pessoa atendida.",
+      "alerta_fonte": "texto padrao"
+    }
+  ],
+  "inventario": [
+    {
+      "arquivo": "cyber/exemplos/com-vazamento/ServicoCadastroInseguro.cs",
+      "linha": 12,
+      "identificador": "CPF",
+      "categoria": "CPF"
+    },
+    {
+      "arquivo": "cyber/exemplos/com-vazamento/ServicoCadastroInseguro.cs",
+      "linha": 29,
+      "identificador": "senha",
+      "categoria": "Senha ou segredo"
+    }
+  ]
+}

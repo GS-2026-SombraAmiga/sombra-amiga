@@ -1,0 +1,36 @@
+{
+  "alvo": "Exemplo corrigido",
+  "gerado_em": "2026-11-16T04:40:38-03:00",
+  "arquivos_analisados": 1,
+  "metodos_analisados": 4,
+  "fonte_alertas": "texto padrao",
+  "resumo": {
+    "risco_cidadao": 0,
+    "faixa": "baixo",
+    "faixa_rotulo": "Baixo",
+    "por_gravidade": {
+      "critica": 0,
+      "alta": 0,
+      "media": 0,
+      "baixa": 0
+    },
+    "por_tipo": {},
+    "por_categoria": {},
+    "vazamentos_bloqueantes": 0
+  },
+  "achados": [],
+  "inventario": [
+    {
+      "arquivo": "cyber/exemplos/corrigido/ServicoCadastroSeguro.cs",
+      "linha": 12,
+      "identificador": "CPF",
+      "categoria": "CPF"
+    },
+    {
+      "arquivo": "cyber/exemplos/corrigido/ServicoCadastroSeguro.cs",
+      "linha": 30,
+      "identificador": "senha",
+      "categoria": "Senha ou segredo"
+    }
+  ]
+}

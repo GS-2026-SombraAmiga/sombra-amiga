@@ -1,0 +1,82 @@
+# Saídas inseguras (sinks) que o Taint Analysis vigia, por linguagem.
+#
+#   exposicao  1 a 5: quanta gente consegue ler o que passa por essa saída
+#   descricao  como a saída aparece no alerta para o cidadão ("os registros do sistema" etc.)
+#   padrao     expressão regular que encontra a chamada; o argumento é o que vem entre parênteses
+
+[[saida]]
+id = "log"
+linguagens = ["cs"]
+exposicao = 3
+descricao = "os registros (logs) do sistema"
+padrao = '\b\w*(log|logger)\w*\s*\.\s*Log(Information|Warning|Error|Debug|Critical|Trace)\s*\('
+
+[[saida]]
+id = "log"
+linguagens = ["java"]
+exposicao = 3
+descricao = "os registros (logs) do sistema"
+padrao = '\b(log|logger|LOG|LOGGER)\s*\.\s*(info|warn|error|debug|trace)\s*\('
+
+[[saida]]
+id = "console"
+linguagens = ["cs"]
+exposicao = 3
+descricao = "a tela e os registros do servidor"
+padrao = '\b(Console|Debug|Trace)\s*\.\s*Write(Line)?\s*\('
+
+[[saida]]
+id = "console"
+linguagens = ["java"]
+exposicao = 3
+descricao = "a tela e os registros do servidor"
+padrao = '\bSystem\s*\.\s*(out|err)\s*\.\s*print(ln|f)?\s*\('
+
+[[saida]]
+id = "excecao"
+linguagens = ["cs", "java"]
+exposicao = 4
+descricao = "as mensagens de erro, que podem chegar a quem usa o app"
+padrao = '\bthrow\s+new\s+\w*(Exception|Excecao)\s*\('
+
+[[saida]]
+id = "arquivo"
+linguagens = ["cs"]
+exposicao = 4
+descricao = "arquivos gravados no servidor"
+padrao = '\bFile\s*\.\s*(WriteAllText|AppendAllText|WriteAllLines|AppendAllLines)\s*\('
+
+[[saida]]
+id = "arquivo"
+linguagens = ["java"]
+exposicao = 4
+descricao = "arquivos gravados no servidor"
+padrao = '\bFiles\s*\.\s*(write|writeString)\s*\('
+
+[[saida]]
+id = "resposta"
+linguagens = ["cs"]
+exposicao = 5
+descricao = "as respostas da API, que qualquer pessoa com acesso ao app recebe"
+padrao = '\breturn\s+(?:(?:Typed)?Results\s*\.\s*)?(Ok|Created|CreatedAtAction|Accepted|Json)\s*\('
+
+[[saida]]
+id = "resposta"
+linguagens = ["java"]
+exposicao = 5
+descricao = "as respostas da API, que qualquer pessoa com acesso ao app recebe"
+padrao = '\bResponseEntity\s*\.\s*(ok|status|created|accepted)\s*\('
+
+[[saida]]
+id = "http_externo"
+linguagens = ["cs"]
+exposicao = 4
+descricao = "os dados enviados a outro sistema pela internet"
+padrao = '\.\s*(PostAsJsonAsync|PutAsJsonAsync|PostAsync|PutAsync)\s*\('
+
+# Achados fora do fluxo de código (varredura de PII e de segredos):
+[exposicao_estatica]
+literal_codigo = 2        # dado pessoal escrito direto no código
+literal_teste = 1         # dado de teste (fictício) em código de teste
+segredo_fixo = 4          # senha ou chave escrita direto na configuração
+segredo_padrao_dev = 2    # segredo com valor padrão de desenvolvimento, trocável por variável de ambiente
