@@ -18,6 +18,9 @@ COLUNAS = {
     15: "umidade_pct", 16: "vento_dir", 18: "vento_ms",
 }
 
+LIMITE_C = 32
+"""Máxima, em °C, a partir da qual o dia é considerado quente."""
+
 
 def ler_arquivo(caminho: Path) -> pd.DataFrame:
     bruto = pd.read_csv(caminho, sep=";", skiprows=8, encoding="latin-1",
@@ -62,6 +65,34 @@ def diario(horario: pd.DataFrame) -> pd.DataFrame:
         radiacao=("radiacao_kj", "sum"), ic_max=("ic_c", "max"),
     )
     return d
+
+
+def montar_variaveis(d: pd.DataFrame) -> pd.DataFrame:
+    """Variáveis de entrada de cada dia, só com informação disponível até a noite desse dia.
+
+    Não filtra nada: o último dia da série, que ainda não tem alvo, também aparece.
+    É esse dia que o script de publicação usa para prever o dia seguinte.
+    """
+    x = d[["tmax", "tmin", "tmed", "umid_med", "umid_min", "chuva", "pressao", "vento", "radiacao", "ic_max"]].copy()
+    x["tmax_ontem"] = d["tmax"].shift(1)
+    x["tmax_anteontem"] = d["tmax"].shift(2)
+    x["tmax_media_3d"] = d["tmax"].rolling(3).mean()
+    x["tmax_media_7d"] = d["tmax"].rolling(7).mean()
+    x["var_pressao"] = d["pressao"].diff()
+    dia_ano = d.index.dayofyear
+    x["epoca_sen"] = np.sin(2 * np.pi * dia_ano / 365.25)
+    x["epoca_cos"] = np.cos(2 * np.pi * dia_ano / 365.25)
+    return x
+
+
+def montar_base(d: pd.DataFrame) -> tuple[pd.DataFrame, pd.Series]:
+    """Variáveis e alvo (calor_amanha), só nos dias com tudo preenchido e com o dia seguinte conhecido."""
+    x = montar_variaveis(d)
+    amanha = d["tmax"].shift(-1)
+    y = (amanha >= LIMITE_C).astype(float).where(amanha.notna())
+
+    completos = x.notna().all(axis=1) & y.notna()
+    return x[completos], y[completos].astype(int).rename("calor_amanha")
 
 
 if __name__ == "__main__":
