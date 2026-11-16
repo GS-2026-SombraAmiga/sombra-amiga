@@ -13,8 +13,24 @@ Material da disciplina Testing, Compliance & Quality Assurance, para importar no
 
 ## Situação
 
-- **F01 a F09 e F15:** descrevem a API, que já está pronta. Todos os resultados esperados foram conferidos contra a API real, com banco limpo e na ordem do documento.
-- **F10 a F14:** descrevem partes ainda em construção (Rede de Apoio, app, ESP32 e painel). Os Test Cases delas serão revisados quando cada parte ficar pronta.
+- **F-01 a F-15 revisadas em 16/11/2026**, com todas as partes prontas.
+- **Resultados conferidos:**
+  - F-01 a F-09 e F-15: contra a API real, com banco limpo e na ordem do documento;
+  - F-10 e F-11: contra o serviço Java;
+  - F-12: contra o app;
+  - F-13: contra o ESP32;
+  - F-14: contra o painel.
+- **Mudanças da revisão:**
+  - F-10: a descrição agora diz que só o coordenador cadastra agentes, e entrou o TC-10.04, que nega o cadastro feito por quem não é coordenador.
+  - F-14: a descrição foi atualizada.
+- **Total:** 15 Features e 47 Test Cases.
+
+## PDF de entrega
+
+O [entrega/GS_Testing_SombraAmiga.pdf](entrega/GS_Testing_SombraAmiga.pdf) é gerado por `python gerar_pdf.py`, com login no Azure CLI. Ele traz:
+- o link do projeto e das consultas compartilhadas;
+- os prints das telas (pasta [prints/](prints));
+- como contingência, a relação e o detalhe de todas as Features e de todos os Test Cases, lidos do Azure DevOps no momento da geração.
 
 ## Como publicar (recomendado: script)
 

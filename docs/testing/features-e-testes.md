@@ -13,14 +13,14 @@ Gerado por `gerar_azure.py` a partir de `conteudo.py`. Não edite à mão.
 | F-07 — Previsão de calor da véspera | 4 | 2 | 2 |
 | F-08 — Indicador de impacto | 2 | 1 | 1 |
 | F-09 — Gestão dos pontos de hidratação | 3 | 2 | 1 |
-| F-10 — Rede de Apoio: acesso dos agentes | 3 | 1 | 2 |
+| F-10 — Rede de Apoio: acesso dos agentes | 4 | 1 | 3 |
 | F-11 — Rede de Apoio: atendimento de pedidos de ajuda | 3 | 2 | 1 |
 | F-12 — App do cidadão | 4 | 2 | 2 |
 | F-13 — Estação de monitoramento no ponto (ESP32) | 3 | 2 | 1 |
 | F-14 — Painel web de acompanhamento | 2 | 1 | 1 |
 | F-15 — Proteção de dados pessoais | 1 | 1 | 0 |
 
-**Total:** 15 Features e 46 Test Cases.
+**Total:** 15 Features e 47 Test Cases.
 
 ## F-01 — Cadastro e manutenção do cidadão
 
@@ -584,7 +584,7 @@ E o histórico de leituras do ponto é mantido
 
 **Como agente comunitário de saúde ou voluntário, quero entrar na Rede de Apoio com meu login, para atender pedidos de ajuda sem expor dados de pessoas vulneráveis a quem não deve vê-los.**
 
-Serviço Java (Spring Boot). O agente se cadastra com nome, e-mail, bairro e senha. O login devolve um token JWT, exigido nas rotas de atendimento.
+Serviço Java (Spring Boot). O coordenador cadastra os agentes com nome, e-mail, senha, bairro, tipo e perfil; só o coordenador pode cadastrar, alterar ou desativar agentes. O login devolve um token JWT, exigido nas rotas de atendimento.
 
 ### Critérios de aceite
 
@@ -603,6 +603,12 @@ E a mensagem não informa se o erro foi no e-mail ou na senha
 Dado uma requisição sem token  
 Quando ela tenta consultar os pedidos de ajuda  
 Então o acesso é negado  
+
+**Cenário: Cadastro restrito ao coordenador**  
+Dado um agente sem perfil de coordenador  
+Quando ele tenta cadastrar outro agente  
+Então a ação é negada  
+E nenhum agente é criado  
 
 ### TC-10.01 — [Positivo] Fazer login com credenciais válidas
 
@@ -631,6 +637,16 @@ Então o acesso é negado
 | # | Ação e entradas | Resultado esperado |
 |---|---|---|
 | 1 | Executar GET /api/pedidos sem autorização. | Resposta HTTP 401. |
+
+### TC-10.04 — [Negativo] Negar cadastro de agente por quem não é coordenador
+
+- **Objetivo:** Verificar que só o coordenador cadastra agentes.
+- **Preparação:** Serviço Rede de Apoio em execução. Agente de teste com perfil AGENTE logado.
+
+| # | Ação e entradas | Resultado esperado |
+|---|---|---|
+| 1 | Em POST /api/agentes, com o token do agente de teste, informar {"nome": "Novo Agente", "email": "novo@teste.com", "senha": "senha12345", "bairro": "Brasilândia", "tipo": "VOLUNTARIO", "perfil": "AGENTE"}. | Resposta HTTP 403. |
+| 2 | Com o token do coordenador, executar GET /api/agentes. | O e-mail novo@teste.com não aparece na lista. |
 
 ## F-11 — Rede de Apoio: atendimento de pedidos de ajuda
 
@@ -820,7 +836,7 @@ E o display indica "SEM REDE"
 
 **Como equipe da UBS ou da ONG parceira, quero um painel com os alertas ativos e o indicador de impacto, para saber onde agir primeiro.**
 
-Página web hospedada na VM Linux. Mostra os alertas ativos, os pontos com a última leitura e o indicador de impacto, com atualização periódica.
+Página web estática (pasta web/), servida pelo nginx na VM Linux ou localmente pelo atalho abrir-painel.cmd. Mostra os alertas ativos, os pontos com a última leitura e o indicador de impacto, com atualização a cada 30 segundos.
 
 ### Critérios de aceite
 

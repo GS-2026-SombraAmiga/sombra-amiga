@@ -97,6 +97,9 @@
 ,,,2,"Em POST /api/auth/login, informar o e-mail do agente de teste e uma senha errada.","Resposta HTTP 401, sem token e sem indicar se o erro foi no e-mail ou na senha.",,,
 ,Test Case,TC-10.03 — [Negativo] Negar acesso aos pedidos sem token,1,Objetivo: Verificar que os dados dos pedidos exigem autenticação. Preparação: Serviço Rede de Apoio em execução.,Ambiente pronto conforme a preparação.,,Design,F-10; Negativo
 ,,,2,Executar GET /api/pedidos sem autorização.,Resposta HTTP 401.,,,
+,Test Case,TC-10.04 — [Negativo] Negar cadastro de agente por quem não é coordenador,1,Objetivo: Verificar que só o coordenador cadastra agentes. Preparação: Serviço Rede de Apoio em execução. Agente de teste com perfil AGENTE logado.,Ambiente pronto conforme a preparação.,,Design,F-10; Negativo
+,,,2,"Em POST /api/agentes, com o token do agente de teste, informar {""nome"": ""Novo Agente"", ""email"": ""novo@teste.com"", ""senha"": ""senha12345"", ""bairro"": ""Brasilândia"", ""tipo"": ""VOLUNTARIO"", ""perfil"": ""AGENTE""}.",Resposta HTTP 403.,,,
+,,,3,"Com o token do coordenador, executar GET /api/agentes.",O e-mail novo@teste.com não aparece na lista.,,,
 ,Test Case,TC-11.01 — [Positivo] Pedido de ajuda chega à Rede de Apoio,1,Objetivo: Verificar a integração entre o check-in da API principal e a Rede de Apoio. Preparação: API principal e Rede de Apoio em execução. Um cidadão cadastrado na API principal e um agente logado.,Ambiente pronto conforme a preparação.,,Design,F-11; Positivo
 ,,,2,"Na API principal, em POST /api/checkins, informar {""cidadaoId"": ""<id>"", ""status"": ""PrecisoDeAjuda""}.",Resposta HTTP 201.,,,
 ,,,3,"Na Rede de Apoio, executar GET /api/pedidos com o token do agente.","Aparece um pedido com status ""ABERTO"" para o cidadão.",,,

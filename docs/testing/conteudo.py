@@ -385,7 +385,7 @@ FEATURES = [
         "id": "F10",
         "titulo": "Rede de Apoio: acesso dos agentes",
         "historia": "Como agente comunitário de saúde ou voluntário, quero entrar na Rede de Apoio com meu login, para atender pedidos de ajuda sem expor dados de pessoas vulneráveis a quem não deve vê-los.",
-        "descricao": "Serviço Java (Spring Boot). O agente se cadastra com nome, e-mail, bairro e senha. O login devolve um token JWT, exigido nas rotas de atendimento.",
+        "descricao": "Serviço Java (Spring Boot). O coordenador cadastra os agentes com nome, e-mail, senha, bairro, tipo e perfil; só o coordenador pode cadastrar, alterar ou desativar agentes. O login devolve um token JWT, exigido nas rotas de atendimento.",
         "testes": [
             {
                 "titulo": "Fazer login com credenciais válidas",
@@ -413,6 +413,16 @@ FEATURES = [
                 "preparacao": "Serviço Rede de Apoio em execução.",
                 "passos": [
                     ("Executar GET /api/pedidos sem autorização.", "Resposta HTTP 401."),
+                ],
+            },
+            {
+                "titulo": "Negar cadastro de agente por quem não é coordenador",
+                "tipo": "Negativo",
+                "objetivo": "Verificar que só o coordenador cadastra agentes.",
+                "preparacao": "Serviço Rede de Apoio em execução. Agente de teste com perfil AGENTE logado.",
+                "passos": [
+                    ('Em POST /api/agentes, com o token do agente de teste, informar {"nome": "Novo Agente", "email": "novo@teste.com", "senha": "senha12345", "bairro": "Brasilândia", "tipo": "VOLUNTARIO", "perfil": "AGENTE"}.', "Resposta HTTP 403."),
+                    ("Com o token do coordenador, executar GET /api/agentes.", "O e-mail novo@teste.com não aparece na lista."),
                 ],
             },
         ],
@@ -541,7 +551,7 @@ FEATURES = [
         "id": "F14",
         "titulo": "Painel web de acompanhamento",
         "historia": "Como equipe da UBS ou da ONG parceira, quero um painel com os alertas ativos e o indicador de impacto, para saber onde agir primeiro.",
-        "descricao": "Página web hospedada na VM Linux. Mostra os alertas ativos, os pontos com a última leitura e o indicador de impacto, com atualização periódica.",
+        "descricao": "Página web estática (pasta web/), servida pelo nginx na VM Linux ou localmente pelo atalho abrir-painel.cmd. Mostra os alertas ativos, os pontos com a última leitura e o indicador de impacto, com atualização a cada 30 segundos.",
         "testes": [
             {
                 "titulo": "Exibir alerta novo no painel",
@@ -643,6 +653,7 @@ CENARIOS = {
         ("Login válido", "um agente cadastrado", "ele faz login com e-mail e senha corretos", "recebe um token de acesso", []),
         ("Senha errada", "um agente cadastrado", "ele faz login com a senha errada", "o acesso é negado", ["a mensagem não informa se o erro foi no e-mail ou na senha"]),
         ("Acesso sem token", "uma requisição sem token", "ela tenta consultar os pedidos de ajuda", "o acesso é negado", []),
+        ("Cadastro restrito ao coordenador", "um agente sem perfil de coordenador", "ele tenta cadastrar outro agente", "a ação é negada", ["nenhum agente é criado"]),
     ],
     "F11": [
         ("Pedido de ajuda", "que um cidadão fez o check-in \"preciso de ajuda\"", "um agente consulta os pedidos", "o pedido aparece com status aberto", []),
