@@ -7,6 +7,17 @@ CitizenTech da Global Solution 2026.2, FIAP, Engenharia de Software, 3º ano.
 - Glauco Heitor Gonçalves, RM 555978
 - Pedro Henrique Junqueira, RM 556278
 
+## Vídeos
+
+| Vídeo | Link |
+|---|---|
+| Pitch da solução | https://youtu.be/WIfAGW-ut2g |
+| App mobile (Mobile Development & IOT) | https://youtu.be/RC3lirxKnjU |
+| Estação ESP32 (Physical Computing) | https://youtu.be/btlQIVZTBnQ |
+| Sentinela Cidadã (Cybersecurity) | https://youtu.be/Cnf638xv_pY |
+
+Simulação da estação ESP32 no Wokwi: https://wokwi.com/projects/480442217730381825
+
 ## Ficha da CitizenTech
 
 | Campo | Conteúdo |

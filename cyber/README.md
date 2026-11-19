@@ -4,7 +4,7 @@ Parte da CitizenTech **Sombra Amiga** na disciplina **Cybersecurity**.
 
 **Integrantes:** Glauco Heitor Gonçalves (RM 555978) e Pedro Henrique Junqueira (RM 556278).
 
-**Vídeo de demonstração:** _(link)_
+**Vídeo de demonstração:** https://youtu.be/Cnf638xv_pY
 
 A Sombra Amiga guarda dados delicados de quem ela protege: o **CPF**, a **condição de saúde** e o **contato da família** de idosos e trabalhadores de rua. A Sentinela Cidadã é uma ferramenta de análise estática, feita do zero em Python sem dependências obrigatórias, que:
 

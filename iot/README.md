@@ -6,6 +6,8 @@ Parte da CitizenTech **Sombra Amiga** na disciplina **Physical Computing: IOT & 
 
 **Projeto no Wokwi:** https://wokwi.com/projects/480442217730381825
 
+**Vídeo de demonstração:** https://youtu.be/btlQIVZTBnQ
+
 ![Circuito da estação no Wokwi: ESP32, DHT22, display LCD, LEDs e buzzer](prints/circuito.png)
 
 ## Por que um circuito no ponto de hidratação

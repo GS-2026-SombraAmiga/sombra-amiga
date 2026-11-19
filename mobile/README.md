@@ -4,6 +4,8 @@ App do cidadão da CitizenTech **Sombra Amiga**, disciplina **Mobile Development
 
 **Integrantes:** Glauco Heitor Gonçalves (RM 555978) e Pedro Henrique Junqueira (RM 556278).
 
+**Vídeo do app rodando:** https://youtu.be/RC3lirxKnjU
+
 ## Ficha da CitizenTech
 
 | Campo | Conteúdo |
