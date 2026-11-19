@@ -22,6 +22,22 @@ cd api
 dotnet test
 ```
 
+## Evidências de funcionamento
+
+Arquivos em [docs/evidencias](docs/evidencias/). Todos os dados de pessoas são fictícios.
+
+| Evidência | O que mostra |
+|---|---|
+| [swagger.png](docs/evidencias/swagger.png) | A documentação dos endpoints no Swagger, com a API rodando |
+| [chamadas-api.md](docs/evidencias/chamadas-api.md) | Uma jornada completa com chamadas reais e as respostas da API: pontos próximos, cadastro (com o CPF devolvido mascarado), CPF inválido recusado com HTTP 400, leitura do ESP32 abrindo um alerta Extremo, risco personalizado para o idoso, check-in "estou bem", indicador de impacto e health check |
+| [dotnet-test.txt](docs/evidencias/dotnet-test.txt) | Saída do `dotnet test`: 58 testes, todos passando |
+| [Rede de Apoio ponta a ponta](../docs/evidencias/rede-de-apoio-ponta-a-ponta.md) | A API C# e o serviço Java funcionando juntos, inclusive com a Rede fora do ar |
+| [api-e-app.png](../docs/evidencias/api-e-app.png) | A API recebendo o cadastro e o check-in do app no iPhone |
+
+Vídeo pitch da solução, com a API em uso: https://youtu.be/WIfAGW-ut2g
+
+![Swagger da API Sombra Amiga](docs/evidencias/swagger.png)
+
 ## Estrutura
 
 | Projeto | Responsabilidade |
