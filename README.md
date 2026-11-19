@@ -15,6 +15,7 @@ CitizenTech da Global Solution 2026.2, FIAP, Engenharia de Software, 3º ano.
 | App mobile (Mobile Development & IOT) | https://youtu.be/RC3lirxKnjU |
 | Estação ESP32 (Physical Computing) | https://youtu.be/btlQIVZTBnQ |
 | Sentinela Cidadã (Cybersecurity) | https://youtu.be/Cnf638xv_pY |
+| Previsão de calor (IA & Machine Learning) | https://youtu.be/0q5JtlM2ivk |
 
 Simulação da estação ESP32 no Wokwi: https://wokwi.com/projects/480442217730381825
 

@@ -2,6 +2,8 @@
 
 Previsão de dia de calor perigoso (máxima de 32 °C ou mais) no dia seguinte, com dados reais do INMET.
 
+**Vídeo de demonstração:** https://youtu.be/0q5JtlM2ivk
+
 | Arquivo | Conteúdo |
 |---|---|
 | [previsao_calor.ipynb](previsao_calor.ipynb) | Notebook executado: dados, preparação, treino, resultados e conclusão |
